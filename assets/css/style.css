@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
+*{
+    font-family: 'Roboto', sans-serif;
+}
+
+.list-wrapper {
+
+    overflow: hidden;
+}
+
+.simple-pagination ul {
+
+    padding: 0;
+    list-style: none;
+}
+
+.simple-pagination li {
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.simple-pagination li a{
+    color: #666;
+    padding: 5px 10px;
+    text-decoration: none;
+}
+
+.simple-pagination .current {
+    color: #FFF;
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+.simple-pagination .prev.current,
+.simple-pagination .next.current {
+    background: #dc3545;
+}
+
+.card-body .title:hover{
+    color: #0d6efd !important;
+}
+
+.card-no-wrap{
+    flex-wrap: nowrap;
+    overflow-x: scroll;
+    overflow-y: hidden;
+}
+
+
+.profile-64-img{
+    width: 64px;
+    height: 64px;
+}
+
+.c-hover:hover{
+    color: #0d6efd !important;
+}
+
+.media-video-background{
+    height: 300px;
+    width: 533px !important;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
