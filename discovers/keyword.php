@@ -1,20 +1,23 @@
 <?php
 require_once "../template/header.php";
-$keywordId = $_GET['id'];
+$keywordId = $_GET['keyword_id'];
+$movieId = $_GET['movie_id'];
 if (isset($_GET['page'])) {
     $pageNumber = $_GET['page'];
-    $dataKeyword = file_get_contents("https://api.themoviedb.org/3/discover/movie?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=$pageNumber&with_keywords=$keywordId&with_watch_monetization_types=flatrate");
+    $dataMoviesByKeyword = file_get_contents("https://api.themoviedb.org/3/discover/movie?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=$pageNumber&with_keywords=$keywordId&with_watch_monetization_types=flatrate");
 
 } else {
-    $dataKeyword = file_get_contents("https://api.themoviedb.org/3/discover/movie?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_keywords=$keywordId&with_watch_monetization_types=flatrate");
+    $dataMoviesByKeyword = file_get_contents("https://api.themoviedb.org/3/discover/movie?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_keywords=$keywordId&with_watch_monetization_types=flatrate");
 
 }
-$dataGenresList = file_get_contents("https://api.themoviedb.org/3/genre/movie/list?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US");
-$dataGenresListArr = json_decode($dataGenresList);
-$dataGenresListGenresArr = $dataGenresListArr->genres;
+$dataMoviesByKeywordArr = json_decode($dataMoviesByKeyword);
+$dataMoviesByKeywordArrResult = $dataMoviesByKeywordArr->results;
 
-$dataKeywordArr = json_decode($dataKeyword);
-$dataKeywordResultArr = $dataKeywordArr->results;
+$dataKeyword = file_get_contents("https://api.themoviedb.org/3/movie/$movieId/keywords?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400");
+$rowKeywordArr = json_decode($dataKeyword);
+$rowKeywords = $rowKeywordArr->keywords;
+
+
 
 
 ?>
@@ -28,8 +31,8 @@ $dataKeywordResultArr = $dataKeywordArr->results;
     </div>
     <div class="row bg-dark">
         <div class="col-12">
-            <?php foreach ($dataGenresListGenresArr as $row){ ?>
-                <h2 class="text-center text-primary"><?php echo $row->id ==  $genreId ? $row->name : "" ?></h2>
+            <?php foreach ($rowKeywords as $row){ ?>
+                <h2 class="text-center text-primary"><?php echo $row->id == $keywordId ? $row->name : "" ?></h2>
             <?php } ?>
         </div>
     </div>
@@ -94,7 +97,7 @@ $dataKeywordResultArr = $dataKeywordArr->results;
 
 <div class="container">
     <div class="row list-wrapper">
-        <?php foreach ($dataKeywordResultArr as $row){ ?>
+        <?php foreach ($dataMoviesByKeywordArrResult as $row){ ?>
             <div class="col-12">
                 <div class="card mb-3">
                     <div class="row g-0">
@@ -138,7 +141,7 @@ $dataKeywordResultArr = $dataKeywordArr->results;
                     edges: 2,
                     currentPage: 0,
                     hrefTextPrefix: '?page=',
-                    hrefTextSuffix: '&id=<?php echo $genreId ?>',
+                    hrefTextSuffix: '&keyword_id=<?php echo $keywordId ?>&movie_id=<?php echo $movieId ?>',
                     prevText: 'Prev',
                     nextText: 'Next',
                     ellipseText: '&hellip;',

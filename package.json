@@ -12,6 +12,7 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.4",
     "bootstrap": "^5.1.1",
+    "image-hover": "^0.8.0",
     "jquery": "^3.6.0",
     "venobox": "^1.9.3"
   }

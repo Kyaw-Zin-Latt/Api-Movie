@@ -1,7 +1,7 @@
 <?php
 require_once "../template/header.php";
 $movieId = $_GET['id'];
-$data = file_get_contents("https://api.themoviedb.org/3/movie/566525?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US");
+$data = file_get_contents("https://api.themoviedb.org/3/movie/$movieId?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US");
 //$dataVideo = file_get_contents("https://api.themoviedb.org/3/movie/$movieId/videos?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US");
 $dataPeople = file_get_contents("https://api.themoviedb.org/3/movie/$movieId/credits?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US");
 $row = json_decode($data);
@@ -114,18 +114,18 @@ $dataPeopleCrew = array_reverse($dataPeopleArr->crew);
                             <?php foreach ($dataPeopleCasts as $row) { ?>
                                 <li class="list-group-item d-flex align-items-center">
                                     <?php if (empty($row->profile_path)){ ?>
-                                        <a href="">
+                                        <a href="<?php echo $url; ?>/person/person_detail.php?person_id=<?php echo $row->id; ?>">
                                             <img class="rounded-3 profile-64-img border border-info p-2" src="<?php echo $url; ?>/assets/img/person.jpg" alt="">
                                         </a>
 
                                     <?php } else { ?>
-                                        <a href="">
+                                        <a href="<?php echo $url; ?>/person/person_detail.php?person_id=<?php echo $row->id; ?>">
                                             <img class="rounded-3" src="https://image.tmdb.org/t/p/w66_and_h66_face<?php echo $row->profile_path; ?>" alt="">
                                         </a>
                                     <?php } ?>
 
                                     <div class="ms-2">
-                                        <a href="" class="text-decoration-none text-black">
+                                        <a href="<?php echo $url; ?>/person/person_detail.php?person_id=<?php echo $row->id; ?>" class="text-decoration-none text-black">
                                             <p class="mb-0 c-hover fw-bolder"><?php echo $row->name; ?></p>
                                         </a>
                                         <p class="text-black-50 mb-0"><?php echo $row->character; ?></p>
@@ -144,18 +144,18 @@ $dataPeopleCrew = array_reverse($dataPeopleArr->crew);
                                 <?php if ($row->department === "Art"){ ?>
                                     <li class="list-group-item d-flex align-items-center">
                                         <?php if (empty($row->profile_path)){ ?>
-                                            <a href="">
+                                            <a href="<?php echo $url; ?>/person/person_detail.php?person_id=<?php echo $row->id; ?>">
                                                 <img class="rounded-3 profile-64-img border border-info p-2" src="<?php echo $url; ?>/assets/img/person.jpg" alt="">
                                             </a>
 
                                         <?php } else { ?>
-                                            <a href="">
+                                            <a href="<?php echo $url; ?>/person/person_detail.php?person_id=<?php echo $row->id; ?>">
                                                 <img class="rounded-3" src="https://image.tmdb.org/t/p/w66_and_h66_face<?php echo $row->profile_path; ?>" alt="">
                                             </a>
                                         <?php } ?>
 
                                         <div class="ms-2">
-                                            <a href="" class="text-decoration-none text-black">
+                                            <a href="<?php echo $url; ?>/person/person_detail.php?person_id=<?php echo $row->id; ?>" class="text-decoration-none text-black">
                                                 <p class="mb-0 c-hover fw-bolder"><?php echo $row->name; ?></p>
                                             </a>
                                             <p class="text-black-50 mb-0"><?php echo $row->job; ?></p>
@@ -170,18 +170,18 @@ $dataPeopleCrew = array_reverse($dataPeopleArr->crew);
                                 <?php if ($row->department === "Camera"){ ?>
                                     <li class="list-group-item d-flex align-items-center">
                                         <?php if (empty($row->profile_path)){ ?>
-                                            <a href="">
+                                            <a href="<?php echo $url; ?>/person/person_detail.php?person_id=<?php echo $row->id; ?>">
                                                 <img class="rounded-3 profile-64-img border border-info p-2" src="<?php echo $url; ?>/assets/img/person.jpg" alt="">
                                             </a>
 
                                         <?php } else { ?>
-                                            <a href="">
+                                            <a href="<?php echo $url; ?>/person/person_detail.php?person_id=<?php echo $row->id; ?>">
                                                 <img class="rounded-3" src="https://image.tmdb.org/t/p/w66_and_h66_face<?php echo $row->profile_path; ?>" alt="">
                                             </a>
                                         <?php } ?>
 
                                         <div class="ms-2">
-                                            <a href="" class="text-decoration-none text-black">
+                                            <a href="<?php echo $url; ?>/person/person_detail.php?person_id=<?php echo $row->id; ?>" class="text-decoration-none text-black">
                                                 <p class="mb-0 c-hover fw-bolder"><?php echo $row->name; ?></p>
                                             </a>
                                             <p class="text-black-50 mb-0"><?php echo $row->job; ?></p>
@@ -196,18 +196,18 @@ $dataPeopleCrew = array_reverse($dataPeopleArr->crew);
                                 <?php if ($row->department === "Costume & Make-Up"){ ?>
                                     <li class="list-group-item d-flex align-items-center">
                                         <?php if (empty($row->profile_path)){ ?>
-                                            <a href="">
+                                            <a href="<?php echo $url; ?>/person/person_detail.php?person_id=<?php echo $row->id; ?>">
                                                 <img class="rounded-3 profile-64-img border border-info p-2" src="<?php echo $url; ?>/assets/img/person.jpg" alt="">
                                             </a>
 
                                         <?php } else { ?>
-                                            <a href="">
+                                            <a href="<?php echo $url; ?>/person/person_detail.php?person_id=<?php echo $row->id; ?>">
                                                 <img class="rounded-3" src="https://image.tmdb.org/t/p/w66_and_h66_face<?php echo $row->profile_path; ?>" alt="">
                                             </a>
                                         <?php } ?>
 
                                         <div class="ms-2">
-                                            <a href="" class="text-decoration-none text-black">
+                                            <a href="<?php echo $url; ?>/person/person_detail.php?person_id=<?php echo $row->id; ?>" class="text-decoration-none text-black">
                                                 <p class="mb-0 c-hover fw-bolder"><?php echo $row->name; ?></p>
                                             </a>
                                             <p class="text-black-50 mb-0"><?php echo $row->job; ?></p>
@@ -222,18 +222,18 @@ $dataPeopleCrew = array_reverse($dataPeopleArr->crew);
                                 <?php if ($row->department === "Crew"){ ?>
                                     <li class="list-group-item d-flex align-items-center">
                                         <?php if (empty($row->profile_path)){ ?>
-                                            <a href="">
+                                            <a href="<?php echo $url; ?>/person/person_detail.php?person_id=<?php echo $row->id; ?>">
                                                 <img class="rounded-3 profile-64-img border border-info p-2" src="<?php echo $url; ?>/assets/img/person.jpg" alt="">
                                             </a>
 
                                         <?php } else { ?>
-                                            <a href="">
+                                            <a href="<?php echo $url; ?>/person/person_detail.php?person_id=<?php echo $row->id; ?>">
                                                 <img class="rounded-3" src="https://image.tmdb.org/t/p/w66_and_h66_face<?php echo $row->profile_path; ?>" alt="">
                                             </a>
                                         <?php } ?>
 
                                         <div class="ms-2">
-                                            <a href="" class="text-decoration-none text-black">
+                                            <a href="<?php echo $url; ?>/person/person_detail.php?person_id=<?php echo $row->id; ?>" class="text-decoration-none text-black">
                                                 <p class="mb-0 c-hover fw-bolder"><?php echo $row->name; ?></p>
                                             </a>
                                             <p class="text-black-50 mb-0"><?php echo $row->job; ?></p>
@@ -248,18 +248,18 @@ $dataPeopleCrew = array_reverse($dataPeopleArr->crew);
                                 <?php if ($row->department === "Directing"){ ?>
                                     <li class="list-group-item d-flex align-items-center">
                                         <?php if (empty($row->profile_path)){ ?>
-                                            <a href="">
+                                            <a href="<?php echo $url; ?>/person/person_detail.php?person_id=<?php echo $row->id; ?>">
                                                 <img class="rounded-3 profile-64-img border border-info p-2" src="<?php echo $url; ?>/assets/img/person.jpg" alt="">
                                             </a>
 
                                         <?php } else { ?>
-                                            <a href="">
+                                            <a href="<?php echo $url; ?>/person/person_detail.php?person_id=<?php echo $row->id; ?>">
                                                 <img class="rounded-3" src="https://image.tmdb.org/t/p/w66_and_h66_face<?php echo $row->profile_path; ?>" alt="">
                                             </a>
                                         <?php } ?>
 
                                         <div class="ms-2">
-                                            <a href="" class="text-decoration-none text-black">
+                                            <a href="<?php echo $url; ?>/person/person_detail.php?person_id=<?php echo $row->id; ?>" class="text-decoration-none text-black">
                                                 <p class="mb-0 c-hover fw-bolder"><?php echo $row->name; ?></p>
                                             </a>
                                             <p class="text-black-50 mb-0"><?php echo $row->job; ?></p>
@@ -274,18 +274,18 @@ $dataPeopleCrew = array_reverse($dataPeopleArr->crew);
                                 <?php if ($row->department === "Editing"){ ?>
                                     <li class="list-group-item d-flex align-items-center">
                                         <?php if (empty($row->profile_path)){ ?>
-                                            <a href="">
+                                            <a href="<?php echo $url; ?>/person/person_detail.php?person_id=<?php echo $row->id; ?>">
                                                 <img class="rounded-3 profile-64-img border border-info p-2" src="<?php echo $url; ?>/assets/img/person.jpg" alt="">
                                             </a>
 
                                         <?php } else { ?>
-                                            <a href="">
+                                            <a href="<?php echo $url; ?>/person/person_detail.php?person_id=<?php echo $row->id; ?>">
                                                 <img class="rounded-3" src="https://image.tmdb.org/t/p/w66_and_h66_face<?php echo $row->profile_path; ?>" alt="">
                                             </a>
                                         <?php } ?>
 
                                         <div class="ms-2">
-                                            <a href="" class="text-decoration-none text-black">
+                                            <a href="<?php echo $url; ?>/person/person_detail.php?person_id=<?php echo $row->id; ?>" class="text-decoration-none text-black">
                                                 <p class="mb-0 c-hover fw-bolder"><?php echo $row->name; ?></p>
                                             </a>
                                             <p class="text-black-50 mb-0"><?php echo $row->job; ?></p>
@@ -300,18 +300,18 @@ $dataPeopleCrew = array_reverse($dataPeopleArr->crew);
                                 <?php if ($row->department === "Production"){ ?>
                                     <li class="list-group-item d-flex align-items-center">
                                         <?php if (empty($row->profile_path)){ ?>
-                                            <a href="">
+                                            <a href="<?php echo $url; ?>/person/person_detail.php?person_id=<?php echo $row->id; ?>">
                                                 <img class="rounded-3 profile-64-img border border-info p-2" src="<?php echo $url; ?>/assets/img/person.jpg" alt="">
                                             </a>
 
                                         <?php } else { ?>
-                                            <a href="">
+                                            <a href="<?php echo $url; ?>/person/person_detail.php?person_id=<?php echo $row->id; ?>">
                                                 <img class="rounded-3" src="https://image.tmdb.org/t/p/w66_and_h66_face<?php echo $row->profile_path; ?>" alt="">
                                             </a>
                                         <?php } ?>
 
                                         <div class="ms-2">
-                                            <a href="" class="text-decoration-none text-black">
+                                            <a href="<?php echo $url; ?>/person/person_detail.php?person_id=<?php echo $row->id; ?>" class="text-decoration-none text-black">
                                                 <p class="mb-0 c-hover fw-bolder"><?php echo $row->name; ?></p>
                                             </a>
                                             <p class="text-black-50 mb-0"><?php echo $row->job; ?></p>
@@ -326,18 +326,18 @@ $dataPeopleCrew = array_reverse($dataPeopleArr->crew);
                                 <?php if ($row->department === "Sound"){ ?>
                                     <li class="list-group-item d-flex align-items-center">
                                         <?php if (empty($row->profile_path)){ ?>
-                                            <a href="">
+                                            <a href="<?php echo $url; ?>/person/person_detail.php?person_id=<?php echo $row->id; ?>">
                                                 <img class="rounded-3 profile-64-img border border-info p-2" src="<?php echo $url; ?>/assets/img/person.jpg" alt="">
                                             </a>
 
                                         <?php } else { ?>
-                                            <a href="">
+                                            <a href="<?php echo $url; ?>/person/person_detail.php?person_id=<?php echo $row->id; ?>">
                                                 <img class="rounded-3" src="https://image.tmdb.org/t/p/w66_and_h66_face<?php echo $row->profile_path; ?>" alt="">
                                             </a>
                                         <?php } ?>
 
                                         <div class="ms-2">
-                                            <a href="" class="text-decoration-none text-black">
+                                            <a href="<?php echo $url; ?>/person/person_detail.php?person_id=<?php echo $row->id; ?>" class="text-decoration-none text-black">
                                                 <p class="mb-0 c-hover fw-bolder"><?php echo $row->name; ?></p>
                                             </a>
                                             <p class="text-black-50 mb-0"><?php echo $row->job; ?></p>
@@ -352,18 +352,18 @@ $dataPeopleCrew = array_reverse($dataPeopleArr->crew);
                                 <?php if ($row->department === "Visual Effects"){ ?>
                                     <li class="list-group-item d-flex align-items-center">
                                         <?php if (empty($row->profile_path)){ ?>
-                                            <a href="">
+                                            <a href="<?php echo $url; ?>/person/person_detail.php?person_id=<?php echo $row->id; ?>">
                                                 <img class="rounded-3 profile-64-img border border-info p-2" src="<?php echo $url; ?>/assets/img/person.jpg" alt="">
                                             </a>
 
                                         <?php } else { ?>
-                                            <a href="">
+                                            <a href="<?php echo $url; ?>/person/person_detail.php?person_id=<?php echo $row->id; ?>">
                                                 <img class="rounded-3" src="https://image.tmdb.org/t/p/w66_and_h66_face<?php echo $row->profile_path; ?>" alt="">
                                             </a>
                                         <?php } ?>
 
                                         <div class="ms-2">
-                                            <a href="" class="text-decoration-none text-black">
+                                            <a href="<?php echo $url; ?>/person/person_detail.php?person_id=<?php echo $row->id; ?>" class="text-decoration-none text-black">
                                                 <p class="mb-0 c-hover fw-bolder"><?php echo $row->name; ?></p>
                                             </a>
                                             <p class="text-black-50 mb-0"><?php echo $row->job; ?></p>
@@ -378,18 +378,18 @@ $dataPeopleCrew = array_reverse($dataPeopleArr->crew);
                                 <?php if ($row->department === "Writing"){ ?>
                                     <li class="list-group-item d-flex align-items-center">
                                         <?php if (empty($row->profile_path)){ ?>
-                                            <a href="">
+                                            <a href="<?php echo $url; ?>/person/person_detail.php?person_id=<?php echo $row->id; ?>">
                                                 <img class="rounded-3 profile-64-img border border-info p-2" src="<?php echo $url; ?>/assets/img/person.jpg" alt="">
                                             </a>
 
                                         <?php } else { ?>
-                                            <a href="">
+                                            <a href="<?php echo $url; ?>/person/person_detail.php?person_id=<?php echo $row->id; ?>">
                                                 <img class="rounded-3" src="https://image.tmdb.org/t/p/w66_and_h66_face<?php echo $row->profile_path; ?>" alt="">
                                             </a>
                                         <?php } ?>
 
                                         <div class="ms-2">
-                                            <a href="" class="text-decoration-none text-black">
+                                            <a href="<?php echo $url; ?>/person/person_detail.php?person_id=<?php echo $row->id; ?>" class="text-decoration-none text-black">
                                                 <p class="mb-0 c-hover fw-bolder"><?php echo $row->name; ?></p>
                                             </a>
                                             <p class="text-black-50 mb-0"><?php echo $row->job; ?></p>

@@ -2,13 +2,19 @@
 require_once "../template/header.php";
 $movieId = $_GET['id'];
 $data = file_get_contents("https://api.themoviedb.org/3/movie/$movieId?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US");
+$dataKeyword = file_get_contents("https://api.themoviedb.org/3/movie/$movieId/keywords?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400");
 $dataVideo = file_get_contents("https://api.themoviedb.org/3/movie/$movieId/videos?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US");
 $dataVideos = file_get_contents("https://api.themoviedb.org/3/movie/$movieId/videos?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US");
 $dataPeople = file_get_contents("https://api.themoviedb.org/3/movie/$movieId/credits?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US");
 $dataReview = file_get_contents("https://api.themoviedb.org/3/movie/$movieId/reviews?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US&page=1");
 $dataImages = file_get_contents("https://api.themoviedb.org/3/movie/$movieId/images?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US&append_to_response=images&include_image_language=en,null");
+$dataRecommendationVideos = file_get_contents("https://api.themoviedb.org/3/movie/$movieId/recommendations?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US&page=1");
 $row = json_decode($data);
+$rowDetails = $row;
 $rowGenres = $row->genres;
+
+$rowKeywordArr = json_decode($dataKeyword);
+$rowKeywords = $rowKeywordArr->keywords;
 
 $dataVideoArr = json_decode($dataVideo);
 $dataVideoResult = $dataVideoArr->results;
@@ -34,10 +40,20 @@ $dataSlicedImageBackdropsArr = array_slice($dataImagesBackdropsArr,0,6);
 $dataImagesPostersArr = $dataImagesArr->posters;
 $dataSlicedImagePostersArr = array_slice($dataImagesPostersArr,0,6);
 
+$dataRecommendationVideosArr = json_decode($dataRecommendationVideos);
+$dataRecommendationVideosResultArr = $dataRecommendationVideosArr->results;
+
+$dataMostPopularVideo = reset($dataSlicedVideosArr);
+$dataMostPopularBackdrop = reset($dataImagesBackdropsArr);
+$dataMostPopularPoster = reset($dataImagesPostersArr);
 
 
 
-
+//echo "<pre>";
+//
+//print_r($dataVideosResult);
+//
+//echo "</pre>";
 ?>
 
 
@@ -54,17 +70,16 @@ $dataSlicedImagePostersArr = array_slice($dataImagesPostersArr,0,6);
                         <a class="btn me-2 btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                             Overview
                         </a>
-
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                            <li><a class="dropdown-item" href="#">Main</a></li>
-                            <li><a class="dropdown-item" href="#">Alernative Title</a></li>
-                            <li><a class="dropdown-item" href="#">Cast & Crew</a></li>
-                            <li><a class="dropdown-item" href="#">Release Dates</a></li>
-                            <li><a class="dropdown-item" href="#">Translations</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#">Changes</a></li>
-                            <li><a class="dropdown-item" href="#">Report</a></li>
-                            <li><a class="dropdown-item" href="#">Edit</a></li>
+                            <li><a class="dropdown-item" href="<?php echo $url; ?>/movies/movie_detail.php?id=<?php echo $movieId; ?>">Main</a></li>
+<!--                            <li><a class="dropdown-item" href="#">Alernative Title</a></li>-->
+                            <li><a class="dropdown-item" href="<?php echo $url; ?>/movies/cast_and_crew.php/?id=<?php echo $movieId; ?>">Cast & Crew</a></li>
+<!--                            <li><a class="dropdown-item" href="#">Release Dates</a></li>-->
+<!--                            <li><a class="dropdown-item" href="#">Translations</a></li>-->
+<!--                            <li><hr class="dropdown-divider"></li>-->
+<!--                            <li><a class="dropdown-item" href="#">Changes</a></li>-->
+<!--                            <li><a class="dropdown-item" href="#">Report</a></li>-->
+<!--                            <li><a class="dropdown-item" href="#">Edit</a></li>-->
                         </ul>
                     </div>
                     <div class="dropdown">
@@ -73,10 +88,22 @@ $dataSlicedImagePostersArr = array_slice($dataImagesPostersArr,0,6);
                         </a>
 
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                            <li><a class="dropdown-item" href="#">Backdrops</a></li>
-                            <li><a class="dropdown-item" href="#">Logos</a></li>
-                            <li><a class="dropdown-item" href="#">Posters</a></li>
-                            <li><a class="dropdown-item" href="#">Videos</a></li>
+                            <li>
+                                <a class="dropdown-item" href="<?php echo $url; ?>/movies/backdrops.php/?id=<?php echo $movieId; ?>">
+                                    Backdrops <?php echo countTotal($dataImagesBackdropsArr); ?>
+                                </a>
+                            </li>
+<!--                            <li><a class="dropdown-item" href="#">Logos</a></li>-->
+                            <li>
+                                <a class="dropdown-item" href="<?php echo $url; ?>/movies/posters.php/?id=<?php echo $movieId; ?>">
+                                    Posters <?php echo countTotal($dataImagesPostersArr); ?>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="<?php echo $url; ?>/movies/videos.php/?id=<?php echo $movieId; ?>">
+                                    Videos <?php echo countTotal($dataVideosResult); ?>
+                                </a>
+                            </li>
                         </ul>
                     </div>
                     <div class="dropdown">
@@ -118,13 +145,20 @@ $dataSlicedImagePostersArr = array_slice($dataImagesPostersArr,0,6);
                                 <span class="text-white-50">(<?php echo showDate($row->release_date,"Y"); ?>)</span>
                             </h2>
                             <div class="mb-4">
-                                <span class="text-white"><?php echo showDate($row->release_date,"m/d/Y"); ?> &nbsp; &#9900; &nbsp;</span>
-                                <span class="text-white">
+                                 <span class="text-white">
+                                     <i class="fas fa-calendar-alt text-primary"></i>
+                                     <?php echo showDate($row->release_date,"m/d/Y"); ?>
+                                 </span>
+                                 <span class="text-white">
+                                     &nbsp;
+                                     <i class="fas fa-layer-group text-primary"></i>
                                     <?php foreach ($rowGenres as $rg){ ?>
-                                        <a href="<?php echo $url; ?>/genre/action.php?id=<?php echo $rg->id; ?>" class="text-white text-decoration-none"><?php echo $rg->name; ?> ,</a>
+                                        <a href="<?php echo $url; ?>/discovers/action.php?id=<?php echo $rg->id; ?>" class="text-white text-decoration-none"><?php echo $rg->name; ?> ,</a>
                                     <?php } ?>
+                                     &nbsp;
                                 </span>
                                 <span class="text-white">
+                                    <i class="fas fa-clock text-primary"></i> <?php echo minToHour($row->runtime); ?>
                                 </span>
                                 <span></span>
                             </div>
@@ -170,9 +204,11 @@ $dataSlicedImagePostersArr = array_slice($dataImagesPostersArr,0,6);
                     <?php foreach ($dataSlicedPeopleArr as $rpc){ ?>
                         <div class="col-2">
                             <div class="card mb-2 h-100">
-                                <img src="https://image.tmdb.org/t/p/w235_and_h235_face<?php echo $rpc->profile_path; ?>" class="rounded-3 card-img-top" alt="">
+                                <a href="<?php echo $url; ?>/person/person_detail.php?person_id=<?php echo $rpc->id; ?>">
+                                    <img src="https://image.tmdb.org/t/p/w235_and_h235_face<?php echo $rpc->profile_path; ?>" class="rounded-3 card-img-top" alt="">
+                                </a>
                                 <div class="card-body">
-                                    <a href="" class="text-decoration-none text-dark fw-bolder card-text"><?php echo $rpc->original_name; ?></a>
+                                    <a href="<?php echo $url; ?>/person/person_detail.php?person_id=<?php echo $rpc->id; ?>" class="text-decoration-none text-dark fw-bolder card-text"><?php echo $rpc->original_name; ?></a>
                                     <p class="text-nowrap"><?php echo $rpc->character; ?></p>
                                 </div>
                             </div>
@@ -241,7 +277,7 @@ $dataSlicedImagePostersArr = array_slice($dataImagesPostersArr,0,6);
                         <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>
                     </div>
                 </div>
-                <a class="mt-3 text-decoration-none text-black " href="<?php echo $url; ?>/movies/cast_and_crew.php/?id=<?php echo $movieId; ?>">
+                <a class="mt-3 text-decoration-none text-black c-hover" href="<?php echo $url; ?>/movies/cast_and_crew.php/?id=<?php echo $movieId; ?>">
                     <p class="mt-3 fw-bolder">Read All Reviews</p>
                 </a>
                 <hr>
@@ -263,7 +299,23 @@ $dataSlicedImagePostersArr = array_slice($dataImagesPostersArr,0,6);
                     </nav>
                     <div class="tab-content" id="nav-tabContent">
                         <div class="tab-pane fade show active" id="nav-mostPopular" role="tabpanel" aria-labelledby="nav-mostPopular-tab">
-                            Most POpular
+                            <div class="overflow-scroll d-flex">
+                                <div class="h-100" style="width: 530px;">
+                                    <div class="media-video-background" style="background-image: url('https://i.ytimg.com/vi/<?php echo $dataMostPopularVideo->key; ?>/hqdefault.jpg')">
+                                        <h1 class="h-100 d-flex justify-content-center align-items-center">
+                                            <a class="venobox text-white text-decoration-none" data-autoplay="true" data-vbtype="video" href="http://youtu.be/<?php echo $dataMostPopularVideo->key; ?>">
+                                                <i class="display-1 text-white c-hover fas fa-play-circle"></i>
+                                            </a>
+                                        </h1>
+                                    </div>
+                                </div>
+                                <div class="h-100">
+                                    <img src="https://image.tmdb.org/t/p/w533_and_h300_bestv2<?php echo $dataMostPopularBackdrop->file_path; ?>" alt="">
+                                </div>
+                                <div class="">
+                                    <img style="height: 300px" src="https://image.tmdb.org/t/p/w220_and_h330_face<?php echo $dataMostPopularPoster->file_path; ?>" alt="">
+                                </div>
+                            </div>
                         </div>
                         <div class="tab-pane fade" id="nav-videos" role="tabpanel" aria-labelledby="nav-videos-tab">
                             <div class="d-flex overflow-scroll">
@@ -283,13 +335,16 @@ $dataSlicedImagePostersArr = array_slice($dataImagesPostersArr,0,6);
                                         <div class="card h-100">
                                             <div class="card-body d-flex">
                                                 <p class="d-flex align-items-center">
-                                                    <a href="<?php echo $url; ?>/movies/cast_and_crew.php/?id=<?php echo $movieId; ?>" class="text-dark text-decoration-none fw-bolder">View More <i class="text-dark fas fa-arrow-right"></i></a>
+                                                    <a href="<?php echo $url; ?>/movies/videos.php/?id=<?php echo $movieId; ?>" class="text-dark text-decoration-none fw-bolder">View More <i class="text-dark fas fa-arrow-right"></i></a>
                                                 </p>
                                             </div>
                                         </div>
                                     </div>
                                 <?php } ?>
                             </div>
+                            <a class="mt-3 c-hover text-decoration-none text-black " href="<?php echo $url; ?>/movies/videos.php/?id=<?php echo $movieId; ?>">
+                                <p class="mt-3 fw-bolder">View All Videos</p>
+                            </a>
                         </div>
                         <div class="tab-pane fade" id="nav-backdrops" role="tabpanel" aria-labelledby="nav-backdrops-tab">
                            <div class="d-flex overflow-scroll">
@@ -303,13 +358,16 @@ $dataSlicedImagePostersArr = array_slice($dataImagesPostersArr,0,6);
                                        <div class="card h-100">
                                            <div class="card-body d-flex">
                                                <p class="d-flex align-items-center">
-                                                   <a href="<?php echo $url; ?>/movies/cast_and_crew.php/?id=<?php echo $movieId; ?>" class="text-dark text-decoration-none fw-bolder">View More <i class="text-dark fas fa-arrow-right"></i></a>
+                                                   <a href="<?php echo $url; ?>/movies/backdrops.php/?id=<?php echo $movieId; ?>" class="text-dark text-decoration-none fw-bolder">View More <i class="text-dark fas fa-arrow-right"></i></a>
                                                </p>
                                            </div>
                                        </div>
                                    </div>
                                <?php } ?>
                            </div>
+                            <a class="mt-3 c-hover text-decoration-none text-black " href="<?php echo $url; ?>/movies/backdrops.php/?id=<?php echo $movieId; ?>">
+                                <p class="mt-3 fw-bolder">View All Backdrops</p>
+                            </a>
                         </div>
                         <div class="tab-pane fade" id="nav-posters" role="tabpanel" aria-labelledby="nav-posters-tab">
                             <div class="d-flex overflow-scroll">
@@ -323,13 +381,16 @@ $dataSlicedImagePostersArr = array_slice($dataImagesPostersArr,0,6);
                                         <div class="card h-100">
                                             <div class="card-body d-flex">
                                                 <p class="d-flex align-items-center">
-                                                    <a href="<?php echo $url; ?>/movies/cast_and_crew.php/?id=<?php echo $movieId; ?>" class="text-dark text-decoration-none fw-bolder">View More <i class="text-dark fas fa-arrow-right"></i></a>
+                                                    <a href="<?php echo $url; ?>/movies/posters.php/?id=<?php echo $movieId; ?>" class="text-dark text-decoration-none fw-bolder">View More <i class="text-dark fas fa-arrow-right"></i></a>
                                                 </p>
                                             </div>
                                         </div>
                                     </div>
                                 <?php } ?>
                             </div>
+                            <a class="mt-3 c-hover text-decoration-none text-black " href="<?php echo $url; ?>/movies/posters.php/?id=<?php echo $movieId; ?>">
+                                <p class="mt-3 fw-bolder">View All Posters</p>
+                            </a>
                         </div>
 
                     </div>
@@ -337,15 +398,71 @@ $dataSlicedImagePostersArr = array_slice($dataImagesPostersArr,0,6);
                 <hr>
 <!--                media end-->
 
-
-
 <!--                Recommendations start-->
+                <h4 class="fw-bolder">
+                    Recommendations
+                </h4>
 
+                <div class="">
+                    <div class="g-1 d-flex overflow-scroll text-nowrap">
+                        <?php foreach ($dataRecommendationVideosResultArr as $row){ ?>
+                            <div class="col-4">
 
-
+                                <div class="px-2">
+                                    <div class="position-relative">
+                                        <a href="<?php echo $url; ?>/movies/movie_detail.php?id=<?php echo $row->id; ?>" class="">
+                                            <figure class="imghvr-fade rounded">
+                                                <img src="https://image.tmdb.org/t/p/w250_and_h141_face<?php echo $row->backdrop_path; ?>" class="rounded img-fluid" alt="">
+                                                <figcaption class="">
+                                                    <small class="position-absolute text-white c-rounded bg-secondary bottom-0 p-1" style="right: 0">
+                                                        <i class="fas fa-star text-white p-1"> <?php echo numberFormat($row->vote_average); ?> %</i>
+                                                    </small>
+                                                </figcaption>
+                                            </figure>
+                                        </a>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <p><?php echo $row->title; ?></p>
+                                        <p><i class="text-primary fas fa-calendar"></i> <?php echo showDate($row->release_date,"m/d/Y"); ?></p>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php } ?>
+                    </div>
+                </div>
 <!--                Recommendations end-->
             </div>
-            <div class="col-3"></div>
+            <div class="col-3 my-3">
+                <a href="<?php echo $rowDetails->homepage; ?>" data-bs-toggle="tooltip" data-bs-placement="top" title="Visit Home Page" class="text-decoration-none">
+                    <i class="fas fa-link fa-2x"></i>
+                </a>
+                <div class="">
+                    <div class="my-3">
+                        <p class="fw-bolder mb-0">Status</p>
+                        <p class="mb-0"><?php echo $rowDetails->status; ?></p>
+                    </div>
+                    <div class="mb-3">
+                        <p class="fw-bolder mb-0">Original Language</p>
+                        <p class="mb-0"><?php echo $rowDetails->status; ?></p>
+                    </div>
+                    <div class="mb-3">
+                        <p class="fw-bolder mb-0">Budget</p>
+                        <p class="mb-0">$ <?php echo number_format($rowDetails->budget,2); ?></p>
+                    </div>
+                    <div class="mb-3">
+                        <p class="fw-bolder mb-0">Revenue</p>
+                        <p class="mb-0">$ <?php echo number_format($rowDetails->revenue,2); ?></p>
+                    </div>
+                    <div class="mb-3">
+                        <p class="fw-bolder mb-0">Keywords</p>
+                        <?php foreach ($rowKeywords as $keyword) { ?>
+                            <a href="<?php echo $url; ?>/discovers/keyword.php?movie_id=<?php echo $movieId; ?>&keyword_id=<?php echo $keyword->id; ?>" class="text-decoration-none">
+                                <p class="mb-1 p-2 badge bg-primary rounded"><?php echo $keyword->name; ?></p>
+                            </a>
+                        <?php } ?>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -361,5 +478,10 @@ $dataSlicedImagePostersArr = array_slice($dataImagesPostersArr,0,6);
             numeratio : true,
         });
     });
+
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
 </script>
 
