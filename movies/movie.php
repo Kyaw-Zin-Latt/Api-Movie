@@ -28,8 +28,8 @@ if ((isset($_POST['sort_by']) || isset($_GET['sort_by'])) && (empty($_POST['star
         $pageNumber = $_GET['page'];
     }
     $dataBySort = file_get_contents("https://api.themoviedb.org/3/discover/movie?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US&sort_by=$sort_key&include_adult=false&include_video=false&page=$pageNumber&with_watch_monetization_types=flatrate");
-    $sortMovies = json_decode($dataBySort);
-    $popularMovieArrResult = $sortMovies->results;
+    $popularMovieArr = json_decode($dataBySort);
+    $popularMovieArrResult = $popularMovieArr->results;
     echo "ha";
 }
 $sort_key = "popularity.desc";
@@ -37,8 +37,8 @@ $sort_key = "popularity.desc";
 if (empty($_GET['page']) && (empty($_POST['sort_by'])) && empty($_GET['sort_by']) && empty($_POST['start']) && empty($_POST['end'])){
 
     $dataBySort = file_get_contents("https://api.themoviedb.org/3/discover/movie?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_watch_monetization_types=flatrate");
-    $sortMovies = json_decode($dataBySort);
-    $popularMovieArrResult = $sortMovies->results;
+    $popularMovieArr = json_decode($dataBySort);
+    $popularMovieArrResult = $popularMovieArr->results;
 
 }
 
@@ -57,8 +57,8 @@ if ((empty($_POST['start']) && empty($_POST['end']) && empty($_POST['sort_by']))
         $pageNumber = $_GET['page'];
     }
     $dataByDate = file_get_contents("https://api.themoviedb.org/3/discover/movie?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=$pageNumber&primary_release_date.gte=$start&primary_release_date.lte=$end&with_watch_monetization_types=flatrate");
-    $dateMovies = json_decode($dataByDate);
-    $popularMovieArrResult = $dateMovies->results;
+    $popularMovieArr = json_decode($dataByDate);
+    $popularMovieArrResult = $popularMovieArr->results;
     print_r($_POST);
 
 }
@@ -77,33 +77,38 @@ if ((isset($_POST['start']) && isset($_POST['end']) && isset($_POST['sort_by']) 
     }
     $dataByDateAndSort = file_get_contents("https://api.themoviedb.org/3/discover/movie?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US&sort_by=$sort_key&include_adult=false&include_video=false&page=$pageNumber&primary_release_date.gte=$start&primary_release_date.lte=$end&with_watch_monetization_types=flatrate");
 
-    $dateAndSortMovies = json_decode($dataByDateAndSort);
-    $popularMovieArrResult = $dateAndSortMovies->results;
+    $popularMovieArr = json_decode($dataByDateAndSort);
+    $popularMovieArrResult = $popularMovieArr->results;
     print_r($_GET);
     echo "mi";
 }
 
-if (isset($_POST['genres']) && (empty($_POST['start']) && empty($_POST['end']))) {
+if ((isset($_POST['genres']) || isset($_GET['genres'])) && (empty($_POST['start']) && empty($_POST['end']))) {
     if (isset($_POST['genres'])) {
         $ans = [];
         foreach ($_POST['genres'] as $row){
             array_push($ans,$row);
         }
-        $genresIdBeforeUrlCode = $ans;
+        $genresIdBeforeUrlCode = join(",",$ans);
         $genresId = urlencode(join(",",$ans));
         $dataByGenres = file_get_contents("https://api.themoviedb.org/3/discover/movie?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=$genresId&with_watch_monetization_types=flatrate");
     } else {
-        $ans = [];
-        foreach ($_GET['genres'] as $row){
-            array_push($ans,$row);
-        }
-        $genresId = urlencode(join(",",$ans));
-        $pageNumber = $_GET['page'];
-        $dataByGenres = file_get_contents("https://api.themoviedb.org/3/discover/movie?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=$pageNumber&with_genres=$genresId&with_watch_monetization_types=flatrate");
-    }
-    $dataMovies = json_decode($dataByGenres);
-    $popularMovieArrResult = $dataMovies->results;
+//        $ans = [];
+//        foreach ($_GET['genres'] as $row){
+//            array_push($ans,$row);
+//        }
 
+//        $genresId = urlencode(join(",",$ans));
+        $ans = $_GET['genres'];
+        $genresId = urlencode($ans);
+        $sort_key = $_GET['sort_by'];
+        $pageNumber = $_GET['page'];
+        $dataByGenres = file_get_contents("https://api.themoviedb.org/3/discover/movie?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US&sort_by=$sort_key&include_adult=false&include_video=false&page=$pageNumber&with_genres=$genresId&with_watch_monetization_types=flatrate");
+    }
+    $popularMovieArr = json_decode($dataByGenres);
+
+    $popularMovieArrResult = $popularMovieArr->results;
+    echo "hdd";
     print_r($ans);
 }
 
@@ -174,9 +179,18 @@ if (isset($_POST['genres']) && (empty($_POST['start']) && empty($_POST['end'])))
                                     <hr>
                                     <h5>Genres</h5>
                                     <?php foreach ($genresArrResult as $row) { ?>
-                                        <?php foreach ($ans as $id) { ?>
+                                        <?php if (isset($ans)) { ?>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" name="genres[]" type="checkbox" id="inlineCheckbox<?php echo $row->id; ?>" value="<?php echo $row->id; ?>"
+                                                        <?php foreach ($ans as $id) { ?>
+                                                            <?php echo $row->id==$id ? "checked" : "" ?>
+                                                        <?php } ?>
+                                                    >
+                                                    <label class="form-check-label" for="inlineCheckbox<?php echo $row->id; ?>"><?php echo $row->name; ?></label>
+                                                </div>
+                                        <?php } else { ?>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" name="genres[]" type="checkbox" id="inlineCheckbox<?php echo $row->id; ?>" value="<?php echo $row->id; ?>" <?php echo $row->id==$id ? "checked" : "" ?>>
+                                                <input class="form-check-input" name="genres[]" type="checkbox" id="inlineCheckbox<?php echo $row->id; ?>" value="<?php echo $row->id; ?>">
                                                 <label class="form-check-label" for="inlineCheckbox<?php echo $row->id; ?>"><?php echo $row->name; ?></label>
                                             </div>
                                         <?php } ?>
@@ -197,16 +211,51 @@ if (isset($_POST['genres']) && (empty($_POST['start']) && empty($_POST['end'])))
                             <div class="card h-100 rounded-3">
                                 <?php if (empty($row->poster_path)){ ?>
                                     <a href="<?php echo $url; ?>/movies/movie_detail.php?id=<?php echo $row->id; ?>" ">
-                                        <img src="../assets/img/no-image.png" class="rounded-3 h-100 card-img-top" alt="">
+                                        <div class="d-flex justify-content-center rounded-top align-items-center bg-secondary" style="height: 239px;">
+                                            <img class="" src="https://img.icons8.com/material-outlined/60/000000/image.png"/>
+                                        </div>
                                     </a>
                                 <?php } else { ?>
                                     <a href="<?php echo $url; ?>/movies/movie_detail.php?id=<?php echo $row->id; ?>">
-                                        <img src="https://image.tmdb.org/t/p/w500<?php echo $row->poster_path; ?>" class="rounded-3 card-img-top" alt="">
+                                        <img src="https://image.tmdb.org/t/p/w500<?php echo $row->poster_path; ?>" class="rounded-top card-img-top" style="height: 239px; alt="">
                                     </a>
                                 <?php } ?>
-                                <div class="card-body">
+
+                                <div class="card-body position-relative pt-4">
+<!--                                    percentage circle start-->
+                                    <div class="single-chart position-absolute" style="top: -35px; left: 5px">
+                                        <svg viewBox="0 0 36 36" class="circular-chart
+                                        <?php
+                                        $votePercentage = numberFormat($row->vote_average);
+                                            if ($votePercentage <= 40 && $votePercentage > 1) {
+                                                echo "red";
+                                            } elseif ($votePercentage < 70 && $votePercentage >= 40) {
+                                                echo "orange";
+                                            } elseif ($votePercentage >= 70) {
+                                                echo "green";
+                                            } elseif ($votePercentage = 1) {
+                                                echo "";
+                                            }
+
+                                        ?>
+                                        ">
+                                            <path class="circle-bg"
+                                                  d="M18 2.0845
+                                              a 15.9155 15.9155 0 0 1 0 31.831
+                                              a 15.9155 15.9155 0 0 1 0 -31.831"
+                                            />
+                                            <path class="circle"
+                                                  stroke-dasharray="30, 100"
+                                                  d="M18 2.0845
+                                              a 15.9155 15.9155 0 0 1 0 31.831
+                                              a 15.9155 15.9155 0 0 1 0 -31.831"
+                                            />
+                                            <text x="18" y="20.35" class="percentage"><?php echo numberFormat($row->vote_average) > 1 ? numberFormat($row->vote_average)."%" : "NR" ; ?></text>
+                                        </svg>
+                                    </div>
+<!--                                    percentage circle end-->
                                     <a href="" class="title text-decoration-none text-dark">
-                                        <h5 class="card-title"><?php echo $row->title; ?></h5>
+                                        <h6 class="card-title"><?php echo $row->title; ?></h6>
                                     </a>
                                     <p class="card-text text-black-50"><?php echo showDate($row->release_date); ?></p>
                                 </div>
@@ -235,13 +284,13 @@ if (isset($_POST['genres']) && (empty($_POST['start']) && empty($_POST['end'])))
                     items: 0,
                     itemsOnPage: 0,
                     pages: 0,
-                    displayedPages:500,
+                    displayedPages:<?php echo $popularMovieArr->total_pages; ?>,
                     edges: 2,
                     currentPage: 0,
                     hrefTextPrefix: '?page=',
                     hrefTextSuffix:
 
-                    '<?php echo isset($_POST["sort_by"]) || isset($sort_key) ? "&sort_by=$sort_key" : "" ?><?php echo empty($start) ? "" : "&start=$start&end=$end" ?>'
+                    '<?php echo isset($_POST["sort_by"]) || isset($sort_key) ? "&sort_by=$sort_key" : "" ?><?php echo empty($start) ? "" : "&start=$start&end=$end" ?><?php echo empty($ans) ? "" : "&genres=$genresIdBeforeUrlCode" ?>'
                     ,
                     prevText: 'Prev',
                     nextText: 'Next',
@@ -460,7 +509,7 @@ if (isset($_POST['genres']) && (empty($_POST['start']) && empty($_POST['end'])))
     // jquery.pagination.file.custom end
 
     let items = $(".list-wrapper .list-item");
-    let numItems = 10000;
+    let numItems = <?php echo $popularMovieArr->total_results; ?>;
     let perPage = 20;
 
     items.slice(perPage).hide();

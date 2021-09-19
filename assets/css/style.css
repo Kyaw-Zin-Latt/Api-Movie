@@ -1,8 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
+:root {
+    --tmdbDarkBlue: 3,37,65;
+}
+
 *{
     font-family: 'Roboto', sans-serif;
 }
-
+section.home {
+    background-image: linear-gradient(to right, rgba(var(--tmdbDarkBlue), 0.8) 0%, rgba(var(--tmdbDarkBlue), 0) 100%), url('https://image.tmdb.org/t/p/w1920_and_h600_multi_faces_filter(duotone,032541,01b4e4)/kSNojkWwSZWsYv0Xj1gcq88okzY.jpg');
+    height: 420px;
+    background-size: cover;
+    background-position: top center;
+    background-repeat: no-repeat;
+}
+.trending {
+    background-position: 50% 200px;
+    background-repeat: no-repeat;
+}
 .list-wrapper, .list-wrapper1 {
 
     overflow: hidden;
@@ -96,3 +110,56 @@
     right: 0 !important;
     color: #fff !important;
 }
+/*percentage circle start*/
+
+.single-chart {
+    width: 58px;
+}
+
+.circular-chart {
+    display: block;
+    margin: 10px auto;
+    max-width: 80%;
+    max-height: 250px;
+}
+
+.circle-bg {
+    fill: #081c22;
+    stroke: #423d0f;
+    stroke-width: 3.8;
+}
+
+.circle {
+    fill: none;
+    stroke-width: 2.8;
+    stroke-linecap: round;
+    animation: progress 1s ease-out forwards;
+}
+
+@keyframes progress {
+    0% {
+        stroke-dasharray: 0 100;
+    }
+}
+
+.circular-chart.orange .circle {
+    stroke: #ff9f00;
+}
+
+.circular-chart.green .circle {
+    stroke: #20c997;
+}
+
+.circular-chart.red .circle {
+    stroke: #dc3545;
+}
+
+.percentage {
+    fill: #fff;
+    font-family: sans-serif;
+    font-size: 0.65rem;
+    font-weight: bolder;
+    text-anchor: middle;
+}
+
+/*percentage circle end*/
