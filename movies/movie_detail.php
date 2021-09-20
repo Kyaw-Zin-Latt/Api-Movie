@@ -1,38 +1,26 @@
 <?php
 require_once "../template/header.php";
 $movieId = $_GET['id'];
-$data = file_get_contents("https://api.themoviedb.org/3/movie/$movieId?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US");
-$dataKeyword = file_get_contents("https://api.themoviedb.org/3/movie/$movieId/keywords?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400");
-$dataVideo = file_get_contents("https://api.themoviedb.org/3/movie/$movieId/videos?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US");
-$dataVideos = file_get_contents("https://api.themoviedb.org/3/movie/$movieId/videos?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US");
-$dataPeople = file_get_contents("https://api.themoviedb.org/3/movie/$movieId/credits?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US");
-$dataReview = file_get_contents("https://api.themoviedb.org/3/movie/$movieId/reviews?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US&page=1");
+$data = file_get_contents("https://api.themoviedb.org/3/movie/$movieId?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US&append_to_response=videos%2Ccredits%2Creviews%2Crecommendations%2Ckeywords");
 $dataImages = file_get_contents("https://api.themoviedb.org/3/movie/$movieId/images?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US&append_to_response=images&include_image_language=en,null");
-$dataRecommendationVideos = file_get_contents("https://api.themoviedb.org/3/movie/$movieId/recommendations?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US&page=1");
 $row = json_decode($data);
 $rowDetails = $row;
 $rowGenres = $row->genres;
 
-$rowKeywordArr = json_decode($dataKeyword);
-$rowKeywords = $rowKeywordArr->keywords;
+$rowKeywords = $row->keywords->keywords;
 
-$dataVideoArr = json_decode($dataVideo);
-$dataVideoResult = $dataVideoArr->results;
+$dataVideoResult = $row->videos->results;
 
-$dataVideosArr = json_decode($dataVideos);
-$dataVideosResult = $dataVideosArr->results;
+$dataVideosResult = $row->videos->results;
 $dataSlicedVideosArr = array_slice(array_reverse($dataVideosResult),0,6);
 
-$dataPeopleArr = json_decode($dataPeople);
-$dataPeopleCasts = $dataPeopleArr->cast;
-$dataPeopleCrew = $dataPeopleArr->crew;
+$dataPeopleCasts = $row->credits->cast;
+$dataPeopleCrew = $row->credits->crew;
 
 $dataSlicedPeopleArr = array_slice($dataPeopleCasts,0,9);
 
-
-$dataReviewArr = json_decode($dataReview);
-$dataReviewSlicedResult = array_slice($dataReviewArr->results,0,1);
-$dataReviewResult = $dataReviewArr->results;
+$dataReviewSlicedResult = array_slice($row->reviews->results,0,1);
+$dataReviewResult = $row->reviews->results;
 
 $dataImagesArr = json_decode($dataImages);
 $dataImagesBackdropsArr = $dataImagesArr->backdrops;
@@ -40,8 +28,7 @@ $dataSlicedImageBackdropsArr = array_slice($dataImagesBackdropsArr,0,6);
 $dataImagesPostersArr = $dataImagesArr->posters;
 $dataSlicedImagePostersArr = array_slice($dataImagesPostersArr,0,6);
 
-$dataRecommendationVideosArr = json_decode($dataRecommendationVideos);
-$dataRecommendationVideosResultArr = $dataRecommendationVideosArr->results;
+$dataRecommendationVideosResultArr = $row->recommendations->results;
 
 $dataMostPopularVideo = reset($dataSlicedVideosArr);
 $dataMostPopularBackdrop = reset($dataImagesBackdropsArr);
