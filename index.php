@@ -48,14 +48,18 @@ $trendByWeekResults = $trendByWeek->results;
     </div>
 </div>
 
-<section class="home">
+<section class="home d-flex align-items-center">
     <div class="container">
         <div class="row">
-            <div class="col-12">
+            <div class="col-12 ">
                 <div class="h-100">
                     <h1 class="text-white fw-bolder">Welcome.</h1>
                     <h3 class="text-light">Millions of movies, TV shows and people to discover. Explore now.</h3>
                 </div>
+                <form class="d-flex position-relative" method="post" action="<?php echo $url; ?>/search/search.php">
+                    <input class="form-control rounded-pill" name="query" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-primary rounded-pill position-absolute" style="right: 0" type="submit">Search</button>
+                </form>
             </div>
         </div>
     </div>

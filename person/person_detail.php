@@ -3,10 +3,7 @@ require_once "../template/header.php";
 $personId = $_GET['person_id'];
 
 if (isset($_GET['media_type'])){
-
     $type = $_GET['media_type'];
-
-
 
 }
 
@@ -19,7 +16,6 @@ $dataCombinedCreditsCastArr = $dataPersonDetailArr->combined_credits->cast;
 
 $mediaMovies = [];
 $mediaTvs = [];
-
 foreach ($dataCombinedCreditsCastArr as $mediaMovie) {
     if ($mediaMovie->media_type == "movie") {
         array_push($mediaMovies, $mediaMovie);
@@ -45,9 +41,6 @@ if (isset($type)){
     $dataCombinedCreditsCastArr = $dataPersonDetailArr->combined_credits->cast;
     $dataCombinedCreditsCrewArr = $dataPersonDetailArr->combined_credits->crew;
 }
-//echo "<pre>";
-//print_r($mediaTvs);
-//$dataCombinedCastAndCrew = array_merge_recursive($dataCombinedCreditsCastArr,$dataCombinedCreditsCrewArr);
 
 $dataMovieCreditsCastArr = $dataPersonDetailArr->movie_credits->cast;
 $dataMovieCreditsCrewArr = $dataPersonDetailArr->movie_credits->crew;
@@ -189,7 +182,7 @@ $derpartmentArrUniqued = array_unique($derpartmentArr);
             <div class="my-5">
 
                 <h5 class="fw-bolder">Biography</h5>
-                <p><?php echo nl2br($dataPersonDetailArr->biography) ?></p>
+                <p class="article"><?php echo nl2br($dataPersonDetailArr->biography) ?></p>
             </div>
 <!--            Known for start-->
             <div class="">
@@ -259,11 +252,12 @@ $derpartmentArrUniqued = array_unique($derpartmentArr);
                             <tbody>
                             <?php foreach ($dataCombinedCreditsCastArr as $row){ ?>
                                 <tr>
-                                    <td>
+                                    <td class="text-center">
                                         <?php if (empty($row->release_date) && empty($row->first_air_date)) { ?>
-
-                                        <?php } ?>
-                                        <?php echo isset($row->release_date) ? showDate($row->release_date,'Y') : showDate($row->first_air_date,'Y'); ?>
+                                            -
+                                        <?php } else {
+                                            echo isset($row->release_date) ? showDate($row->release_date, 'Y') : showDate($row->first_air_date, 'Y');
+                                        } ?>
                                     </td>
                                     <td>
 
@@ -398,20 +392,27 @@ $derpartmentArrUniqued = array_unique($derpartmentArr);
             <div class="my-3">
                 <?php if ($dataPersonDetailArr->known_for_department == "Acting") { ?>
                     <div class="">
-                        <?php foreach ($dataCombinedCreditsCrewArr as $row){ ?>
-                        <h5 class="fw-bolder <?php echo $row->department == 'Writing' ? '' : 'd-none' ?>">Writing</h5>
-                        <?php } ?>
+                        <?php
+                        foreach ($dataCombinedCreditsCrewArr as $row) {
+                            if ($row->department == "Writing") {
+                        ?>
+                            <h5 class="fw-bolder">Writing</h5>
+                        <?php
+                            }
+                        }
+                        ?>
                         <table class="table table-bordered">
                             <tbody>
                             <?php foreach ($dataCombinedCreditsCrewArr as $row){ ?>
 
                                 <?php if ($row->department == "Writing") { ?>
                                     <tr>
-                                        <td>
+                                        <td class="text-center">
                                             <?php if (empty($row->release_date) && empty($row->first_air_date)) { ?>
-
-                                            <?php } ?>
-                                            <?php echo isset($row->release_date) ? showDate($row->release_date,'Y') : showDate($row->first_air_date,'Y'); ?>
+                                                -
+                                            <?php } else {
+                                                echo isset($row->release_date) ? showDate($row->release_date, 'Y') : showDate($row->first_air_date, 'Y');
+                                            } ?>
                                         </td>
                                         <td>
 
@@ -469,20 +470,19 @@ $derpartmentArrUniqued = array_unique($derpartmentArr);
 
                     </div>
                     <div class="">
-                        <?php foreach ($dataCombinedCreditsCrewArr as $row){ ?>
-                            <h5 class="fw-bolder <?php echo $row->department == 'Sound' ? '' : 'd-none' ?>">Sound</h5>
-                        <?php } ?>
+                        <h5 class="fw-bolder">Sound</h5>
                         <table class="table table-bordered">
                             <tbody>
                             <?php foreach ($dataCombinedCreditsCrewArr as $row){ ?>
 
                                 <?php if ($row->department == "Sound") { ?>
                                     <tr>
-                                        <td>
+                                        <td class="text-center">
                                             <?php if (empty($row->release_date) && empty($row->first_air_date)) { ?>
-
-                                            <?php } ?>
-                                            <?php echo isset($row->release_date) ? showDate($row->release_date,'Y') : showDate($row->first_air_date,'Y'); ?>
+                                                -
+                                            <?php } else {
+                                                echo isset($row->release_date) ? showDate($row->release_date, 'Y') : showDate($row->first_air_date, 'Y');
+                                            } ?>
                                         </td>
                                         <td>
 
@@ -540,20 +540,19 @@ $derpartmentArrUniqued = array_unique($derpartmentArr);
 
                     </div>
                     <div class="">
-                        <?php foreach ($dataCombinedCreditsCrewArr as $row){ ?>
-                            <h5 class="fw-bolder <?php echo $row->department == 'Lighting' ? '' : 'd-none' ?>">Lighting</h5>
-                        <?php } ?>
+                        <h5 class="fw-bolder">Lighting</h5>
                         <table class="table table-bordered">
                             <tbody>
                             <?php foreach ($dataCombinedCreditsCrewArr as $row){ ?>
 
                                 <?php if ($row->department == "Lighting") { ?>
                                     <tr>
-                                        <td>
+                                        <td class="text-center">
                                             <?php if (empty($row->release_date) && empty($row->first_air_date)) { ?>
-
-                                            <?php } ?>
-                                            <?php echo isset($row->release_date) ? showDate($row->release_date,'Y') : showDate($row->first_air_date,'Y'); ?>
+                                                -
+                                            <?php } else {
+                                                echo isset($row->release_date) ? showDate($row->release_date, 'Y') : showDate($row->first_air_date, 'Y');
+                                            } ?>
                                         </td>
                                         <td>
 
@@ -611,20 +610,19 @@ $derpartmentArrUniqued = array_unique($derpartmentArr);
 
                     </div>
                     <div class="">
-                        <?php foreach ($dataCombinedCreditsCrewArr as $row){ ?>
-                            <h5 class="fw-bolder <?php echo $row->department == 'Camera' ? '' : 'd-none' ?>">Camera</h5>
-                        <?php } ?>
+                        <h5 class="fw-bolder">Camera</h5>
                         <table class="table table-bordered">
                             <tbody>
                             <?php foreach ($dataCombinedCreditsCrewArr as $row){ ?>
 
                                 <?php if ($row->department == "Camera") { ?>
                                     <tr>
-                                        <td>
+                                        <td class="text-center">
                                             <?php if (empty($row->release_date) && empty($row->first_air_date)) { ?>
-
-                                            <?php } ?>
-                                            <?php echo isset($row->release_date) ? showDate($row->release_date,'Y') : showDate($row->first_air_date,'Y'); ?>
+                                                -
+                                            <?php } else {
+                                                echo isset($row->release_date) ? showDate($row->release_date, 'Y') : showDate($row->first_air_date, 'Y');
+                                            } ?>
                                         </td>
                                         <td>
 
@@ -682,20 +680,19 @@ $derpartmentArrUniqued = array_unique($derpartmentArr);
 
                     </div>
                     <div class="">
-                        <?php foreach ($dataCombinedCreditsCrewArr as $row){ ?>
-                            <h5 class="fw-bolder <?php echo $row->department == 'Editing' ? '' : 'd-none' ?>">Editing</h5>
-                        <?php } ?>
+                        <h5 class="fw-bolder">Editing</h5>
                         <table class="table table-bordered">
                             <tbody>
                             <?php foreach ($dataCombinedCreditsCrewArr as $row){ ?>
 
                                 <?php if ($row->department == "Editing") { ?>
                                     <tr>
-                                        <td>
+                                        <td class="text-center">
                                             <?php if (empty($row->release_date) && empty($row->first_air_date)) { ?>
-
-                                            <?php } ?>
-                                            <?php echo isset($row->release_date) ? showDate($row->release_date,'Y') : showDate($row->first_air_date,'Y'); ?>
+                                                -
+                                            <?php } else {
+                                                echo isset($row->release_date) ? showDate($row->release_date, 'Y') : showDate($row->first_air_date, 'Y');
+                                            } ?>
                                         </td>
                                         <td>
 
@@ -753,20 +750,19 @@ $derpartmentArrUniqued = array_unique($derpartmentArr);
 
                     </div>
                     <div class="">
-                        <?php foreach ($dataCombinedCreditsCrewArr as $row){ ?>
-                            <h5 class="fw-bolder <?php echo $row->department == 'Directing' ? '' : 'd-none' ?>">Directing</h5>
-                        <?php } ?>
+                       <h5 class="fw-bolder">Directing</h5>
                         <table class="table table-bordered">
                             <tbody>
                             <?php foreach ($dataCombinedCreditsCrewArr as $row){ ?>
 
                                 <?php if ($row->department == "Directing") { ?>
                                     <tr>
-                                        <td>
+                                        <td class="text-center">
                                             <?php if (empty($row->release_date) && empty($row->first_air_date)) { ?>
-
-                                            <?php } ?>
-                                            <?php echo isset($row->release_date) ? showDate($row->release_date,'Y') : showDate($row->first_air_date,'Y'); ?>
+                                                -
+                                            <?php } else {
+                                                echo isset($row->release_date) ? showDate($row->release_date, 'Y') : showDate($row->first_air_date, 'Y');
+                                            } ?>
                                         </td>
                                         <td>
 
@@ -824,20 +820,20 @@ $derpartmentArrUniqued = array_unique($derpartmentArr);
 
                     </div>
                     <div class="">
-                        <?php foreach ($dataCombinedCreditsCrewArr as $row){ ?>
-                            <h5 class="fw-bolder <?php echo $row->department == 'Production' ? '' : 'd-none' ?>">Production</h5>
-                        <?php } ?>
+
+                        <h5 class="fw-bolder">Production</h5>
                         <table class="table table-bordered">
                             <tbody>
                             <?php foreach ($dataCombinedCreditsCrewArr as $row){ ?>
 
                                 <?php if ($row->department == "Production") { ?>
                                     <tr>
-                                        <td>
+                                        <td class="text-center">
                                             <?php if (empty($row->release_date) && empty($row->first_air_date)) { ?>
-
-                                            <?php } ?>
-                                            <?php echo isset($row->release_date) ? showDate($row->release_date,'Y') : showDate($row->first_air_date,'Y'); ?>
+                                                -
+                                            <?php } else {
+                                                echo isset($row->release_date) ? showDate($row->release_date, 'Y') : showDate($row->first_air_date, 'Y');
+                                            } ?>
                                         </td>
                                         <td>
 
@@ -895,20 +891,19 @@ $derpartmentArrUniqued = array_unique($derpartmentArr);
 
                     </div>
                     <div class="">
-                        <?php foreach ($dataCombinedCreditsCrewArr as $row){ ?>
-                            <h5 class="fw-bolder <?php echo $row->department == 'Costume & Make-Up' ? '' : 'd-none' ?>">Costume & Make-Up</h5>
-                        <?php } ?>
+                        <h5 class="fw-bolder">Costume & Make-Up</h5>
                         <table class="table table-bordered">
                             <tbody>
                             <?php foreach ($dataCombinedCreditsCrewArr as $row){ ?>
 
                                 <?php if ($row->department == "Costume & Make-Up") { ?>
                                     <tr>
-                                        <td>
+                                        <td class="text-center">
                                             <?php if (empty($row->release_date) && empty($row->first_air_date)) { ?>
-
-                                            <?php } ?>
-                                            <?php echo isset($row->release_date) ? showDate($row->release_date,'Y') : showDate($row->first_air_date,'Y'); ?>
+                                                -
+                                            <?php } else {
+                                                echo isset($row->release_date) ? showDate($row->release_date, 'Y') : showDate($row->first_air_date, 'Y');
+                                            } ?>
                                         </td>
                                         <td>
 
@@ -966,20 +961,19 @@ $derpartmentArrUniqued = array_unique($derpartmentArr);
 
                     </div>
                     <div class="">
-                        <?php foreach ($dataCombinedCreditsCrewArr as $row){ ?>
-                            <h5 class="fw-bolder <?php echo $row->department == 'Crew' ? '' : 'd-none' ?>">Crew</h5>
-                        <?php } ?>
+                        <h5 class="fw-bold">Crew</h5>
                         <table class="table table-bordered">
                             <tbody>
                             <?php foreach ($dataCombinedCreditsCrewArr as $row){ ?>
 
                                 <?php if ($row->department == "Crew") { ?>
                                     <tr>
-                                        <td>
+                                        <td class="text-center">
                                             <?php if (empty($row->release_date) && empty($row->first_air_date)) { ?>
-
-                                            <?php } ?>
-                                            <?php echo isset($row->release_date) ? showDate($row->release_date,'Y') : showDate($row->first_air_date,'Y'); ?>
+                                                -
+                                            <?php } else {
+                                                echo isset($row->release_date) ? showDate($row->release_date, 'Y') : showDate($row->first_air_date, 'Y');
+                                            } ?>
                                         </td>
                                         <td>
 
@@ -1037,20 +1031,19 @@ $derpartmentArrUniqued = array_unique($derpartmentArr);
 
                     </div>
                     <div class="">
-                        <?php foreach ($dataCombinedCreditsCrewArr as $row){ ?>
-                            <h5 class="fw-bolder <?php echo $row->department == 'Actors' ? '' : 'd-none' ?>">Actors</h5>
-                        <?php } ?>
+                        <h5 class="fw-bolder">Actors</h5>
                         <table class="table table-bordered">
                             <tbody>
                             <?php foreach ($dataCombinedCreditsCrewArr as $row){ ?>
 
                                 <?php if ($row->department == "Actors") { ?>
                                     <tr>
-                                        <td>
+                                        <td class="text-center">
                                             <?php if (empty($row->release_date) && empty($row->first_air_date)) { ?>
-
-                                            <?php } ?>
-                                            <?php echo isset($row->release_date) ? showDate($row->release_date,'Y') : showDate($row->first_air_date,'Y'); ?>
+                                                -
+                                            <?php } else {
+                                                echo isset($row->release_date) ? showDate($row->release_date, 'Y') : showDate($row->first_air_date, 'Y');
+                                            } ?>
                                         </td>
                                         <td>
 
@@ -1108,20 +1101,19 @@ $derpartmentArrUniqued = array_unique($derpartmentArr);
 
                     </div>
                     <div class="">
-                        <?php foreach ($dataCombinedCreditsCrewArr as $row){ ?>
-                            <h5 class="fw-bolder <?php echo $row->department == 'Art' ? '' : 'd-none' ?>">Art</h5>
-                        <?php } ?>
+                        <h5 class="fw-bolder">Art</h5>
                         <table class="table table-bordered">
                             <tbody>
                             <?php foreach ($dataCombinedCreditsCrewArr as $row){ ?>
 
                                 <?php if ($row->department == "Art") { ?>
                                     <tr>
-                                        <td>
+                                        <td class="text-center">
                                             <?php if (empty($row->release_date) && empty($row->first_air_date)) { ?>
-
-                                            <?php } ?>
-                                            <?php echo isset($row->release_date) ? showDate($row->release_date,'Y') : showDate($row->first_air_date,'Y'); ?>
+                                                -
+                                            <?php } else {
+                                                echo isset($row->release_date) ? showDate($row->release_date, 'Y') : showDate($row->first_air_date, 'Y');
+                                            } ?>
                                         </td>
                                         <td>
 
@@ -1179,20 +1171,19 @@ $derpartmentArrUniqued = array_unique($derpartmentArr);
 
                     </div>
                     <div class="">
-                        <?php foreach ($dataCombinedCreditsCrewArr as $row){ ?>
-                            <h5 class="fw-bolder <?php echo $row->department == 'Visual Effects' ? '' : 'd-none' ?>">Visual Effects</h5>
-                        <?php } ?>
+                        <h5 class="fw-bolder">Visual Effects</h5>
                         <table class="table table-bordered">
                             <tbody>
                             <?php foreach ($dataCombinedCreditsCrewArr as $row){ ?>
 
                                 <?php if ($row->department == "Visual Effects") { ?>
                                     <tr>
-                                        <td>
+                                        <td class="text-center">
                                             <?php if (empty($row->release_date) && empty($row->first_air_date)) { ?>
-
-                                            <?php } ?>
-                                            <?php echo isset($row->release_date) ? showDate($row->release_date,'Y') : showDate($row->first_air_date,'Y'); ?>
+                                                -
+                                            <?php } else {
+                                                echo isset($row->release_date) ? showDate($row->release_date, 'Y') : showDate($row->first_air_date, 'Y');
+                                            } ?>
                                         </td>
                                         <td>
 
@@ -1259,11 +1250,12 @@ $derpartmentArrUniqued = array_unique($derpartmentArr);
 
                                 <?php if ($dataPersonDetailArr->known_for_department == $row->department) { ?>
                                     <tr>
-                                        <td>
+                                        <td class="text-center">
                                             <?php if (empty($row->release_date) && empty($row->first_air_date)) { ?>
-
-                                            <?php } ?>
-                                            <?php echo isset($row->release_date) ? showDate($row->release_date,'Y') : showDate($row->first_air_date,'Y'); ?>
+                                                -
+                                            <?php } else {
+                                                echo isset($row->release_date) ? showDate($row->release_date, 'Y') : showDate($row->first_air_date, 'Y');
+                                            } ?>
                                         </td>
                                         <td>
 
@@ -1334,6 +1326,8 @@ $derpartmentArrUniqued = array_unique($derpartmentArr);
 <?php require_once "../template/footer.php"; ?>
 <script src="<?php echo $url; ?>/node_modules/venobox/venobox/venobox.min.js"></script>
 <script>
+
+
     $(document).ready(function(){
         $('.venobox').venobox({
             arrowsColor : '#dc3545',

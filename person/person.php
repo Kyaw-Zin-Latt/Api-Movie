@@ -28,9 +28,13 @@ $popularPersonsResult = $popularPersons->results;
                         <div class="mb-4" style="width: 19.5%">
 
                             <div class="card h-100 rounded-3">
-                                <img src="https://image.tmdb.org/t/p/w235_and_h235_face<?php echo $row->profile_path; ?>" class="rounded-3" alt="">
+                                <a href="<?php echo $url; ?>/person/person_detail.php?person_id=<?php echo $row->id; ?>">
+                                    <img src="https://image.tmdb.org/t/p/w235_and_h235_face<?php echo $row->profile_path; ?>" class="rounded-3" alt="">
+                                </a>
                                 <div class="card-body">
-                                    <h5 class="card-title"><?php echo $row->name; ?></h5>
+                                    <a href="<?php echo $url; ?>/person/person_detail.php?person_id=<?php echo $row->id; ?>">
+                                        <h5 class="card-title"><?php echo $row->name; ?></h5>
+                                    </a>
 <!--                                    --><?php //foreach ($row->known_for as $rowKnown){ ?>
 <!--                                    <p class="card-text text-black-50">--><?php //echo $rowKnown->name; ?><!--</p>-->
 <!--                                    --><?php //} ?>

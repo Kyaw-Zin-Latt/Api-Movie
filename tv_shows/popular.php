@@ -5,20 +5,21 @@ $dataGenres = file_get_contents("https://api.themoviedb.org/3/genre/tv/list?api_
 $genresArr = json_decode($dataGenres);
 $genresArrResult = $genresArr->genres;
 
-if (isset($_GET['page']) && (empty($_POST['sort_by'])) && empty($_GET['sort_by'])) {
+//page
+if (isset($_GET['page']) && (empty($_POST['sort_by']) && empty($_GET['sort_by']) && empty($_POST['start']) && empty($_POST['end']) && empty($_GET['start']) && empty($_GET['end']) && empty($_POST['genres']) && empty($_GET ['genres']))) {
     $pageNumber = $_GET['page'];
     $data = file_get_contents("https://api.themoviedb.org/3/tv/popular?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US&page=$pageNumber");
     $popularMovieArr = json_decode($data);
     $popularMovieArrResult = $popularMovieArr->results;
 }
 
-if (empty($_GET['page']) && (empty($_POST['sort_by'])) && empty($_GET['sort_by']) && empty($_POST['start']) && empty($_POST['end'])) {
-    $data = file_get_contents("https://api.themoviedb.org/3/tv/popular?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US&page=1");
-    $popularMovieArr = json_decode($data);
-    $popularMovieArrResult = $popularMovieArr->results;
-
-}
-
+//if (empty($_GET['page']) && (empty($_POST['sort_by'])) && empty($_GET['sort_by']) && empty($_POST['start']) && empty($_POST['end']) && empty($_GET['start']) && empty($_GET['end']) && empty($_POST['genres'])) {
+//    $data = file_get_contents("https://api.themoviedb.org/3/tv/popular?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US&page=1");
+//    $popularMovieArr = json_decode($data);
+//    $popularMovieArrResult = $popularMovieArr->results;
+//
+//}
+//sort_by
 if ((isset($_POST['sort_by']) || isset($_GET['sort_by'])) && (empty($_POST['start']) && empty($_POST['end']) && empty($_GET['start']) && empty($_GET['end']) && empty($_POST['genres']) && empty($_GET['genres']) )) {
     if (isset($_POST['sort_by'])) {
         $sort_key = $_POST['sort_by'];
@@ -27,14 +28,15 @@ if ((isset($_POST['sort_by']) || isset($_GET['sort_by'])) && (empty($_POST['star
         $sort_key = $_GET['sort_by'];
         $pageNumber = $_GET['page'];
     }
-    $dataBySort = file_get_contents("https://api.themoviedb.org/3/discover/tv?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US&sort_by=$sort_key&include_adult=false&include_video=false&page=$pageNumber&with_watch_monetization_types=flatrate");
+    $dataBySort = file_get_contents("https://api.themoviedb.org/3/discover/tv?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US&sort_by=$pageNumber&page=$pageNumber&timezone=America%2FNew_York&include_null_first_air_dates=false&with_watch_monetization_types=flatrate");
     $popularMovieArr = json_decode($dataBySort);
     $popularMovieArrResult = $popularMovieArr->results;
     echo "ha";
 }
 $sort_key = "popularity.desc";
 
-if (empty($_GET['page']) && (empty($_POST['sort_by'])) && empty($_GET['sort_by']) && empty($_POST['start']) && empty($_POST['end'])){
+//nothing
+if (empty($_GET['page']) && empty($_POST['sort_by']) && empty($_GET['sort_by']) && empty($_POST['start']) && empty($_POST['end']) && empty($_POST['genres']) && empty($_GET['genres'])){
 
     $dataBySort = file_get_contents("https://api.themoviedb.org/3/discover/tv?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_watch_monetization_types=flatrate");
     $popularMovieArr = json_decode($dataBySort);
@@ -42,27 +44,29 @@ if (empty($_GET['page']) && (empty($_POST['sort_by'])) && empty($_GET['sort_by']
 
 }
 
-if ((empty($_POST['start']) && empty($_POST['end']) && empty($_POST['sort_by'])) && (empty($_GET['start']) && empty($_GET['end']) && empty($_GET['sort_by']))) {
-    $data = file_get_contents("https://api.themoviedb.org/3/tv/popular?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US&page=1");
-    $popularMovieArr = json_decode($data);
-    $popularMovieArrResult = $popularMovieArr->results;
-    echo "date";
-} else if ((isset($_POST['start']) && isset($_POST['end'])) && empty($_POST['sort_by'])) {
-    if ((isset($_POST['start']) && isset($_POST['end']))) {
-        $start = $_POST['start'];
-        $end = $_POST['end'];
-    } else {
-        $start = $_GET['start'];
-        $end = $_GET['end'];
-        $pageNumber = $_GET['page'];
-    }
-    $dataByDate = file_get_contents("https://api.themoviedb.org/3/discover/tv?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=$pageNumber&primary_release_date.gte=$start&primary_release_date.lte=$end&with_watch_monetization_types=flatrate");
-    $popularMovieArr = json_decode($dataByDate);
-    $popularMovieArrResult = $popularMovieArr->results;
-    print_r($_POST);
 
-}
+//if ((empty($_POST['start']) && empty($_POST['end']) && empty($_POST['sort_by'])) && (empty($_GET['start']) && empty($_GET['end']) && empty($_GET['sort_by']))) {
+//    $data = file_get_contents("https://api.themoviedb.org/3/tv/popular?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US&page=1");
+//    $popularMovieArr = json_decode($data);
+//    $popularMovieArrResult = $popularMovieArr->results;
+//    echo "date";
+//} else if ((isset($_POST['start']) && isset($_POST['end'])) && empty($_POST['sort_by'])) {
+//    if ((isset($_POST['start']) && isset($_POST['end']))) {
+//        $start = $_POST['start'];
+//        $end = $_POST['end'];
+//    } else {
+//        $start = $_GET['start'];
+//        $end = $_GET['end'];
+//        $pageNumber = $_GET['page'];
+//    }
+//    $dataByDate = file_get_contents("https://api.themoviedb.org/3/discover/tv?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=$pageNumber&primary_release_date.gte=$start&primary_release_date.lte=$end&with_watch_monetization_types=flatrate");
+//    $popularMovieArr = json_decode($dataByDate);
+//    $popularMovieArrResult = $popularMovieArr->results;
+//    print_r($_POST);
+//
+//}
 
+//start and end and sort_by
 if ((isset($_POST['start']) && isset($_POST['end']) && isset($_POST['sort_by']) && empty($_POST['genres'])) || (isset($_GET['start']) && isset($_GET['end']) && isset($_GET['sort_by']) && empty($_GET['genres']))) {
     if ((isset($_POST['start']) && isset($_POST['end']) && isset($_POST['sort_by']))) {
         $start = $_POST['start'];
@@ -75,7 +79,7 @@ if ((isset($_POST['start']) && isset($_POST['end']) && isset($_POST['sort_by']) 
         $pageNumber = $_GET['page'];
         $sort_key = $_GET['sort_by'];
     }
-    $dataByDateAndSort = file_get_contents("https://api.themoviedb.org/3/discover/tv?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US&sort_by=$sort_key&include_adult=false&include_video=false&page=$pageNumber&primary_release_date.gte=$start&primary_release_date.lte=$end&with_watch_monetization_types=flatrate");
+    $dataByDateAndSort = file_get_contents("https://api.themoviedb.org/3/discover/tv?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US&sort_by=$sort_key&first_air_date.gte=$start&first_air_date.lte=$end&page=$pageNumber&timezone=America%2FNew_York&include_null_first_air_dates=false&with_watch_monetization_types=flatrate");
 
     $popularMovieArr = json_decode($dataByDateAndSort);
     $popularMovieArrResult = $popularMovieArr->results;
@@ -83,7 +87,42 @@ if ((isset($_POST['start']) && isset($_POST['end']) && isset($_POST['sort_by']) 
     echo "mi";
 }
 
-if ((isset($_POST['genres']) || isset($_GET['genres'])) && (empty($_POST['start']) && empty($_POST['end']))) {
+
+//start and end and sort_by and genres
+if ((isset($_POST['start']) && isset($_POST['end']) && isset($_POST['sort_by']) && isset($_POST['genres'])) || (isset($_GET['start']) && isset($_GET['end']) && isset($_GET['sort_by']) && isset($_GET['genres']))) {
+    if ((isset($_POST['start']) && isset($_POST['end']) && isset($_POST['sort_by']) && isset($_POST['genres']))) {
+        $start = $_POST['start'];
+        $end = $_POST['end'];
+        $sort_key = $_POST['sort_by'];
+        $ans = [];
+        foreach ($_POST['genres'] as $row){
+            array_push($ans,$row);
+        }
+        $genresIdBeforeUrlCode = join(",",$ans);
+        $genresId = urlencode(join(",",$ans));
+        $pageNumber = 1;
+    } else {
+        $start = $_GET['start'];
+        $end = $_GET['end'];
+        $pageNumber = $_GET['page'];
+        $genresIdBeforeUrl = $_GET['genres'];
+        //string to array
+        $ans = explode(",",$genresIdBeforeUrl);
+        //change string to url format
+        $genresId = urlencode($genresIdBeforeUrl);
+        $sort_key = $_GET['sort_by'];
+    }
+    $dataByDateAndSortAndGenre = file_get_contents("https://api.themoviedb.org/3/discover/tv?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US&sort_by=$sort_key&first_air_date.gte=$start&first_air_date.lte=$end&page=$pageNumber&timezone=America%2FNew_York&with_genres=$genresId&include_null_first_air_dates=false&with_watch_monetization_types=flatrate");
+
+    $popularMovieArr = json_decode($dataByDateAndSortAndGenre);
+    $popularMovieArrResult = $popularMovieArr->results;
+    print_r($_GET);
+    print_r($_POST);
+    echo "mg mg";
+}
+
+//genres and sort_by
+if ((isset($_POST['genres']) && isset($_POST['sort_by']) || isset($_GET['genres']) && isset($_GET['sort_by'])) && (empty($_POST['start']) && empty($_POST['end']))) {
     if (isset($_POST['genres'])) {
         $ans = [];
         foreach ($_POST['genres'] as $row){
@@ -91,19 +130,15 @@ if ((isset($_POST['genres']) || isset($_GET['genres'])) && (empty($_POST['start'
         }
         $genresIdBeforeUrlCode = join(",",$ans);
         $genresId = urlencode(join(",",$ans));
-        $dataByGenres = file_get_contents("https://api.themoviedb.org/3/discover/tv?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=$genresId&with_watch_monetization_types=flatrate");
+        $sort_key = $_POST['sort_by'];
+        $dataByGenres = file_get_contents("https://api.themoviedb.org/3/discover/tv?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US&sort_by=$sort_key&page=1&timezone=America%2FNew_York&with_genres=$genresId&include_null_first_air_dates=false&with_watch_monetization_types=flatrate");
     } else {
-//        $ans = [];
-//        foreach ($_GET['genres'] as $row){
-//            array_push($ans,$row);
-//        }
-
-//        $genresId = urlencode(join(",",$ans));
-        $ans = $_GET['genres'];
-        $genresId = urlencode($ans);
+        $genresIdBeforeUrl = $_GET['genres'];
+        $ans = explode(",",$genresIdBeforeUrl);
+        $genresId = urlencode($genresIdBeforeUrl);
         $sort_key = $_GET['sort_by'];
         $pageNumber = $_GET['page'];
-        $dataByGenres = file_get_contents("https://api.themoviedb.org/3/discover/tv?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US&sort_by=$sort_key&include_adult=false&include_video=false&page=$pageNumber&with_genres=$genresId&with_watch_monetization_types=flatrate");
+        $dataByGenres = file_get_contents("https://api.themoviedb.org/3/discover/tv?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US&sort_by=$sort_key&page=$pageNumber&timezone=America%2FNew_York&with_genres=$genresId&include_null_first_air_dates=false&with_watch_monetization_types=flatrate");
     }
     $popularMovieArr = json_decode($dataByGenres);
 
@@ -111,9 +146,6 @@ if ((isset($_POST['genres']) || isset($_GET['genres'])) && (empty($_POST['start'
     echo "hdd";
     print_r($ans);
 }
-
-
-
 
 
 ?>
@@ -127,7 +159,14 @@ if ((isset($_POST['genres']) || isset($_GET['genres'])) && (empty($_POST['start'
     </div>
     <div class="row">
         <div class="col-12">
-            <h3 class="fw-bolder my-4">Popular Movies</h3>
+            <div class="d-flex justify-content-between align-items-center">
+                <h3 class="fw-bolder my-4">Popular TV Shows</h3>
+                <?php if (isset($_POST['genres']) || isset($_POST['sort_by']) || isset($_POST['start']) || isset($_POST['end']) || isset($_GET['genres']) || isset($_GET['sort_by']) || isset($_GET['start']) || isset($_GET['end']) || isset($_GET['page'])) { ?>
+                    <a href="<?php echo $url; ?>/tv_shows/popular.php" class="btn btn-outline-primary">
+                        Clear Filter and Sort
+                    </a>
+                <?php } ?>
+            </div>
         </div>
         <div class="col-3">
             <form action="" id="filter" method="post">
@@ -177,6 +216,7 @@ if ((isset($_POST['genres']) || isset($_GET['genres'])) && (empty($_POST['start'
                                     <input type="date" name="end" value="<?php echo isset($end) ? $end : '' ; ?>" id="from" class="form-control">
                                 </div>
                                 <hr>
+
                                 <h5>Genres</h5>
                                 <?php foreach ($genresArrResult as $row) { ?>
                                     <?php if (isset($ans)) { ?>
@@ -204,66 +244,73 @@ if ((isset($_POST['genres']) || isset($_GET['genres'])) && (empty($_POST['start'
         </div>
         <div class="col-9">
             <div class="row list-wrapper">
+                <?php if(countTotal($popularMovieArrResult) > 0) { ?>
 
-                <?php foreach ($popularMovieArrResult as $row) { ?>
-                    <div class="mb-4" style="width: 19.5%">
+                    <?php foreach ($popularMovieArrResult as $row) { ?>
+                        <div class="mb-4" style="width: 19.5%">
 
-                        <div class="card h-100 rounded-3">
-                            <?php if (empty($row->poster_path)){ ?>
-                                <a href="<?php echo $url; ?>/movies/movie_detail.php?id=<?php echo $row->id; ?>" ">
-                                <div class="d-flex justify-content-center rounded-top align-items-center bg-secondary" style="height: 239px;">
-                                    <img class="" src="https://img.icons8.com/material-outlined/60/000000/image.png"/>
-                                </div>
-                                </a>
-                            <?php } else { ?>
-                                <a href="<?php echo $url; ?>/tv_shows/tv_shows_detail.php?id=<?php echo $row->id; ?>">
-                                    <img src="https://image.tmdb.org/t/p/w500<?php echo $row->poster_path; ?>" class="rounded-top card-img-top" style="height: 239px; alt="">
-                                </a>
-                            <?php } ?>
+                            <div class="card h-100 rounded-3">
+                                <?php if (empty($row->poster_path)){ ?>
+                                    <a href="<?php echo $url; ?>/movies/movie_detail.php?id=<?php echo $row->id; ?>" ">
+                                    <div class="d-flex justify-content-center rounded-top align-items-center bg-secondary" style="height: 239px;">
+                                        <img class="" src="https://img.icons8.com/material-outlined/60/000000/image.png"/>
+                                    </div>
+                                    </a>
+                                <?php } else { ?>
+                                    <a href="<?php echo $url; ?>/movies/movie_detail.php?id=<?php echo $row->id; ?>">
+                                        <img src="https://image.tmdb.org/t/p/w500<?php echo $row->poster_path; ?>" class="rounded-top card-img-top" style="height: 239px; alt="">
+                                    </a>
+                                <?php } ?>
 
-                            <div class="card-body position-relative pt-4">
-                                <!--                                    percentage circle start-->
-                                <div class="single-chart position-absolute" style="top: -35px; left: 5px">
-                                    <svg viewBox="0 0 36 36" class="circular-chart
+                                <div class="card-body position-relative pt-4">
+                                    <!--                                    percentage circle start-->
+                                    <div class="single-chart position-absolute" style="top: -35px; left: 5px">
+                                        <svg viewBox="0 0 36 36" class="circular-chart
                                         <?php
-                                    $votePercentage = numberFormat($row->vote_average);
-                                    if ($votePercentage <= 40 && $votePercentage > 1) {
-                                        echo "red";
-                                    } elseif ($votePercentage < 70 && $votePercentage >= 40) {
-                                        echo "orange";
-                                    } elseif ($votePercentage >= 70) {
-                                        echo "green";
-                                    } elseif ($votePercentage = 1) {
-                                        echo "";
-                                    }
+                                        $votePercentage = numberFormat($row->vote_average);
+                                        if ($votePercentage <= 40 && $votePercentage > 1) {
+                                            echo "red";
+                                        } elseif ($votePercentage < 70 && $votePercentage >= 40) {
+                                            echo "orange";
+                                        } elseif ($votePercentage >= 70) {
+                                            echo "green";
+                                        } elseif ($votePercentage = 1) {
+                                            echo "";
+                                        }
 
-                                    ?>
+                                        ?>
                                         ">
-                                        <path class="circle-bg"
-                                              d="M18 2.0845
+                                            <path class="circle-bg"
+                                                  d="M18 2.0845
                                               a 15.9155 15.9155 0 0 1 0 31.831
                                               a 15.9155 15.9155 0 0 1 0 -31.831"
-                                        />
-                                        <path class="circle"
-                                              stroke-dasharray="30, 100"
-                                              d="M18 2.0845
+                                            />
+                                            <path class="circle"
+                                                  stroke-dasharray="30, 100"
+                                                  d="M18 2.0845
                                               a 15.9155 15.9155 0 0 1 0 31.831
                                               a 15.9155 15.9155 0 0 1 0 -31.831"
-                                        />
-                                        <text x="18" y="20.35" class="percentage"><?php echo numberFormat($row->vote_average) > 1 ? numberFormat($row->vote_average)."%" : "NR" ; ?></text>
-                                    </svg>
+                                            />
+                                            <text x="18" y="20.35" class="percentage"><?php echo numberFormat($row->vote_average) > 1 ? numberFormat($row->vote_average)."%" : "NR" ; ?></text>
+                                        </svg>
+                                    </div>
+                                    <!--                                    percentage circle end-->
+                                    <a href="" class="title text-decoration-none text-dark">
+                                        <h6 class="card-title"><?php echo $row->name; ?></h6>
+                                    </a>
+                                    <p class="card-text text-black-50"><?php echo showDate($row->first_air_date); ?></p>
                                 </div>
-                                <!--                                    percentage circle end-->
-                                <a href="<?php echo $url; ?>/tv_shows/tv_shows_detail.php?id=<?php echo $row->id; ?>" class="title text-decoration-none text-dark">
-                                    <h6 class="card-title"><?php echo $row->original_name; ?></h6>
-                                </a>
-                                <p class="card-text text-black-50"><?php echo showDate($row->first_air_date); ?></p>
                             </div>
                         </div>
-                    </div>
-                <?php } ?>
+                    <?php } ?>
 
-                <div id="pagination-container" class="align-items-start mt-3 fs"></div>
+                    <div id="pagination-container" class="align-items-start mt-3 fs"></div>
+
+                <?php } else { ?>
+                    <h3 class="alert alert-warning fw-bolder text-center">
+                        Sorry!!!. <br> No content available.😢😢😢
+                    </h3>
+                <?php } ?>
             </div>
         </div>
     </div>

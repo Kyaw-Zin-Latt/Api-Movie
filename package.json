@@ -14,6 +14,7 @@
     "bootstrap": "^5.1.1",
     "image-hover": "^0.8.0",
     "jquery": "^3.6.0",
+    "readmore-js": "^2.2.1",
     "venobox": "^1.9.3"
   }
 }

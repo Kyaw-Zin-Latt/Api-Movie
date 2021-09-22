@@ -3,6 +3,7 @@ require_once "../template/header.php";
 $movieId = $_GET['id'];
 $data = file_get_contents("https://api.themoviedb.org/3/movie/$movieId?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US&append_to_response=videos%2Ccredits%2Creviews%2Crecommendations%2Ckeywords");
 $dataImages = file_get_contents("https://api.themoviedb.org/3/movie/$movieId/images?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US&append_to_response=images&include_image_language=en,null");
+
 $row = json_decode($data);
 $rowDetails = $row;
 $rowGenres = $row->genres;

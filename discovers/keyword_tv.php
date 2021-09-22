@@ -3,21 +3,24 @@ require_once "../template/header.php";
 $keywordId = $_GET['keyword_id'];
 if (isset($_GET['page'])) {
     $pageNumber = $_GET['page'];
-    $dataMoviesByKeyword = file_get_contents("https://api.themoviedb.org/3/discover/movie?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=$pageNumber&with_keywords=$keywordId&with_watch_monetization_types=flatrate");
+    $dataTVByKeyword = file_get_contents("https://api.themoviedb.org/3/discover/tv?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=$pageNumber&with_keywords=$keywordId&with_watch_monetization_types=flatrate");
 
 } elseif (isset($_GET['sort_by'])) {
     $sortKey = $_GET['sort_by'];
-    $dataMoviesByKeyword = file_get_contents("https://api.themoviedb.org/3/discover/movie?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US&sort_by=$sortKey&include_adult=false&include_video=false&page=1&with_keywords=$keywordId&with_watch_monetization_types=flatrate");
+    $dataTVByKeyword = file_get_contents("https://api.themoviedb.org/3/discover/tv?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US&sort_by=$sortKey&include_adult=false&include_video=false&page=1&with_keywords=$keywordId&with_watch_monetization_types=flatrate");
 } else {
-    $dataMoviesByKeyword = file_get_contents("https://api.themoviedb.org/3/discover/movie?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_keywords=$keywordId&with_watch_monetization_types=flatrate");
+    $dataTVByKeyword = file_get_contents("https://api.themoviedb.org/3/discover/tv?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_keywords=$keywordId&with_watch_monetization_types=flatrate");
 
 }
-$dataMoviesByKeywordArr = json_decode($dataMoviesByKeyword);
-$dataMoviesByKeywordArrResult = $dataMoviesByKeywordArr->results;
+
+$dataTVByKeywordArr = json_decode($dataTVByKeyword);
+$dataTVByKeywordArrResult = $dataTVByKeywordArr->results;
 
 $dataKeyword = file_get_contents("https://api.themoviedb.org/3/keyword/$keywordId?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400");
 $rowKeywordArr = json_decode($dataKeyword);
 $rowKeywords = $rowKeywordArr->name;
+
+
 
 
 
@@ -39,7 +42,7 @@ $rowKeywords = $rowKeywordArr->name;
                         <div class="d-flex justify-content-between align-items-center">
                             <h2 class="text-primary"><?php echo $rowKeywords; ?></h2>
                             <h2 class="text-primary">
-                                <?php echo $dataMoviesByKeywordArr->total_results; ?> shows
+                                <?php echo $dataTVByKeywordArr->total_results; ?> shows
                             </h2>
                         </div>
                     </div>
@@ -53,7 +56,7 @@ $rowKeywords = $rowKeywordArr->name;
             <div class="d-flex my-2 justify-content-center align-items-center">
                 <div class="dropdown">
                     <a class="btn me-2 btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                        Movies
+                        TV Shows
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                         <li><a class="dropdown-item" href="<?php echo $url; ?>/discovers/keyword.php?keyword_id=<?php echo $keywordId ?>">Movies</a></li>
@@ -108,20 +111,19 @@ $rowKeywords = $rowKeywordArr->name;
 
 <div class="container">
     <div class="row list-wrapper">
-        <?php foreach ($dataMoviesByKeywordArrResult as $row){ ?>
+        <?php foreach ($dataTVByKeywordArrResult as $row){ ?>
             <div class="col-12">
                 <div class="card mb-3">
                     <div class="row g-0">
-
                         <div class="col-md-1">
                             <?php if (empty($row->poster_path)){ ?>
-                                <a href="<?php echo $url; ?>/movies/movie_detail.php?id=<?php echo $row->id; ?>" ">
+                                <a href="<?php echo $url; ?>/tv_shows/tv_shows_detail.php?id=<?php echo $row->id; ?>" ">
                                 <div class="d-flex justify-content-center rounded-top align-items-center bg-secondary" style="height: 141px;">
                                     <img class="" src="https://img.icons8.com/material-outlined/40/000000/image.png"/>
                                 </div>
                                 </a>
                             <?php } else { ?>
-                                <a href="<?php echo $url; ?>/movies/movie_detail.php?id=<?php echo $row->id; ?>" class="text-black text-decoration-none">
+                                <a href="<?php echo $url; ?>/tv_shows/tv_shows_detail.php?id=<?php echo $row->id; ?>" class="text-black text-decoration-none">
                                     <img class="rounded-start img-fluid" src="https://image.tmdb.org/t/p/w94_and_h141_bestv2<?php echo $row->poster_path; ?>" alt="">
                                 </a>
                             <?php } ?>
@@ -129,9 +131,9 @@ $rowKeywords = $rowKeywordArr->name;
                         <div class="col-md-11">
                             <div class="rounded card-body py-2">
                                 <a href="<?php echo $url; ?>/movies/movie_detail.php?id=<?php echo $row->id; ?>" class="text-black text-decoration-none">
-                                    <h5 class="title card-title fw-bolder mb-0"><?php echo $row->title; ?></h5>
+                                    <h5 class="title card-title fw-bolder mb-0"><?php echo $row->name; ?></h5>
                                 </a>
-                                <p class="card-text text-black-50"><?php echo showDate($row->release_date); ?></p>
+                                <p class="card-text text-black-50"><?php echo showDate($row->first_air_date); ?></p>
                                 <p class="card-text"><?php echo short($row->overview,250); ?> <?php echo (strlen($row->overview) >= 250) ? "..." : " " ?></p>
                             </div>
                         </div>
@@ -159,11 +161,11 @@ $rowKeywords = $rowKeywordArr->name;
                     items: 0,
                     itemsOnPage: 0,
                     pages: 0,
-                    displayedPages: 5,
+                    displayedPages: <?php echo $dataTVByKeywordArr->total_pages; ?>,
                     edges: 2,
                     currentPage: 0,
                     hrefTextPrefix: '?page=',
-                    hrefTextSuffix: '&keyword_id=<?php echo $keywordId ?>&movie_id=<?php echo $movieId ?>',
+                    hrefTextSuffix: '&keyword_id=<?php echo $keywordId ?>',
                     prevText: 'Prev',
                     nextText: 'Next',
                     ellipseText: '&hellip;',
@@ -381,7 +383,7 @@ $rowKeywords = $rowKeywordArr->name;
     // jquery.pagination.file.custom end
 
     let items = $(".list-wrapper .list-item");
-    let numItems = 10000;
+    let numItems = <?php echo $dataTVByKeywordArr->total_results; ?>;
     let perPage = 20;
 
     items.slice(perPage).hide();

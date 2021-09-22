@@ -131,7 +131,7 @@ $PeopleSearchResultArr = $PeopleSearchArr->results;
                                             <div class="card mb-3 shadow">
                                                 <div class="row g-0">
                                                     <div class="col-md-2">
-                                                        <a href="<?php ?>/movies/movie_detail.php?id=<?php echo $row->id; ?>">
+                                                        <a href="<?php ?>/tv_shows/tv_shows_detail.php?id=<?php echo $row->id; ?>">
                                                             <?php if ($row->poster_path == null){ ?>
                                                                 <div class="d-flex justify-content-center rounded-start align-items-center bg-secondary mb-0" style="height: 141px; width: 94px">
                                                                     <img class="" src="https://img.icons8.com/material-outlined/40/000000/image.png"/>
@@ -143,7 +143,7 @@ $PeopleSearchResultArr = $PeopleSearchArr->results;
                                                     </div>
                                                     <div class="col-md-10">
                                                         <div class="rounded-start card-body py-2">
-                                                            <a href="<?php echo $url; ?>/movies/movie_detail.php?id=<?php echo $row->id; ?>" class="text-black text-decoration-none">
+                                                            <a href="<?php echo $url; ?>/tv_shows/tv_shows_detail.php?id=<?php echo $row->id; ?>" class="text-black text-decoration-none">
                                                                 <h5 class="title card-title fw-bolder mb-0"><?php echo $row->name; ?></h5>
                                                             </a>
                                                             <p class="card-text text-black-50"><?php echo showDate($row->first_air_date); ?></p>

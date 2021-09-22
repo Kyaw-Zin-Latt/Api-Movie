@@ -9,6 +9,9 @@ $rowLanguage = json_decode($dataLanguages);
 $rowDetails = $row;
 $rowGenres = $row->genres;
 
+$currentSeason = end($rowDetails->seasons);
+
+
 $rowKeywords = $row->keywords->results;
 
 $dataVideoResult = $row->videos->results;
@@ -52,73 +55,7 @@ $dataMostPopularPoster = reset($dataImagesPostersArr);
         <?php require_once "../components/navbar.php"; ?>
         <!--        navbar end          -->
     </div>
-    <div class="row">
-        <div class="col-12">
-            <div class="d-flex my-2 justify-content-center align-items-center">
-                <div class="dropdown">
-                    <a class="btn me-2 btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                        Overview
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                        <li><a class="dropdown-item" href="<?php echo $url; ?>/movies/movie_detail.php?id=<?php echo $tvId; ?>">Main</a></li>
-                        <!--                            <li><a class="dropdown-item" href="#">Alernative Title</a></li>-->
-                        <li><a class="dropdown-item" href="<?php echo $url; ?>/movies/cast_and_crew.php/?id=<?php echo $tvId; ?>">Cast & Crew</a></li>
-                        <!--                            <li><a class="dropdown-item" href="#">Release Dates</a></li>-->
-                        <!--                            <li><a class="dropdown-item" href="#">Translations</a></li>-->
-                        <!--                            <li><hr class="dropdown-divider"></li>-->
-                        <!--                            <li><a class="dropdown-item" href="#">Changes</a></li>-->
-                        <!--                            <li><a class="dropdown-item" href="#">Report</a></li>-->
-                        <!--                            <li><a class="dropdown-item" href="#">Edit</a></li>-->
-                    </ul>
-                </div>
-                <div class="dropdown">
-                    <a class="btn me-2 btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                        Media
-                    </a>
-
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                        <li>
-                            <a class="dropdown-item" href="<?php echo $url; ?>/movies/backdrops.php/?id=<?php echo $tvId; ?>">
-                                Backdrops <?php echo countTotal($dataImagesBackdropsArr); ?>
-                            </a>
-                        </li>
-                        <!--                            <li><a class="dropdown-item" href="#">Logos</a></li>-->
-                        <li>
-                            <a class="dropdown-item" href="<?php echo $url; ?>/movies/posters.php/?id=<?php echo $tvId; ?>">
-                                Posters <?php echo countTotal($dataImagesPostersArr); ?>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="<?php echo $url; ?>/movies/videos.php/?id=<?php echo $tvId; ?>">
-                                Videos <?php echo countTotal($dataVideosResult); ?>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="dropdown">
-                    <a class="btn me-2 btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                        Fandom
-                    </a>
-
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                        <li><a class="dropdown-item" href="#">Discussions</a></li>
-                        <li><a class="dropdown-item" href="#">Reviews</a></li>
-                    </ul>
-                </div>
-                <div class="dropdown">
-                    <a class="btn me-2 btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                        Share
-                    </a>
-
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                        <li><a class="dropdown-item" href="#">Share Link</a></li>
-                        <li><a class="dropdown-item" href="#">Facebook</a></li>
-                        <li><a class="dropdown-item" href="#">Tweet</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
+    <?php require_once "../components/header_dropdown_tv.php"; ?>
 </div>
 <div class="h-100 cp-0" style="border-bottom: 1px solid #1b161a; background-position: right -200px top; background-size: cover; background-repeat: no-repeat; background-image: url('https://image.tmdb.org/t/p/w500<?php echo $row->backdrop_path; ?>'); width: 100%;position: relative;z-index: 1;height: 550px !important;">
     <div class="cp-0" style="height: 550px  ;background-image: linear-gradient(to right, rgba(10.59%, 8.63%, 10.20%, 1.00) 150px, rgba(10.59%, 8.63%, 10.20%, 0.84) 100%);">
@@ -142,12 +79,12 @@ $dataMostPopularPoster = reset($dataImagesPostersArr);
                                      &nbsp;
                                      <i class="fas fa-layer-group text-primary"></i>
                                     <?php foreach ($rowGenres as $rg){ ?>
-                                        <a href="<?php echo $url; ?>/discovers/action.php?id=<?php echo $rg->id; ?>" class="text-white text-decoration-none"><?php echo $rg->name; ?> ,</a>
+                                        <a href="<?php echo $url; ?>/discovers/genre_tv.php?id=<?php echo $rg->id; ?>" class="text-white text-decoration-none"><?php echo $rg->name; ?> ,</a>
                                     <?php } ?>
                                      &nbsp;
                                 </span>
                             <span class="text-white">
-                                    <i class="fas fa-clock text-primary"></i> <?php echo minToHour(array_sum($row->episode_run_time)); ?>
+                                    <i class="fas fa-clock text-primary"></i> <?php echo minToHour(current($row->episode_run_time)); ?>
                                 </span>
                             <span></span>
                         </div>
@@ -219,54 +156,92 @@ $dataMostPopularPoster = reset($dataImagesPostersArr);
     </div>
 </div>
 <div class="container">
-    <div class="row">
+    <div class="row my-3">
         <div class="col-9">
 
             <!--                series cast start-->
-            <h4 class="my-3 fw-bolder">
-                Series Cast
-            </h4>
-            <div class="row g-2 card-no-wrap mb-2">
-                <?php foreach ($dataSlicedPeopleArr as $rpc){ ?>
-                    <div class="col-2">
-                        <div class="card mb-2 h-100">
-                            <a href="<?php echo $url; ?>/person/person_detail.php?person_id=<?php echo $rpc->id; ?>">
-                                <img src="https://image.tmdb.org/t/p/w235_and_h235_face<?php echo $rpc->profile_path; ?>" class="rounded-3 card-img-top" alt="">
-                            </a>
-                            <div class="p-1">
-                                <a href="<?php echo $url; ?>/person/person_detail.php?person_id=<?php echo $rpc->id; ?>" class="text-decoration-none text-nowrap text-dark fw-bolder card-text">
-                                    <small><?php echo $rpc->original_name; ?></small>
+            <div class="my-3">
+                <h4 class="my-3 fw-bolder">
+                    Series Cast
+                </h4>
+                <div class="row g-2 card-no-wrap mb-2">
+                    <?php foreach ($dataSlicedPeopleArr as $rpc){ ?>
+                        <div class="col-2">
+                            <div class="card mb-2 h-100">
+                                <a href="<?php echo $url; ?>/person/person_detail.php?person_id=<?php echo $rpc->id; ?>">
+                                    <img src="https://image.tmdb.org/t/p/w235_and_h235_face<?php echo $rpc->profile_path; ?>" class="rounded-3 card-img-top" alt="">
                                 </a>
-                                <?php
-                                $episodes = 0;
-                                $character = [];
-                                foreach ($rpc->roles as $role) {
-                                    $episodes += $role->episode_count;
-                                    array_push($character, $role->character);
-                                }
-                                ?>
-                                <small class=""><?php echo implode(",",$character); ?></small>
-                                <br><small class="text-black-50"><?php echo $episodes ; ?> Eposides</small>
+                                <div class="p-1">
+                                    <a href="<?php echo $url; ?>/person/person_detail.php?person_id=<?php echo $rpc->id; ?>" class="text-decoration-none text-nowrap text-dark fw-bolder card-text">
+                                        <small><?php echo $rpc->original_name; ?></small>
+                                    </a>
+                                    <?php
+                                    $episodes = 0;
+                                    $character = [];
+                                    foreach ($rpc->roles as $role) {
+                                        $episodes += $role->episode_count;
+                                        array_push($character, $role->character);
+                                    }
+                                    ?>
+                                    <small class=""><?php echo implode(",",$character); ?></small>
+                                    <br><small class="text-black-50"><?php echo $episodes ; ?> Eposides</small>
+                                </div>
+                            </div>
+                        </div>
+
+                    <?php } ?>
+                    <div class="col-2 mb-2">
+                        <div class="card h-100">
+                            <div class="card-body d-flex">
+                                <p class="d-flex align-items-center">
+                                    <a href="<?php echo $url; ?>/tv_shows/series_cast_and_crew.php/?id=<?php echo $tvId; ?>" class="text-dark text-decoration-none fw-bolder">View More <i class="text-dark fas fa-arrow-right"></i></a>
+                                </p>
                             </div>
                         </div>
                     </div>
+                </div>
+                <a class="text-decoration-none text-black " href="<?php echo $url; ?>/tv_shows/series_cast_and_crew.php/?id=<?php echo $tvId; ?>">
+                    <p class="fw-bolder">Full Cast & Crew</p>
+                </a>
+                <hr>
+            </div>
+            <!--                series cast end-->
 
-                <?php } ?>
-                <div class="col-2 mb-2">
-                    <div class="card h-100">
-                        <div class="card-body d-flex">
-                            <p class="d-flex align-items-center">
-                                <a href="<?php echo $url; ?>/tv_shows/series_cast_and_crew.php/?id=<?php echo $tvId; ?>" class="text-dark text-decoration-none fw-bolder">View More <i class="text-dark fas fa-arrow-right"></i></a>
-                            </p>
+            <!--            current season start-->
+            <div class="mb-3">
+                <h4 class="my-3 fw-bolder">
+                    Current Season
+                </h4>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card mb-3 shadow">
+                            <div class="row g-0 align-items-center">
+                                <div class="col-md-2">
+                                    <img class="rounded img-fluid" src="https://image.tmdb.org/t/p/w260_and_h390_bestv2<?php echo $currentSeason->poster_path; ?>" alt="">
+                                </div>
+                                <div class="col-md-10">
+                                    <div class="rounded card-body py-2">
+                                        <a href="<?php echo $url; ?>/tv_shows/season.php?id=<?php echo $tvId; ?>&season_number=<?php echo $currentSeason->season_number; ?>" class="text-black text-decoration-none">
+                                            <h4 class="title card-title fw-bolder mb-0"><?php echo $currentSeason->name; ?></h4>
+                                        </a>
+                                        <div class="mb-4">
+                                            <p class="card-text text-black fw-bolder">
+                                                <?php echo showDate($currentSeason->air_date,"Y"); ?> | <?php echo $currentSeason->episode_count; ?> Episodes
+                                            </p>
+                                        </div>
+                                        <p class="card-text"><?php echo $currentSeason->name ?> of <?php echo $rowDetails->name; ?>  premiered on <?php echo showDate($currentSeason->air_date); ?></p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <a class="text-decoration-none text-black " href="<?php echo $url; ?>/tv_shows/seasons.php/?id=<?php echo $tvId; ?>">
+                    <p class="fw-bolder">View All Seasons</p>
+                </a>
+                <hr>
             </div>
-            <a class="text-decoration-none text-black " href="<?php echo $url; ?>/tv_shows/series_cast_and_crew.php/?id=<?php echo $tvId; ?>">
-                <p class="fw-bolder">Full Cast & Crew</p>
-            </a>
-            <hr>
-            <!--                series cast end-->
+            <!--            current season end-->
 
             <!--                social start-->
             <div class="">
@@ -287,7 +262,9 @@ $dataMostPopularPoster = reset($dataImagesPostersArr);
                             <div class="card shadow rounded-3">
                                 <div class="card-body">
                                     <div class="d-flex align-items-center">
-                                        <img class="rounded-circle" src="<?php echo substr($dataReviewSlicedResult[0]->author_details->avatar_path,1); ?>" alt="">
+                                        <?php foreach ($dataReviewSlicedResult as $row) { ?>
+                                            <img class="rounded-circle" src="https://image.tmdb.org/t/p/w64_and_h64_face<?php echo $row->author_details->avatar_path; ?>" alt="">
+                                        <?php } ?>
                                         <div class="ms-3">
                                             <h4 class="mb-0">
                                                 <a href="" class="text-decoration-none text-black">A review by <?php echo $dataReviewSlicedResult[0]->author;  ?></a>
@@ -308,7 +285,7 @@ $dataMostPopularPoster = reset($dataImagesPostersArr);
 
                         <?php } else { ?>
                             <p class="my-3">
-                                We don't have any reviews for <?php echo $row->original_name; ?>
+                                We don't have any reviews for <?php echo $rowDetails->original_name; ?>
                             </p>
                         <?php } ?>
                     </div>
@@ -374,14 +351,14 @@ $dataMostPopularPoster = reset($dataImagesPostersArr);
                                     <div class="card h-100">
                                         <div class="card-body d-flex">
                                             <p class="d-flex align-items-center">
-                                                <a href="<?php echo $url; ?>/movies/videos.php/?id=<?php echo $tvId; ?>" class="text-dark text-decoration-none fw-bolder">View More <i class="text-dark fas fa-arrow-right"></i></a>
+                                                <a href="<?php echo $url; ?>/tv_shows/videos.php/?id=<?php echo $tvId; ?>" class="text-dark text-decoration-none fw-bolder">View More <i class="text-dark fas fa-arrow-right"></i></a>
                                             </p>
                                         </div>
                                     </div>
                                 </div>
                             <?php } ?>
                         </div>
-                        <a class="mt-3 c-hover text-decoration-none text-black " href="<?php echo $url; ?>/movies/videos.php/?id=<?php echo $tvId; ?>">
+                        <a class="mt-3 c-hover text-decoration-none text-black " href="<?php echo $url; ?>/tv_shows/videos.php/?id=<?php echo $tvId; ?>">
                             <p class="mt-3 fw-bolder">View All Videos</p>
                         </a>
                     </div>
@@ -397,14 +374,14 @@ $dataMostPopularPoster = reset($dataImagesPostersArr);
                                     <div class="card h-100">
                                         <div class="card-body d-flex">
                                             <p class="d-flex align-items-center">
-                                                <a href="<?php echo $url; ?>/movies/backdrops.php/?id=<?php echo $tvId; ?>" class="text-dark text-decoration-none fw-bolder">View More <i class="text-dark fas fa-arrow-right"></i></a>
+                                                <a href="<?php echo $url; ?>/tv_shows/backdrops.php/?id=<?php echo $tvId; ?>" class="text-dark text-decoration-none fw-bolder">View More <i class="text-dark fas fa-arrow-right"></i></a>
                                             </p>
                                         </div>
                                     </div>
                                 </div>
                             <?php } ?>
                         </div>
-                        <a class="mt-3 c-hover text-decoration-none text-black " href="<?php echo $url; ?>/movies/backdrops.php/?id=<?php echo $tvId; ?>">
+                        <a class="mt-3 c-hover text-decoration-none text-black " href="<?php echo $url; ?>/tv_shows/backdrops.php/?id=<?php echo $tvId; ?>">
                             <p class="mt-3 fw-bolder">View All Backdrops</p>
                         </a>
                     </div>
@@ -420,14 +397,14 @@ $dataMostPopularPoster = reset($dataImagesPostersArr);
                                     <div class="card h-100">
                                         <div class="card-body d-flex">
                                             <p class="d-flex align-items-center">
-                                                <a href="<?php echo $url; ?>/movies/posters.php/?id=<?php echo $tvId; ?>" class="text-dark text-decoration-none fw-bolder">View More <i class="text-dark fas fa-arrow-right"></i></a>
+                                                <a href="<?php echo $url; ?>/tv_shows/posters.php/?id=<?php echo $tvId; ?>" class="text-dark text-decoration-none fw-bolder">View More <i class="text-dark fas fa-arrow-right"></i></a>
                                             </p>
                                         </div>
                                     </div>
                                 </div>
                             <?php } ?>
                         </div>
-                        <a class="mt-3 c-hover text-decoration-none text-black " href="<?php echo $url; ?>/movies/posters.php/?id=<?php echo $tvId; ?>">
+                        <a class="mt-3 c-hover text-decoration-none text-black " href="<?php echo $url; ?>/tv_shows/posters.php/?id=<?php echo $tvId; ?>">
                             <p class="mt-3 fw-bolder">View All Posters</p>
                         </a>
                     </div>
@@ -484,8 +461,8 @@ $dataMostPopularPoster = reset($dataImagesPostersArr);
                     <p class="fw-bolder mb-0">Network</p>
                     <?php foreach ($rowDetails->networks as $row) { ?>
                         <a href="<?php echo $url; ?>/discovers/keyword.php?movie_id=<?php echo $tvId; ?>&keyword_id=" class="text-decoration-none">
-                            <img src="https://image.tmdb.org/t/p/h30<?php echo $row->logo_path;?>" alt="">
-                        </a>
+                            <img class="mb-2" src="https://image.tmdb.org/t/p/h30<?php echo $row->logo_path;?>" alt="">
+                        </a><br>
                     <?php } ?>
                 </div>
                 <div class="mb-3">
@@ -509,7 +486,7 @@ $dataMostPopularPoster = reset($dataImagesPostersArr);
                 <div class="mb-3">
                     <p class="fw-bolder mb-0">Keywords</p>
                     <?php foreach ($rowKeywords as $keyword) { ?>
-                        <a href="<?php echo $url; ?>/discovers/keyword.php?movie_id=<?php echo $tvId; ?>&keyword_id=<?php echo $keyword->id; ?>" class="text-decoration-none">
+                        <a href="<?php echo $url; ?>/discovers/keyword_tv.php?tv_id=<?php echo $tvId; ?>&keyword_id=<?php echo $keyword->id; ?>" class="text-decoration-none">
                             <p class="mb-1 p-2 badge bg-primary rounded"><?php echo $keyword->name; ?></p>
                         </a>
                     <?php } ?>
@@ -521,6 +498,8 @@ $dataMostPopularPoster = reset($dataImagesPostersArr);
 
 <?php require_once "../template/footer.php"; ?>
 <script src="<?php echo $url; ?>/node_modules/venobox/venobox/venobox.min.js"></script>
+<script src="<?php echo $url; ?>/node_modules/image-hover/"></script>
+
 <script>
     $(document).ready(function(){
         $('.venobox').venobox({

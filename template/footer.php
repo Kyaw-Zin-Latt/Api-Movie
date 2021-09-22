@@ -2,6 +2,8 @@
 <script src="<?php echo $url; ?>/node_modules/jquery/dist/jquery.min.js"></script>
 <script src="<?php echo $url; ?>/node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
 <script src="<?php echo $url; ?>/assets/js/jquery.simplePagination.js"></script>
+
+
 <script>
     // pagination start
 

@@ -1,23 +1,19 @@
 <?php
 require_once "../template/header.php";
-$keywordId = $_GET['keyword_id'];
-if (isset($_GET['page'])) {
-    $pageNumber = $_GET['page'];
-    $dataMoviesByKeyword = file_get_contents("https://api.themoviedb.org/3/discover/movie?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=$pageNumber&with_keywords=$keywordId&with_watch_monetization_types=flatrate");
+$tvId = $_GET['id'];
+$seasonNumber= $_GET['season_number'];
+$data = file_get_contents("https://api.themoviedb.org/3/tv/$tvId/season/$seasonNumber?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US");
+$dataEpisodes = json_decode($data);
+$dataEpisodesArr = $dataEpisodes->episodes;
 
-} elseif (isset($_GET['sort_by'])) {
-    $sortKey = $_GET['sort_by'];
-    $dataMoviesByKeyword = file_get_contents("https://api.themoviedb.org/3/discover/movie?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US&sort_by=$sortKey&include_adult=false&include_video=false&page=1&with_keywords=$keywordId&with_watch_monetization_types=flatrate");
-} else {
-    $dataMoviesByKeyword = file_get_contents("https://api.themoviedb.org/3/discover/movie?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_keywords=$keywordId&with_watch_monetization_types=flatrate");
-
+if (isset($_GET['sort_by'])){
+    $sortBy = $_GET['sort_by'];
+    if ($sortBy == 'episode_number.asc') {
+        $dataEpisodesArr = $dataEpisodes->episodes;
+    } else {
+        $dataEpisodesArr = array_reverse($dataEpisodesArr);
+    }
 }
-$dataMoviesByKeywordArr = json_decode($dataMoviesByKeyword);
-$dataMoviesByKeywordArrResult = $dataMoviesByKeywordArr->results;
-
-$dataKeyword = file_get_contents("https://api.themoviedb.org/3/keyword/$keywordId?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400");
-$rowKeywordArr = json_decode($dataKeyword);
-$rowKeywords = $rowKeywordArr->name;
 
 
 
@@ -31,35 +27,91 @@ $rowKeywords = $rowKeywordArr->name;
         <?php require_once "../components/navbar.php"; ?>
         <!--        navbar end          -->
     </div>
-    <div class="row bg-dark py-3">
+    <div class="row">
         <div class="col-12">
+            <div class="d-flex my-2 justify-content-center align-items-center">
+                <div class="dropdown">
+                    <a class="btn me-2 btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                        Overview
+                    </a>
+
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <li><a class="dropdown-item" href="#">Main</a></li>
+                        <li><a class="dropdown-item" href="#">Alernative Title</a></li>
+                        <li><a class="dropdown-item" href="#">Cast & Crew</a></li>
+                        <li><a class="dropdown-item" href="#">Release Dates</a></li>
+                        <li><a class="dropdown-item" href="#">Translations</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#">Changes</a></li>
+                        <li><a class="dropdown-item" href="#">Report</a></li>
+                        <li><a class="dropdown-item" href="#">Edit</a></li>
+                    </ul>
+                </div>
+                <div class="dropdown">
+                    <a class="btn me-2 btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                        Media
+                    </a>
+
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <li><a class="dropdown-item" href="#">Backdrops</a></li>
+                        <li><a class="dropdown-item" href="#">Logos</a></li>
+                        <li><a class="dropdown-item" href="#">Posters</a></li>
+                        <li><a class="dropdown-item" href="#">Videos</a></li>
+                    </ul>
+                </div>
+                <div class="dropdown">
+                    <a class="btn me-2 btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                        Fandom
+                    </a>
+
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <li><a class="dropdown-item" href="#">Discussions</a></li>
+                        <li><a class="dropdown-item" href="#">Reviews</a></li>
+                    </ul>
+                </div>
+                <div class="dropdown">
+                    <a class="btn me-2 btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                        Share
+                    </a>
+
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <li><a class="dropdown-item" href="#">Share Link</a></li>
+                        <li><a class="dropdown-item" href="#">Facebook</a></li>
+                        <li><a class="dropdown-item" href="#">Tweet</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 bg-dark">
             <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <h2 class="text-primary"><?php echo $rowKeywords; ?></h2>
-                            <h2 class="text-primary">
-                                <?php echo $dataMoviesByKeywordArr->total_results; ?> shows
+                <div class="row py-2">
+                    <div class="col-12 d-flex align-items-center">
+                        <img class="img-fluid rounded-3" src="https://image.tmdb.org/t/p/w58_and_h87_bestv2<?php echo $dataEpisodes->poster_path; ?>" alt="">
+                        <div class="ms-3">
+                            <h2 class="fw-bolder text-white">
+                                <?php echo $dataEpisodes->name; ?>
+                                <span class="text-white-50">(<?php echo showDate($dataEpisodes->air_date,"Y"); ?>)</span>
                             </h2>
+                            <a href="<?php echo $url; ?>/tv_shows/seasons.php?id=<?php echo $tvId; ?>" class="text-decoration-none text-white-50">
+                                <i class="fas fa-arrow-left"></i> <p class="d-inline-block">Back to Season List</p>
+                            </a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <hr class="m-0">
-    <div class="row">
+</div>
+
+<div class="container">
+    <div class="row list-wrapper">
         <div class="col-12">
-            <div class="d-flex my-2 justify-content-center align-items-center">
-                <div class="dropdown">
-                    <a class="btn me-2 btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                        Movies
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                        <li><a class="dropdown-item" href="<?php echo $url; ?>/discovers/keyword.php?keyword_id=<?php echo $keywordId ?>">Movies</a></li>
-                        <li><a class="dropdown-item" href="<?php echo $url; ?>/discovers/keyword_tv.php?keyword_id=<?php echo $keywordId ?>">TV Shows</a></li>
-                    </ul>
-                </div>
+            <div class="d-flex justify-content-between align-items-center mt-3 mb-2">
+                <h5 class="fw-bolder">
+                    Episodes <span class="text-black-50"><?php echo countTotal($dataEpisodesArr); ?></span>
+                </h5>
                 <div class="dropdown">
                     <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuClickableInside" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
                         Sort
@@ -68,33 +120,22 @@ $rowKeywords = $rowKeywordArr->name;
                         <li>
                             <div class="btn-group dropend w-100">
                                 <button type="button" class="w-100 btn btn-light dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Popularity
+                                    Episode Number
                                 </button>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="?sort_by=popularity.asc&keyword_id=<?php echo $keywordId; ?>">Ascending</a></li>
-                                    <li><a class="dropdown-item" href="?sort_by=popularity.desc&keyword_id=<?php echo $keywordId; ?>">Descending</a></li>
+                                    <li><a class="dropdown-item <?php echo $sortBy=='episode_number.asc' ? 'active' : '' ?>" href="<?php echo $url; ?>/tv_shows/season.php?id=<?php echo $tvId ?>&season_number=<?php echo $seasonNumber ?>&sort_by=episode_number.asc">Ascending</a></li>
+                                    <li><a class="dropdown-item <?php echo $sortBy=='episode_number.desc' ? 'active' : '' ?>" href="<?php echo $url; ?>/tv_shows/season.php?id=<?php echo $tvId ?>&season_number=<?php echo $seasonNumber ?>&sort_by=episode_number.desc">Descending</a></li>
                                 </ul>
                             </div>
                         </li>
                         <li>
                             <div class="btn-group dropend w-100">
                                 <button type="button" class="w-100 btn btn-light dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Rating
+                                    Air Date
                                 </button>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="?sort_by=vote_average.desc&keyword_id=<?php echo $keywordId; ?>">Ascending</a></li>
-                                    <li><a class="dropdown-item" href="?sort_by=vote_average.asc&keyword_id=<?php echo $keywordId; ?>">Descending</a></li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="btn-group dropend w-100">
-                                <button type="button" class="w-100 btn btn-light dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Release Date
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="?sort_by=first_air_date.asc&keyword_id=<?php echo $keywordId; ?>">Ascending</a></li>
-                                    <li><a class="dropdown-item" href="?sort_by=first_air_date.desc&keyword_id=<?php echo $keywordId; ?>">Descending</a></li>
+                                    <li><a class="dropdown-item <?php echo $sortBy=='episode_number.asc' ? 'active' : '' ?>" href="<?php echo $url; ?>/tv_shows/season.php?id=<?php echo $tvId ?>&season_number=<?php echo $seasonNumber ?>&sort_by=episode_number.asc">Ascending</a></li>
+                                    <li><a class="dropdown-item <?php echo $sortBy=='episode_number.desc' ? 'active' : '' ?>" href="<?php echo $url; ?>/tv_shows/season.php?id=<?php echo $tvId ?>&season_number=<?php echo $seasonNumber ?>&sort_by=episode_number.desc">Descending</a></li>
                                 </ul>
                             </div>
                         </li>
@@ -102,36 +143,29 @@ $rowKeywords = $rowKeywordArr->name;
                 </div>
             </div>
         </div>
-    </div>
-    <hr class="mt-0">
-</div>
-
-<div class="container">
-    <div class="row list-wrapper">
-        <?php foreach ($dataMoviesByKeywordArrResult as $row){ ?>
+        <?php foreach ($dataEpisodesArr as $row){ ?>
             <div class="col-12">
                 <div class="card mb-3">
                     <div class="row g-0">
-
-                        <div class="col-md-1">
-                            <?php if (empty($row->poster_path)){ ?>
+                        <div class="col-md-2">
+                            <?php if (empty($row->still_path)){ ?>
                                 <a href="<?php echo $url; ?>/movies/movie_detail.php?id=<?php echo $row->id; ?>" ">
-                                <div class="d-flex justify-content-center rounded-top align-items-center bg-secondary" style="height: 141px;">
-                                    <img class="" src="https://img.icons8.com/material-outlined/40/000000/image.png"/>
+                                <div class="d-flex justify-content-center rounded-top align-items-center bg-secondary" style="height: 127px;">
+                                    <img class="" src="https://img.icons8.com/material-outlined/60/000000/image.png"/>
                                 </div>
                                 </a>
                             <?php } else { ?>
-                                <a href="<?php echo $url; ?>/movies/movie_detail.php?id=<?php echo $row->id; ?>" class="text-black text-decoration-none">
-                                    <img class="rounded-start img-fluid" src="https://image.tmdb.org/t/p/w94_and_h141_bestv2<?php echo $row->poster_path; ?>" alt="">
+                                <a href="<?php echo $url; ?>/movies/movie_detail.php?id=<?php echo $row->id; ?>">
+                                    <img class="rounded img-fluid" src="https://image.tmdb.org/t/p/w227_and_h127_bestv2<?php echo $row->still_path; ?>" alt="">
                                 </a>
                             <?php } ?>
                         </div>
-                        <div class="col-md-11">
+                        <div class="col-md-10">
                             <div class="rounded card-body py-2">
                                 <a href="<?php echo $url; ?>/movies/movie_detail.php?id=<?php echo $row->id; ?>" class="text-black text-decoration-none">
-                                    <h5 class="title card-title fw-bolder mb-0"><?php echo $row->title; ?></h5>
+                                    <h5 class="title card-title fw-bolder mb-0"><?php echo $row->episode_number ?> <?php echo $row->name; ?></h5>
                                 </a>
-                                <p class="card-text text-black-50"><?php echo showDate($row->release_date); ?></p>
+                                <p class="card-text text-black-50"><?php echo showDate($row->air_date); ?></p>
                                 <p class="card-text"><?php echo short($row->overview,250); ?> <?php echo (strlen($row->overview) >= 250) ? "..." : " " ?></p>
                             </div>
                         </div>
@@ -163,7 +197,7 @@ $rowKeywords = $rowKeywordArr->name;
                     edges: 2,
                     currentPage: 0,
                     hrefTextPrefix: '?page=',
-                    hrefTextSuffix: '&keyword_id=<?php echo $keywordId ?>&movie_id=<?php echo $movieId ?>',
+                    hrefTextSuffix: '&id=<?php echo $tvId ?>',
                     prevText: 'Prev',
                     nextText: 'Next',
                     ellipseText: '&hellip;',

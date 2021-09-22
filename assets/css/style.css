@@ -17,10 +17,11 @@ section.home {
     background-position: 50% 200px;
     background-repeat: no-repeat;
 }
-.list-wrapper, .list-wrapper1 {
 
-    overflow: hidden;
-}
+/*.dropdown:hover .dropdown-menu  {*/
+/*    display: block !important;*/
+/*}*/
+
 
 .simple-pagination ul, .simple-pagination1 ul {
 
