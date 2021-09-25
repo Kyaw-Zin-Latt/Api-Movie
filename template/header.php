@@ -1,4 +1,5 @@
 <?php include_once "../core/base.php";?>
+
 <?php require_once "../function.php"; ?>
 <!doctype html>
 <html lang="en">

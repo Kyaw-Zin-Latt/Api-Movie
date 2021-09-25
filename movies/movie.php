@@ -5,22 +5,31 @@ $dataGenres = file_get_contents("https://api.themoviedb.org/3/genre/movie/list?a
 $genresArr = json_decode($dataGenres);
 $genresArrResult = $genresArr->genres;
 
+//nothing
+if (empty($_GET['page']) && empty($_POST['sort_by']) && empty($_GET['sort_by']) && empty($_POST['start']) && empty($_POST['end']) && empty($_POST['genres']) && empty($_GET['genres']) && empty($_POST['year']) && empty($_GET ['year'])){
+
+    $dataBySort = file_get_contents("https://api.themoviedb.org/3/discover/movie?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_watch_monetization_types=flatrate");
+    $popularMovieArr = json_decode($dataBySort);
+    $popularMovieArrResult = $popularMovieArr->results;
+
+}
+
 //page
-if (isset($_GET['page']) && (empty($_POST['sort_by']) && empty($_GET['sort_by']) && empty($_POST['start']) && empty($_POST['end']) && empty($_GET['start']) && empty($_GET['end']) && empty($_POST['genres']) && empty($_GET ['genres']))) {
+if (isset($_GET['page']) && (empty($_POST['sort_by']) && empty($_GET['sort_by']) && empty($_POST['start']) && empty($_POST['end']) && empty($_GET['start']) && empty($_GET['end']) && empty($_POST['genres']) && empty($_GET ['genres']) && empty($_POST['year']) && empty($_GET ['year']))) {
     $pageNumber = $_GET['page'];
     $data = file_get_contents("https://api.themoviedb.org/3/movie/popular?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US&page=$pageNumber");
     $popularMovieArr = json_decode($data);
     $popularMovieArrResult = $popularMovieArr->results;
 }
 
-if (empty($_GET['page']) && (empty($_POST['sort_by'])) && empty($_GET['sort_by']) && empty($_POST['start']) && empty($_POST['end']) && empty($_GET['start']) && empty($_GET['end']) && empty($_POST['genres'])) {
-    $data = file_get_contents("https://api.themoviedb.org/3/movie/popular?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US&page=1");
-    $popularMovieArr = json_decode($data);
-    $popularMovieArrResult = $popularMovieArr->results;
+//if (empty($_GET['page']) && (empty($_POST['sort_by'])) && empty($_GET['sort_by']) && empty($_POST['start']) && empty($_POST['end']) && empty($_GET['start']) && empty($_GET['end']) && empty($_POST['genres']) && empty($_POST['year']) && empty($_GET ['year'])) {
+//    $data = file_get_contents("https://api.themoviedb.org/3/movie/popular?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US&page=1");
+//    $popularMovieArr = json_decode($data);
+//    $popularMovieArrResult = $popularMovieArr->results;
+//}
 
-}
 //sort_by
-if ((isset($_POST['sort_by']) || isset($_GET['sort_by'])) && (empty($_POST['start']) && empty($_POST['end']) && empty($_GET['start']) && empty($_GET['end']) && empty($_POST['genres']) && empty($_GET['genres']) )) {
+if ((isset($_POST['sort_by']) || isset($_GET['sort_by'])) && (empty($_POST['start']) && empty($_POST['end']) && empty($_GET['start']) && empty($_GET['end']) && empty($_POST['genres']) && empty($_GET['genres']) && empty($_POST['year']) && empty($_GET ['year']) )) {
     if (isset($_POST['sort_by'])) {
         $sort_key = $_POST['sort_by'];
         $pageNumber = 1;
@@ -31,18 +40,10 @@ if ((isset($_POST['sort_by']) || isset($_GET['sort_by'])) && (empty($_POST['star
     $dataBySort = file_get_contents("https://api.themoviedb.org/3/discover/movie?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US&sort_by=$sort_key&include_adult=false&include_video=false&page=$pageNumber&with_watch_monetization_types=flatrate");
     $popularMovieArr = json_decode($dataBySort);
     $popularMovieArrResult = $popularMovieArr->results;
-    echo "ha";
 }
 $sort_key = "popularity.desc";
 
-//nothing
-if (empty($_GET['page']) && empty($_POST['sort_by']) && empty($_GET['sort_by']) && empty($_POST['start']) && empty($_POST['end']) && empty($_POST['genres']) && empty($_GET['genres'])){
 
-    $dataBySort = file_get_contents("https://api.themoviedb.org/3/discover/movie?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_watch_monetization_types=flatrate");
-    $popularMovieArr = json_decode($dataBySort);
-    $popularMovieArrResult = $popularMovieArr->results;
-
-}
 
 
 //if ((empty($_POST['start']) && empty($_POST['end']) && empty($_POST['sort_by'])) && (empty($_GET['start']) && empty($_GET['end']) && empty($_GET['sort_by']))) {
@@ -67,7 +68,7 @@ if (empty($_GET['page']) && empty($_POST['sort_by']) && empty($_GET['sort_by']) 
 //}
 
 //start and end and sort_by
-if ((isset($_POST['start']) && isset($_POST['end']) && isset($_POST['sort_by']) && empty($_POST['genres'])) || (isset($_GET['start']) && isset($_GET['end']) && isset($_GET['sort_by']) && empty($_GET['genres']))) {
+if ((isset($_POST['start']) && isset($_POST['end']) && isset($_POST['sort_by']) && empty($_POST['genres']) && empty($_POST['year'])) || (isset($_GET['start']) && isset($_GET['end']) && isset($_GET['sort_by']) && empty($_GET['genres']) && empty($_GET ['year']))) {
     if ((isset($_POST['start']) && isset($_POST['end']) && isset($_POST['sort_by']))) {
         $start = $_POST['start'];
         $end = $_POST['end'];
@@ -84,11 +85,10 @@ if ((isset($_POST['start']) && isset($_POST['end']) && isset($_POST['sort_by']) 
     $popularMovieArr = json_decode($dataByDateAndSort);
     $popularMovieArrResult = $popularMovieArr->results;
     print_r($_GET);
-    echo "mi";
 }
 
 //year and sort_by
-if ((isset($_POST['start']) && isset($_POST['sort_by']) && empty($_POST['genres']) && empty($_POST['start']) && empty($_POST['end'])) || (isset($_GET['year']) && isset($_GET['sort_by']) && empty($_GET['genres']) && empty($_POST['start']) && empty($_POST['end']))) {
+if ((isset($_POST['year']) && isset($_POST['sort_by']) && empty($_POST['genres']) && empty($_POST['start']) && empty($_POST['end'])) || (isset($_GET['year']) && isset($_GET['sort_by']) && empty($_GET['genres']) && empty($_POST['start']) && empty($_POST['end']))) {
     if ((isset($_POST['year']) && isset($_POST['sort_by']))) {
         $year = $_POST['year'];
         $sort_key = $_POST['sort_by'];
@@ -103,11 +103,109 @@ if ((isset($_POST['start']) && isset($_POST['sort_by']) && empty($_POST['genres'
     $popularMovieArr = json_decode($dataByDateAndSort);
     $popularMovieArrResult = $popularMovieArr->results;
     print_r($_GET);
-    echo "year";
 }
 
+//genres and sort_by
+if ((isset($_POST['genres']) && isset($_POST['sort_by']) || isset($_GET['genres']) && isset($_GET['sort_by'])) && (empty($_POST['start']) && empty($_POST['end']) && empty($_POST['year']) && empty($_GET['start']) && empty($_GET['end']) && empty($_GET['year']))) {
+    if (isset($_POST['genres'])) {
+        $ans = [];
+        foreach ($_POST['genres'] as $row){
+            array_push($ans,$row);
+        }
+        $genresIdBeforeUrlCode = join(",",$ans);
+        $genresId = urlencode(join(",",$ans));
+        $sort_key = $_POST['sort_by'];
+        $dataByGenres = file_get_contents("https://api.themoviedb.org/3/discover/movie?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US&sort_by=$sort_key&include_adult=false&include_video=false&page=1&with_genres=$genresId&with_watch_monetization_types=flatrate");
+    } else {
+        $genresIdBeforeUrlCode = $_GET['genres'];
+        $ans = explode(",",$genresIdBeforeUrlCode);
+        $genresId = urlencode($genresIdBeforeUrlCode);
+        $sort_key = $_GET['sort_by'];
+        $pageNumber = $_GET['page'];
+        $dataByGenres = file_get_contents("https://api.themoviedb.org/3/discover/movie?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US&sort_by=$sort_key&include_adult=false&include_video=false&page=$pageNumber&with_genres=$genresId&with_watch_monetization_types=flatrate");
+    }
+    $popularMovieArr = json_decode($dataByGenres);
+
+    $popularMovieArrResult = $popularMovieArr->results;
+//    echo "hdd";
+//    print_r($ans);
+}
+
+
+
+//sort_by and genres and year
+if ((isset($_POST['sort_by']) && isset($_POST['genres']) && isset($_POST['year']) && empty($_POST['start']) && empty($_POST['end'])) || (empty($_GET['start']) && empty($_GET['end']) && isset($_GET['sort_by']) && isset($_GET['genres']) && isset($_GET['year']))) {
+    if ((isset($_POST['year']) && isset($_POST['sort_by']) && isset($_POST['genres']))) {
+        $sort_key = $_POST['sort_by'];
+        $year = $_POST['year'];
+        $ans = [];
+        foreach ($_POST['genres'] as $row){
+            array_push($ans,$row);
+        }
+        $genresIdBeforeUrlCode = join(",",$ans);
+        $genresId = urlencode(join(",",$ans));
+        $pageNumber = 1;
+    } else {
+        $pageNumber = $_GET['page'];
+        $year = $_GET['year'];
+        $genresIdBeforeUrlCode = $_GET['genres'];
+        //string to array
+        $ans = explode(",",$genresIdBeforeUrlCode);
+        //change string to url format
+        $genresId = urlencode($genresIdBeforeUrlCode);
+        $sort_key = $_GET['sort_by'];
+    }
+    $dataBySortAndGenreAndYear= file_get_contents("https://api.themoviedb.org/3/discover/movie?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US&sort_by=$sort_key&include_adult=false&include_video=false&page=$pageNumber&primary_release_year=$year&with_genres=$genresId&with_watch_monetization_types=flatrate");
+
+    $popularMovieArr = json_decode($dataBySortAndGenreAndYear);
+    $popularMovieArrResult = $popularMovieArr->results;
+//        print_r($_POST);
+//    echo "mg";
+}
+
+
+
+
+//start and end and sort_by and genres and year
+if ((isset($_POST['start']) && isset($_POST['end']) && isset($_POST['sort_by']) && isset($_POST['genres']) && isset($_POST['year'])) || (isset($_GET['start']) && isset($_GET['end']) && isset($_GET['sort_by']) && isset($_GET['genres']) && isset($_GET['year']))) {
+    if ((isset($_POST['start']) && isset($_POST['end']) && isset($_POST['sort_by']) && isset($_POST['genres']))) {
+        $start = $_POST['start'];
+        $end = $_POST['end'];
+        $sort_key = $_POST['sort_by'];
+        $year = $_POST['year'];
+        $ans = [];
+        foreach ($_POST['genres'] as $row){
+            array_push($ans,$row);
+        }
+        $genresIdBeforeUrlCode = join(",",$ans);
+        $genresId = urlencode(join(",",$ans));
+        $pageNumber = 1;
+    } else {
+        $start = $_GET['start'];
+        $end = $_GET['end'];
+        $pageNumber = $_GET['page'];
+        $year = $_GET['year'];
+        $genresIdBeforeUrlCode = $_GET['genres'];
+        //string to array
+        $ans = explode(",",$genresIdBeforeUrlCode);
+        //change string to url format
+        $genresId = urlencode($genresIdBeforeUrlCode);
+        $sort_key = $_GET['sort_by'];
+    }
+    $dataByDateAndSortAndGenreAndYear= file_get_contents("https://api.themoviedb.org/3/discover/movie?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US&sort_by=$sort_key&include_adult=false&include_video=false&page=$pageNumber&primary_release_year=$year&primary_release_date.gte=$start&primary_release_date.lte=$end&with_genres=$genresId&with_watch_monetization_types=flatrate");
+
+    $popularMovieArr = json_decode($dataByDateAndSortAndGenreAndYear);
+    $popularMovieArrResult = $popularMovieArr->results;
+//    print_r($_GET);
+//    print_r($_POST);
+//    echo "mg mg";
+}
+
+
+
+
 //start and end and sort_by and genres
-if ((isset($_POST['start']) && isset($_POST['end']) && isset($_POST['sort_by']) && isset($_POST['genres'])) || (isset($_GET['start']) && isset($_GET['end']) && isset($_GET['sort_by']) && isset($_GET['genres']))) {
+if ((isset($_POST['start']) && isset($_POST['end']) && isset($_POST['sort_by']) && isset($_POST['genres']) && empty($_POST['year'])) || (isset($_GET['start']) && isset($_GET['end']) && isset($_GET['sort_by']) && isset($_GET['genres']) && empty($_GET['year']))) {
     if ((isset($_POST['start']) && isset($_POST['end']) && isset($_POST['sort_by']) && isset($_POST['genres']))) {
         $start = $_POST['start'];
         $end = $_POST['end'];
@@ -123,51 +221,45 @@ if ((isset($_POST['start']) && isset($_POST['end']) && isset($_POST['sort_by']) 
         $start = $_GET['start'];
         $end = $_GET['end'];
         $pageNumber = $_GET['page'];
-        $genresIdBeforeUrl = $_GET['genres'];
+        $genresIdBeforeUrlCode = $_GET['genres'];
         //string to array
-        $ans = explode(",",$genresIdBeforeUrl);
+        $ans = explode(",",$genresIdBeforeUrlCode);
         //change string to url format
-        $genresId = urlencode($genresIdBeforeUrl);
+        $genresId = urlencode($genresIdBeforeUrlCode);
         $sort_key = $_GET['sort_by'];
     }
     $dataByDateAndSortAndGenre = file_get_contents("https://api.themoviedb.org/3/discover/movie?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US&sort_by=$sort_key&include_adult=false&include_video=false&page=$pageNumber&primary_release_date.gte=$start&primary_release_date.lte=$end&with_genres=$genresId&with_watch_monetization_types=flatrate");
 
     $popularMovieArr = json_decode($dataByDateAndSortAndGenre);
     $popularMovieArrResult = $popularMovieArr->results;
-    print_r($_GET);
-    print_r($_POST);
-    echo "mg mg";
+//    print_r($_GET);
+//    print_r($_POST);
+//    echo "mg mg";
 }
 
-//genres and sort_by
-if ((isset($_POST['genres']) && isset($_POST['sort_by']) || isset($_GET['genres']) && isset($_GET['sort_by'])) && (empty($_POST['start']) && empty($_POST['end']))) {
-    if (isset($_POST['genres'])) {
-        $ans = [];
-        foreach ($_POST['genres'] as $row){
-            array_push($ans,$row);
-        }
-        $genresIdBeforeUrlCode = join(",",$ans);
-        $genresId = urlencode(join(",",$ans));
+//start and end and sort_by and year
+if ((isset($_POST['start']) && isset($_POST['end']) && isset($_POST['sort_by']) && isset($_POST['year']) && empty($_POST['genres'])) || (isset($_GET['start']) && isset($_GET['end']) && isset($_GET['sort_by']) && isset($_GET['year']) && empty($_GET['genres']))) {
+    if ((isset($_POST['start']) && isset($_POST['end']) && isset($_POST['sort_by']) && isset($_POST['year']))) {
+        $start = $_POST['start'];
+        $end = $_POST['end'];
         $sort_key = $_POST['sort_by'];
-        $dataByGenres = file_get_contents("https://api.themoviedb.org/3/discover/movie?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US&sort_by=$sort_key&include_adult=false&include_video=false&page=1&with_genres=$genresId&with_watch_monetization_types=flatrate");
+        $year = $_POST['year'];
+        $pageNumber = 1;
     } else {
-        $genresIdBeforeUrl = $_GET['genres'];
-        $ans = explode(",",$genresIdBeforeUrl);
-        $genresId = urlencode($genresIdBeforeUrl);
-        $sort_key = $_GET['sort_by'];
+        $start = $_GET['start'];
+        $end = $_GET['end'];
         $pageNumber = $_GET['page'];
-        $dataByGenres = file_get_contents("https://api.themoviedb.org/3/discover/movie?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US&sort_by=$sort_key&include_adult=false&include_video=false&page=$pageNumber&with_genres=$genresId&with_watch_monetization_types=flatrate");
+        $year = $_GET['year'];
+        $sort_key = $_GET['sort_by'];
     }
-    $popularMovieArr = json_decode($dataByGenres);
+    $dataByDateAndSortAndGenre = file_get_contents("https://api.themoviedb.org/3/discover/movie?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US&sort_by=$sort_key&include_adult=false&include_video=false&page=$pageNumber&primary_release_year=$year&primary_release_date.gte=$start&primary_release_date.lte=$end&with_watch_monetization_types=flatrate");
 
+    $popularMovieArr = json_decode($dataByDateAndSortAndGenre);
     $popularMovieArrResult = $popularMovieArr->results;
-    echo "hdd";
-    print_r($ans);
+//    print_r($_GET);
+//    print_r($_POST);
+//    echo "mg mg";
 }
-
-
-
-
 
 ?>
 
@@ -319,7 +411,7 @@ if ((isset($_POST['genres']) && isset($_POST['sort_by']) || isset($_GET['genres'
                                         </svg>
                                     </div>
                                     <!--                                    percentage circle end-->
-                                    <a href="" class="title text-decoration-none text-dark">
+                                    <a href="<?php echo $url; ?>/movies/movie_detail.php?id=<?php echo $row->id; ?>" class="title text-decoration-none text-dark">
                                         <h6 class="card-title"><?php echo $row->title; ?></h6>
                                     </a>
                                     <p class="card-text text-black-50"><?php echo showDate($row->release_date); ?></p>
@@ -359,7 +451,7 @@ if ((isset($_POST['genres']) && isset($_POST['sort_by']) || isset($_GET['genres'
                     hrefTextPrefix: '?page=',
                     hrefTextSuffix:
 
-                    '<?php echo isset($_POST["sort_by"]) || isset($sort_key) ? "&sort_by=$sort_key" : "" ?><?php echo empty($start) ? "" : "&start=$start&end=$end" ?><?php echo empty($year) ? "" : "&year=$year" ?><?php echo empty($ans) ? "" : "&genres=$genresIdBeforeUrlCode" ?>'
+                    '<?php echo isset($_POST["sort_by"]) || isset($sort_key) ? "&sort_by=$sort_key" : "" ?><?php echo empty($start) ? "" : "&start=$start&end=$end" ?><?php echo empty($year) ? '' : "&year=$year" ?><?php echo empty($ans) ? "" : "&genres=$genresIdBeforeUrlCode" ?>'
                     ,
                     prevText: 'Prev',
                     nextText: 'Next',

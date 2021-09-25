@@ -244,59 +244,56 @@ $dataMostPopularPoster = reset($dataImagesPostersArr);
             <!--            current season end-->
 
             <!--                social start-->
-            <div class="">
-                <nav class="d-flex align-items-center">
-                    <h4 class="fw-bolder me-3">
-                        Social
-                    </h4>
-                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                        <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Reviews <span class="text-black-50"></span></button>
-                        <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</button>
-                        <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</button>
-                    </div>
-                </nav>
-                <div class="tab-content" id="nav-tabContent">
-                    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-                        <?php if (countTotal($dataReviewSlicedResult) > 0){ ?>
-
-                            <div class="card shadow rounded-3">
-                                <div class="card-body">
-                                    <div class="d-flex align-items-center">
-                                        <?php foreach ($dataReviewSlicedResult as $row) { ?>
-                                            <img class="rounded-circle" src="https://image.tmdb.org/t/p/w64_and_h64_face<?php echo $row->author_details->avatar_path; ?>" alt="">
-                                        <?php } ?>
-                                        <div class="ms-3">
-                                            <h4 class="mb-0">
-                                                <a href="" class="text-decoration-none text-black">A review by <?php echo $dataReviewSlicedResult[0]->author;  ?></a>
-                                            </h4>
-                                            <small class="text-black-50">
-                                                Written by <b><?php echo $dataReviewSlicedResult[0]->author;  ?></b> on <?php echo showDate($dataReviewSlicedResult[0]->created_at);  ?>
-                                            </small>
-                                        </div>
-                                    </div>
-                                    <div class="ps-5 py-3">
-                                        <p class="ps-5">
-                                            <?php echo short($dataReviewSlicedResult[0]->content,600); ?>
-                                            <a href="" class="text-black fw-bolder">read more</a>.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-
-                        <?php } else { ?>
-                            <p class="my-3">
-                                We don't have any reviews for <?php echo $rowDetails->original_name; ?>
-                            </p>
-                        <?php } ?>
-                    </div>
-                    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab"></div>
-                    <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>
-                </div>
-            </div>
-            <a class="mt-3 text-decoration-none text-black c-hover" href="<?php echo $url; ?>/movies/cast_and_crew.php/?id=<?php echo $tvId; ?>">
-                <p class="mt-3 fw-bolder">Read All Reviews</p>
-            </a>
-            <hr>
+<!--            <div class="">-->
+<!--                <nav class="d-flex align-items-center">-->
+<!--                    <h4 class="fw-bolder me-3">-->
+<!--                        Social-->
+<!--                    </h4>-->
+<!--                    <div class="nav nav-tabs" id="nav-tab" role="tablist">-->
+<!--                        <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Reviews <span class="text-black-50"></span></button>-->
+<!--                    </div>-->
+<!--                </nav>-->
+<!--                <div class="tab-content" id="nav-tabContent">-->
+<!--                    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">-->
+<!--                        --><?php //if (countTotal($dataReviewSlicedResult) > 0){ ?>
+<!---->
+<!--                            <div class="card shadow rounded-3">-->
+<!--                                <div class="card-body">-->
+<!--                                    <div class="d-flex align-items-center">-->
+<!--                                        --><?php //foreach ($dataReviewSlicedResult as $row) { ?>
+<!--                                            <img class="rounded-circle" src="https://image.tmdb.org/t/p/w64_and_h64_face--><?php //echo $row->author_details->avatar_path; ?><!--" alt="">-->
+<!--                                        --><?php //} ?>
+<!--                                        <div class="ms-3">-->
+<!--                                            <h4 class="mb-0">-->
+<!--                                                <a href="" class="text-decoration-none text-black">A review by --><?php //echo $dataReviewSlicedResult[0]->author;  ?><!--</a>-->
+<!--                                            </h4>-->
+<!--                                            <small class="text-black-50">-->
+<!--                                                Written by <b>--><?php //echo $dataReviewSlicedResult[0]->author;  ?><!--</b> on --><?php //echo showDate($dataReviewSlicedResult[0]->created_at);  ?>
+<!--                                            </small>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="ps-5 py-3">-->
+<!--                                        <p class="ps-5">-->
+<!--                                            --><?php //echo short($dataReviewSlicedResult[0]->content,600); ?>
+<!--                                            <a href="" class="text-black fw-bolder">read more</a>.-->
+<!--                                        </p>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <a class="mt-3 text-decoration-none text-black c-hover" href="--><?php //echo $url; ?><!--/movies/cast_and_crew.php/?id=--><?php //echo $tvId; ?><!--">-->
+<!--                                <p class="mt-3 fw-bolder">Read All Reviews</p>-->
+<!--                            </a>-->
+<!---->
+<!--                        --><?php //} else { ?>
+<!--                            <p class="my-3">-->
+<!--                                We don't have any reviews for --><?php //echo $rowDetails->original_name; ?>
+<!--                            </p>-->
+<!--                        --><?php //} ?>
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!---->
+<!--            <hr>-->
             <!--                social end-->
 
             <!--                media start-->

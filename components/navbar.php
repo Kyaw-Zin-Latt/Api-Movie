@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary position-fixed top-0" style="z-index: 999999">
     <div class="container">
         <a class="navbar-brand" href="<?php echo $url;  ?>/index.php">Navbar</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,13 +36,10 @@
                         <li><a class="dropdown-item" href="<?php echo $url; ?>/person/person.php">Popular People</a></li>
                     </ul>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-                </li>
             </ul>
             <form class="d-flex" method="post" action="<?php echo $url; ?>/search/search.php">
                 <input class="form-control me-2" name="query" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
+                <button class="btn btn-outline-light" type="submit">Search</button>
             </form>
         </div>
     </div>

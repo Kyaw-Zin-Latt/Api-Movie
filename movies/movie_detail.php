@@ -51,73 +51,7 @@ $dataMostPopularPoster = reset($dataImagesPostersArr);
             <?php require_once "../components/navbar.php"; ?>
             <!--        navbar end          -->
         </div>
-        <div class="row">
-            <div class="col-12">
-                <div class="d-flex my-2 justify-content-center align-items-center">
-                    <div class="dropdown">
-                        <a class="btn me-2 btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                            Overview
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                            <li><a class="dropdown-item" href="<?php echo $url; ?>/movies/movie_detail.php?id=<?php echo $movieId; ?>">Main</a></li>
-<!--                            <li><a class="dropdown-item" href="#">Alernative Title</a></li>-->
-                            <li><a class="dropdown-item" href="<?php echo $url; ?>/movies/cast_and_crew.php/?id=<?php echo $movieId; ?>">Cast & Crew</a></li>
-<!--                            <li><a class="dropdown-item" href="#">Release Dates</a></li>-->
-<!--                            <li><a class="dropdown-item" href="#">Translations</a></li>-->
-<!--                            <li><hr class="dropdown-divider"></li>-->
-<!--                            <li><a class="dropdown-item" href="#">Changes</a></li>-->
-<!--                            <li><a class="dropdown-item" href="#">Report</a></li>-->
-<!--                            <li><a class="dropdown-item" href="#">Edit</a></li>-->
-                        </ul>
-                    </div>
-                    <div class="dropdown">
-                        <a class="btn me-2 btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                            Media
-                        </a>
-
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                            <li>
-                                <a class="dropdown-item" href="<?php echo $url; ?>/movies/backdrops.php/?id=<?php echo $movieId; ?>">
-                                    Backdrops <?php echo countTotal($dataImagesBackdropsArr); ?>
-                                </a>
-                            </li>
-<!--                            <li><a class="dropdown-item" href="#">Logos</a></li>-->
-                            <li>
-                                <a class="dropdown-item" href="<?php echo $url; ?>/movies/posters.php/?id=<?php echo $movieId; ?>">
-                                    Posters <?php echo countTotal($dataImagesPostersArr); ?>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="<?php echo $url; ?>/movies/videos.php/?id=<?php echo $movieId; ?>">
-                                    Videos <?php echo countTotal($dataVideosResult); ?>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="dropdown">
-                        <a class="btn me-2 btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                            Fandom
-                        </a>
-
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                            <li><a class="dropdown-item" href="#">Discussions</a></li>
-                            <li><a class="dropdown-item" href="#">Reviews</a></li>
-                        </ul>
-                    </div>
-                    <div class="dropdown">
-                        <a class="btn me-2 btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                            Share
-                        </a>
-
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                            <li><a class="dropdown-item" href="#">Share Link</a></li>
-                            <li><a class="dropdown-item" href="#">Facebook</a></li>
-                            <li><a class="dropdown-item" href="#">Tweet</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <?php require_once "../components/header_dropdown_movie.php"; ?>
     </div>
     <div class="h-100 cp-0" style="border-bottom: 1px solid #1b161a; background-position: right -200px top; background-size: cover; background-repeat: no-repeat; background-image: url('https://image.tmdb.org/t/p/w500<?php echo $row->backdrop_path; ?>'); width: 100%;position: relative;z-index: 1;height: 550px !important;">
         <div class="cp-0" style="height: 550px  ;background-image: linear-gradient(to right, rgba(10.59%, 8.63%, 10.20%, 1.00) 150px, rgba(10.59%, 8.63%, 10.20%, 0.84) 100%);">
@@ -257,55 +191,55 @@ $dataMostPopularPoster = reset($dataImagesPostersArr);
 <!--                top billed cast end-->
 
 <!--                social start-->
-                <div class="">
-                    <nav class="d-flex align-items-center">
-                        <h4 class="fw-bolder me-3">
-                            Social
-                        </h4>
-                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                            <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Reviews <span class="text-black-50"></span></button>
-                            <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</button>
-                            <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</button>
-                        </div>
-                    </nav>
-                    <div class="tab-content" id="nav-tabContent">
-                        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-                            <?php if (countTotal($dataReviewSlicedResult) > 0){ ?>
-
-                                <div class="card shadow rounded-3">
-                                    <div class="card-body">
-                                        <div class="d-flex align-items-center">
-                                            <img class="rounded-circle" src="<?php echo substr($dataReviewSlicedResult[0]->author_details->avatar_path,1); ?>" alt="">
-                                            <div class="ms-3">
-                                                <h4 class="mb-0">
-                                                    <a href="" class="text-decoration-none text-black">A review by <?php echo $dataReviewSlicedResult[0]->author;  ?></a>
-                                                </h4>
-                                                <small class="text-black-50">
-                                                    Written by <b><?php echo $dataReviewSlicedResult[0]->author;  ?></b> on <?php echo showDate($dataReviewSlicedResult[0]->created_at);  ?>
-                                                </small>
-                                            </div>
-                                        </div>
-                                        <div class="ps-5 py-3">
-                                            <p class="ps-5">
-                                                <?php echo short($dataReviewSlicedResult[0]->content,600); ?>
-                                                <a href="" class="text-black fw-bolder">read more</a>.
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            <?php } else { ?>
-                                <p>No Review</p>
-                            <?php } ?>
-                        </div>
-                        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab"></div>
-                        <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>
-                    </div>
-                </div>
-                <a class="mt-3 text-decoration-none text-black c-hover" href="<?php echo $url; ?>/movies/cast_and_crew.php/?id=<?php echo $movieId; ?>">
-                    <p class="mt-3 fw-bolder">Read All Reviews</p>
-                </a>
-                <hr>
+<!--                <div class="">-->
+<!--                    <nav class="d-flex align-items-center">-->
+<!--                        <h4 class="fw-bolder me-3">-->
+<!--                            Social-->
+<!--                        </h4>-->
+<!--                        <div class="nav nav-tabs" id="nav-tab" role="tablist">-->
+<!--                            <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Reviews <span class="text-black-50"></span></button>-->
+<!--                            <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</button>-->
+<!--                            <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</button>-->
+<!--                        </div>-->
+<!--                    </nav>-->
+<!--                    <div class="tab-content" id="nav-tabContent">-->
+<!--                        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">-->
+<!--                            --><?php //if (countTotal($dataReviewSlicedResult) > 0){ ?>
+<!---->
+<!--                                <div class="card shadow rounded-3">-->
+<!--                                    <div class="card-body">-->
+<!--                                        <div class="d-flex align-items-center">-->
+<!--                                            <img class="rounded-circle" src="--><?php //echo substr($dataReviewSlicedResult[0]->author_details->avatar_path,1); ?><!--" alt="">-->
+<!--                                            <div class="ms-3">-->
+<!--                                                <h4 class="mb-0">-->
+<!--                                                    <a href="" class="text-decoration-none text-black">A review by --><?php //echo $dataReviewSlicedResult[0]->author;  ?><!--</a>-->
+<!--                                                </h4>-->
+<!--                                                <small class="text-black-50">-->
+<!--                                                    Written by <b>--><?php //echo $dataReviewSlicedResult[0]->author;  ?><!--</b> on --><?php //echo showDate($dataReviewSlicedResult[0]->created_at);  ?>
+<!--                                                </small>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                        <div class="ps-5 py-3">-->
+<!--                                            <p class="ps-5">-->
+<!--                                                --><?php //echo short($dataReviewSlicedResult[0]->content,600); ?>
+<!--                                                <a href="" class="text-black fw-bolder">read more</a>.-->
+<!--                                            </p>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!---->
+<!--                            --><?php //} else { ?>
+<!--                                <p>No Review</p>-->
+<!--                            --><?php //} ?>
+<!--                        </div>-->
+<!--                        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab"></div>-->
+<!--                        <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <a class="mt-3 text-decoration-none text-black c-hover" href="--><?php //echo $url; ?><!--/movies/cast_and_crew.php/?id=--><?php //echo $movieId; ?><!--">-->
+<!--                    <p class="mt-3 fw-bolder">Read All Reviews</p>-->
+<!--                </a>-->
+<!--                <hr>-->
 <!--                social end-->
 
 <!--                media start-->

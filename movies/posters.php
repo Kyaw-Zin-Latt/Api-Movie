@@ -1,12 +1,16 @@
 <?php
 require_once "../template/header.php";
 $movieId = $_GET['id'];
-$data = file_get_contents("https://api.themoviedb.org/3/movie/$movieId?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US");
-$dataPosters = file_get_contents("https://api.themoviedb.org/3/movie/$movieId/images?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=my&append_to_response=images&include_image_language=en,null");
+$data = file_get_contents("https://api.themoviedb.org/3/movie/$movieId?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US&append_to_response=videos%2Ccredits%2Creviews%2Crecommendations%2Ckeywords");
+$dataImages = file_get_contents("https://api.themoviedb.org/3/movie/$movieId/images?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US&append_to_response=images&include_image_language=en,null");
 $row = json_decode($data);
 //$rowGenres = $row->genres;
 //
-$dataPostersArr = json_decode($dataPosters);
+$dataPostersArr = json_decode($dataImages);
+
+$dataImagesBackdropsArr = $dataPostersArr->backdrops;
+$dataVideosResult = $row->videos->results;
+$dataImagesPostersArr = $dataPostersArr->posters;
 //$dataPostersResultAsc = $dataPostersArr->posters;
 //$dataPostersResult = array_reverse($dataPostersResultAsc);
 $dataPostersResult = $dataPostersArr->posters;
@@ -34,62 +38,8 @@ foreach ($dataPostersResult as $rowNoLanguage) {
         <?php require_once "../components/navbar.php"; ?>
         <!--        navbar end          -->
     </div>
-    <div class="row">
-        <div class="col-12">
-            <div class="d-flex my-2 justify-content-center align-items-center">
-                <div class="dropdown">
-                    <a class="btn me-2 btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                        Overview
-                    </a>
+    <?php require_once "../components/header_dropdown_movie.php"; ?>
 
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                        <li><a class="dropdown-item" href="#">Main</a></li>
-                        <li><a class="dropdown-item" href="#">Alernative Title</a></li>
-                        <li><a class="dropdown-item" href="#">Cast & Crew</a></li>
-                        <li><a class="dropdown-item" href="#">Release Dates</a></li>
-                        <li><a class="dropdown-item" href="#">Translations</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#">Changes</a></li>
-                        <li><a class="dropdown-item" href="#">Report</a></li>
-                        <li><a class="dropdown-item" href="#">Edit</a></li>
-                    </ul>
-                </div>
-                <div class="dropdown">
-                    <a class="btn me-2 btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                        Media
-                    </a>
-
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                        <li><a class="dropdown-item" href="#">Posters</a></li>
-                        <li><a class="dropdown-item" href="#">Logos</a></li>
-                        <li><a class="dropdown-item" href="#">Posters</a></li>
-                        <li><a class="dropdown-item" href="#">Posterss</a></li>
-                    </ul>
-                </div>
-                <div class="dropdown">
-                    <a class="btn me-2 btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                        Fandom
-                    </a>
-
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                        <li><a class="dropdown-item" href="#">Discussions</a></li>
-                        <li><a class="dropdown-item" href="#">Reviews</a></li>
-                    </ul>
-                </div>
-                <div class="dropdown">
-                    <a class="btn me-2 btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                        Share
-                    </a>
-
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                        <li><a class="dropdown-item" href="#">Share Link</a></li>
-                        <li><a class="dropdown-item" href="#">Facebook</a></li>
-                        <li><a class="dropdown-item" href="#">Tweet</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
     <?php require_once "../components/header_small.php"; ?>
     <div class="row my-3">
         <div class="col-12">
