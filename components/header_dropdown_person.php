@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row bg-light position-sticky top-0" style="padding-top: 60px; z-index: 1002;">
     <div class="col-12">
         <div class="d-flex my-2 justify-content-center align-items-center">
             <div class="dropdown">

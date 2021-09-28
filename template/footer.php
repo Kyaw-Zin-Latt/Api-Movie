@@ -18,7 +18,7 @@
         itemsOnPage: perPage,
         prevText: "&laquo;",
         nextText: "&raquo;",
-        onPageClick: function (pageNumber) {
+        onPageClick: function(pageNumber) {
             let showFrom = perPage * (pageNumber - 1);
             let showTo = showFrom + perPage;
             items.hide().slice(showFrom, showTo).show();
@@ -30,13 +30,12 @@
     // tooltip start
 
     var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+    var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
         return new bootstrap.Tooltip(tooltipTriggerEl)
     })
 
     // tooltip end
-
-
 </script>
 </body>
+
 </html>

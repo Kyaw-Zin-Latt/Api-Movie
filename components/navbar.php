@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary position-fixed top-0" style="z-index: 999999">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary position-fixed top-0" style="z-index: 1003;">
     <div class="container">
         <a class="navbar-brand" href="<?php echo $url;  ?>/index.php">Navbar</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -44,4 +44,3 @@
         </div>
     </div>
 </nav>
-

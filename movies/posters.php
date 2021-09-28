@@ -17,14 +17,14 @@ $dataPostersResult = $dataPostersArr->posters;
 $rowsEnglish = [];
 foreach ($dataPostersResult as $rowEnglish) {
     if ($rowEnglish->iso_639_1 == "en") {
-        array_push($rowsEnglish,$rowEnglish);
+        array_push($rowsEnglish, $rowEnglish);
     }
 }
 
 $rowsNoLanguage = [];
 foreach ($dataPostersResult as $rowNoLanguage) {
     if ($rowNoLanguage->iso_639_1 == null) {
-        array_push($rowsNoLanguage,$rowNoLanguage);
+        array_push($rowsNoLanguage, $rowNoLanguage);
     }
 }
 
@@ -45,7 +45,7 @@ foreach ($dataPostersResult as $rowNoLanguage) {
         <div class="col-12">
             <div class="container">
                 <div class="row">
-                    <div class="col-3">
+                    <div class="col-sm-12 col-md-3">
                         <div class="card rounded-3">
                             <div class="card-header bg-dark text-light">
                                 <h4 class="mb-0 py-3">Posters</h4>
@@ -64,16 +64,16 @@ foreach ($dataPostersResult as $rowNoLanguage) {
                             </div>
                         </div>
                     </div>
-                    <div class="col-9">
+                    <div class="col-12 col-md-9">
                         <div class="tab-content" id="nav-tabContent">
                             <div class="tab-pane fade show active" id="list-trailer" role="tabpanel" aria-labelledby="list-trailer-list">
                                 <div class="row g-2">
-                                    <?php if (countTotal($rowsEnglish) > 0){ ?>
+                                    <?php if (countTotal($rowsEnglish) > 0) { ?>
 
                                         <?php
-                                        foreach ($rowsEnglish as $rowEnglishPosters){
-                                            if ($rowEnglishPosters->iso_639_1 == "en"){
-                                                ?>
+                                        foreach ($rowsEnglish as $rowEnglishPosters) {
+                                            if ($rowEnglishPosters->iso_639_1 == "en") {
+                                        ?>
 
                                                 <div class="col-4">
                                                     <div class="card rounded-3">
@@ -93,7 +93,7 @@ foreach ($dataPostersResult as $rowNoLanguage) {
                                                     </div>
                                                 </div>
 
-                                                <?php
+                                        <?php
                                             }
                                         }
                                         ?>
@@ -107,12 +107,12 @@ foreach ($dataPostersResult as $rowNoLanguage) {
                             </div>
                             <div class="tab-pane fade" id="list-teaser" role="tabpanel" aria-labelledby="list-teaser-list">
                                 <div class="row g-2">
-                                    <?php if (countTotal($rowsNoLanguage) > 0){ ?>
+                                    <?php if (countTotal($rowsNoLanguage) > 0) { ?>
 
                                         <?php
-                                        foreach ($rowsNoLanguage as $rowNoLanguagePosters){
-                                            if ($rowNoLanguagePosters->iso_639_1 == null){
-                                                ?>
+                                        foreach ($rowsNoLanguage as $rowNoLanguagePosters) {
+                                            if ($rowNoLanguagePosters->iso_639_1 == null) {
+                                        ?>
 
                                                 <div class="col-4">
                                                     <div class="card rounded-3">
@@ -132,7 +132,7 @@ foreach ($dataPostersResult as $rowNoLanguage) {
                                                     </div>
                                                 </div>
 
-                                                <?php
+                                        <?php
                                             }
                                         }
                                         ?>
@@ -158,14 +158,13 @@ foreach ($dataPostersResult as $rowNoLanguage) {
 <?php require_once "../template/footer.php"; ?>
 <script src="<?php echo $url; ?>/node_modules/venobox/venobox/venobox.min.js"></script>
 <script>
-    $(document).ready(function(){
+    $(document).ready(function() {
         $('.venobox').venobox({
-            arrowsColor : '#dc3545',
-            closeColor : '#dc3545',
-            numerationColor : '#dc3545',
-            infinigall : true,
-            numeratio : true,
+            arrowsColor: '#dc3545',
+            closeColor: '#dc3545',
+            numerationColor: '#dc3545',
+            infinigall: true,
+            numeratio: true,
         });
     });
 </script>
-

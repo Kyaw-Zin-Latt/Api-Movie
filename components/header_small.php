@@ -7,10 +7,11 @@
                     <div class="ms-3">
                         <h2 class="fw-bolder text-white">
                             <?php echo $row->original_title; ?>
-                            <span class="text-white-50">(<?php echo showDate($row->release_date,"Y"); ?>)</span>
+                            <span class="text-white-50">(<?php echo showDate($row->release_date, "Y"); ?>)</span>
                         </h2>
                         <a href="<?php echo $url; ?>/movies/movie_detail.php?id=<?php echo $movieId; ?>" class="text-decoration-none text-white-50">
-                            <i class="fas fa-arrow-left"></i> <p class="d-inline-block">Back to main</p>
+                            <i class="fas fa-arrow-left"></i>
+                            <p class="d-inline-block">Back to main</p>
                         </a>
                     </div>
                 </div>
