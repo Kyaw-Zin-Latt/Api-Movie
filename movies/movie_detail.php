@@ -51,10 +51,19 @@ $dataMostPopularPoster = reset($dataImagesPostersArr);
             <?php require_once "../components/navbar.php"; ?>
             <!--        navbar end          -->
         </div>
-        <?php require_once "../components/header_dropdown_movie.php"; ?>
+    </div>
+    <div class="container-fluid row bg-dark mb-4" style="padding-top: 60px; z-index: 1002;">
+        <div class="row">
+            <div class="col-12">
+                <video id="video-id">
+                    <source src="https://cdn.fluidplayer.com/videos/valerian-480p.mkv" type="video/mp4"/>
+                </video>
+
+            </div>
+        </div>
     </div>
     <div class="h-100 cp-0" style="border-bottom: 1px solid #1b161a; background-position: right -200px top; background-size: cover; background-repeat: no-repeat; background-image: url('https://image.tmdb.org/t/p/w500<?php echo $row->backdrop_path; ?>'); width: 100%;position: relative;z-index: 1;height: 550px !important;">
-        <div class="cp-0" style="height: 550px  ;background-image: linear-gradient(to right, rgba(10.59%, 8.63%, 10.20%, 1.00) 150px, rgba(10.59%, 8.63%, 10.20%, 0.84) 100%);">
+        <div class="cp-0" style="height: 550px  ;    background-image: linear-gradient(to right, rgba(10.59%, 8.63%, 10.20%, 1.00) 150px, rgb(34 29 33 / 58%) 100%);">
             <div class="container">
                 <div class="row pt-5 g-2 d-flex align-items-center">
                     <div class="col-4">
@@ -64,7 +73,7 @@ $dataMostPopularPoster = reset($dataImagesPostersArr);
                         <div class="">
                             <h2 class="text-white">
                                 <a href="" class="text-white fw-bold text-decoration-none"><?php echo $row->original_title; ?></a>
-                                <span class="text-white-50">(<?php echo showDate($row->release_date,"Y"); ?>)</span>
+                                <span class="text-white">(<?php echo showDate($row->release_date,"Y"); ?>)</span>
                             </h2>
                             <div class="mb-4">
                                  <span class="text-white">
@@ -120,29 +129,23 @@ $dataMostPopularPoster = reset($dataImagesPostersArr);
                                         <p class="text-white mb-0">User <br> Score</p>
                                     </div>
                                 </div>
-                                <div class="">
-                                    <?php foreach ($dataVideoResult as $rv){
-                                        if ($rv->site === "YouTube" && $rv->type === "Trailer"){
-                                            ?>
-                                            <a class="venobox text-white text-decoration-none" data-autoplay="true" data-vbtype="video" href="http://youtu.be/<?php echo $rv->key; ?>">
-                                                <i class="fas fa-play ms-5"></i> Play Trailer
-                                            </a>
-                                            <?php
-                                        }
-                                    }
-                                    ?>
-                                </div>
+<!--                                <div class="">-->
+<!--                                    --><?php //foreach ($dataVideoResult as $rv){
+//                                        if ($rv->site === "YouTube" && $rv->type === "Trailer"){
+//                                            ?>
+<!--                                            <a class="venobox text-white text-decoration-none" data-autoplay="true" data-vbtype="video" href="http://youtu.be/--><?php //echo $rv->key; ?><!--">-->
+<!--                                                <i class="fas fa-play ms-5"></i> Play Trailer-->
+<!--                                            </a>-->
+<!--                                            --><?php
+//                                        }
+//                                    }
+//                                    ?>
+<!--                                </div>-->
                             </div>
                             <div class="my-3">
                                 <h5>
                                     <i class="text-white-50"><?php echo $row->tagline; ?></i>
                                 </h5>
-                            </div>
-                            <div class="">
-                                <h3 class="text-white">Overview</h3>
-                                <p class="text-white">
-                                    <?php echo $row->overview; ?>
-                                </p>
                             </div>
                         </div>
                     </div>
@@ -152,6 +155,17 @@ $dataMostPopularPoster = reset($dataImagesPostersArr);
         </div>
     </div>
     <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h3 class="">Overview</h3>
+                <p class="">
+                    အားလုံးစောင့်နေကြမယ့် ရှမ်းကြီးလာပါပြီ။ ဒီရုပ်ရှင်ဇာတ်လမ်းကတော့ End Game အပြီး လူတွေ ကမ္ဘာပေါ်ကိုပြန်ရောက်ရှိနေတဲ့ ကာလမှာ အခြေတည်ထားတာပဲဖြစ်ပါတယ်။ အဓိကဗီလိန်ကတော့ The Mandarine ပါ။
+                    အိုင်ရွန်မန်း-၃ မှာတုန်းက မန်ဒရင်းအတုနဲ့တွေ့ခဲ့ကြတာ မှတ်မိကြဦးမှာပါ။ ဒီတစ်ခါတော့ မန်ဒရင်းအစစ်လာပါပြီ။
+
+                    စူပါပါဝါတွေရယ် မသေမျိုးအဖြစ်ရယ်ကို ပေးနိုင်စွမ်းရှိတဲ့ ဒဏ္ဍာရီလာ ကွင်းဆယ်ကွင်းကို ပိုင်ဆိုင်ထားပြီး လျို့ဝှက်အဖွဲ့ကြီးတစ်ခုရဲ့ ခေါင်းဆောင်လည်းဖြစ်ပါတယ်။ ရှန်းချီကတော့ သူ့အဖေခိုင်းတာတွေကို မလုပ်ချင်တော့လို့ ငယ်ငယ်ကတည်းက အိမ်ကထွက်ပြေးပြီး ဇာတ်မြှပ်နေခဲ့တဲ့ သိုင်းသမားလေးပဲဖြစ်ပါတယ်။ ရှမ်းချီဇာတ်ကောင်ဟာ မာဗယ်ဟီးရိုးတွေထဲက သိုင်းအတော်ဆုံးဇာတ်ကောင်ဖြစ်ပြီး Iron Fist နဲ့ လက်ရည်တူလောက်ရှိပါတယ်။ ကပ္ပတိန်တို့စပိုက်ဒီတို့ကိုတောင် သိုင်းသင်ပေးဖူးပါသေးတယ်။ ဒီရုပ်ရှင်အဆုံးမှာတော့ ထုံးစံအတိုင်း post-credit scene နှစ်ခုပါတာမို့ ရှာကြည့်ဖို့ မမေ့ပါနဲ့ဦးနော်။(ဒီဇာတ်လမ်းရဲ့ အညွှန်းနဲ့ ဘာသာပြန်ရေးသားပေးသူကတော့ Mr.Anderson ပဲဖြစ်ပါတယ်။)
+                </p>
+            </div>
+        </div>
         <div class="row">
             <div class="col-9">
 
@@ -243,118 +257,7 @@ $dataMostPopularPoster = reset($dataImagesPostersArr);
 <!--                social end-->
 
 <!--                media start-->
-                <div class="">
-                    <nav class="d-flex align-items-center">
-                        <h4 class="fw-bolder me-3">
-                            Media
-                        </h4>
-                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                            <button class="nav-link active" id="nav-mostPopular-tab" data-bs-toggle="tab" data-bs-target="#nav-mostPopular" type="button" role="tab" aria-controls="nav-mostPopular" aria-selected="true">Most Popular</button>
-                            <button class="nav-link" id="nav-videos-tab" data-bs-toggle="tab" data-bs-target="#nav-videos" type="button" role="tab" aria-controls="nav-videos" aria-selected="false">Videos <span class="text-black-50"><?php echo countTotal($dataVideosResult); ?></span></button>
-                            <button class="nav-link" id="nav-backdrops-tab" data-bs-toggle="tab" data-bs-target="#nav-backdrops" type="button" role="tab" aria-controls="nav-backdrops" aria-selected="false">Backdrops <span class="text-black-50"><?php echo countTotal($dataImagesBackdropsArr); ?></span></button>
-                            <button class="nav-link" id="nav-posters-tab" data-bs-toggle="tab" data-bs-target="#nav-posters" type="button" role="tab" aria-controls="nav-posters" aria-selected="false">Posters <span class="text-black-50"><?php echo countTotal($dataImagesPostersArr); ?></span></button>
 
-                        </div>
-                    </nav>
-                    <div class="tab-content" id="nav-tabContent">
-                        <div class="tab-pane fade show active" id="nav-mostPopular" role="tabpanel" aria-labelledby="nav-mostPopular-tab">
-                            <div class="overflow-scroll d-flex">
-                                <div class="h-100" style="width: 530px;">
-                                    <div class="media-video-background" style="background-image: url('https://i.ytimg.com/vi/<?php echo $dataMostPopularVideo->key; ?>/hqdefault.jpg')">
-                                        <h1 class="h-100 d-flex justify-content-center align-items-center">
-                                            <a class="venobox text-white text-decoration-none" data-autoplay="true" data-vbtype="video" href="http://youtu.be/<?php echo $dataMostPopularVideo->key; ?>">
-                                                <i class="display-1 text-white c-hover fas fa-play-circle"></i>
-                                            </a>
-                                        </h1>
-                                    </div>
-                                </div>
-                                <div class="h-100">
-                                    <img src="https://image.tmdb.org/t/p/w533_and_h300_bestv2<?php echo $dataMostPopularBackdrop->file_path; ?>" alt="">
-                                </div>
-                                <div class="">
-                                    <img style="height: 300px" src="https://image.tmdb.org/t/p/w220_and_h330_face<?php echo $dataMostPopularPoster->file_path; ?>" alt="">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="tab-pane fade" id="nav-videos" role="tabpanel" aria-labelledby="nav-videos-tab">
-                            <div class="d-flex overflow-scroll">
-                                <?php foreach ($dataSlicedVideosArr as $rv) { ?>
-                                    <div class="" style="width: 530px;">
-                                        <div class="media-video-background" style="background-image: url('https://i.ytimg.com/vi/<?php echo $rv->key; ?>/hqdefault.jpg')">
-                                            <h1 class="h-100 d-flex justify-content-center align-items-center">
-                                                <a class="venobox text-white text-decoration-none" data-autoplay="true" data-vbtype="video" href="http://youtu.be/<?php echo $rv->key; ?>">
-                                                    <i class="display-1 text-white c-hover fas fa-play-circle"></i>
-                                                </a>
-                                            </h1>
-                                        </div>
-                                    </div>
-                                <?php } ?>
-                                <?php if (countTotal($dataVideosResult) > 7) { ?>
-                                    <div class="col-3 mb-2">
-                                        <div class="card h-100">
-                                            <div class="card-body d-flex">
-                                                <p class="d-flex align-items-center">
-                                                    <a href="<?php echo $url; ?>/movies/videos.php/?id=<?php echo $movieId; ?>" class="text-dark text-decoration-none fw-bolder">View More <i class="text-dark fas fa-arrow-right"></i></a>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                <?php } ?>
-                            </div>
-                            <a class="mt-3 c-hover text-decoration-none text-black " href="<?php echo $url; ?>/movies/videos.php/?id=<?php echo $movieId; ?>">
-                                <p class="mt-3 fw-bolder">View All Videos</p>
-                            </a>
-                        </div>
-                        <div class="tab-pane fade" id="nav-backdrops" role="tabpanel" aria-labelledby="nav-backdrops-tab">
-                           <div class="d-flex overflow-scroll">
-                               <?php foreach ($dataSlicedImageBackdropsArr as $row){ ?>
-                                   <div class="">
-                                       <img src="https://image.tmdb.org/t/p/w533_and_h300_bestv2<?php echo $row->file_path; ?>" alt="">
-                                   </div>
-                               <?php } ?>
-                               <?php if (countTotal($dataImagesBackdropsArr) > 7) { ?>
-                                   <div class="col-3 mb-2">
-                                       <div class="card h-100">
-                                           <div class="card-body d-flex">
-                                               <p class="d-flex align-items-center">
-                                                   <a href="<?php echo $url; ?>/movies/backdrops.php/?id=<?php echo $movieId; ?>" class="text-dark text-decoration-none fw-bolder">View More <i class="text-dark fas fa-arrow-right"></i></a>
-                                               </p>
-                                           </div>
-                                       </div>
-                                   </div>
-                               <?php } ?>
-                           </div>
-                            <a class="mt-3 c-hover text-decoration-none text-black " href="<?php echo $url; ?>/movies/backdrops.php/?id=<?php echo $movieId; ?>">
-                                <p class="mt-3 fw-bolder">View All Backdrops</p>
-                            </a>
-                        </div>
-                        <div class="tab-pane fade" id="nav-posters" role="tabpanel" aria-labelledby="nav-posters-tab">
-                            <div class="d-flex overflow-scroll">
-                                <?php foreach ($dataSlicedImagePostersArr as $row){ ?>
-                                    <div class="">
-                                        <img src="https://image.tmdb.org/t/p/w220_and_h330_bestv2<?php echo $row->file_path; ?>" alt="">
-                                    </div>
-                                <?php } ?>
-                                <?php if (countTotal($dataImagesPostersArr) > 7) { ?>
-                                    <div class="col-3 mb-2">
-                                        <div class="card h-100">
-                                            <div class="card-body d-flex">
-                                                <p class="d-flex align-items-center">
-                                                    <a href="<?php echo $url; ?>/movies/posters.php/?id=<?php echo $movieId; ?>" class="text-dark text-decoration-none fw-bolder">View More <i class="text-dark fas fa-arrow-right"></i></a>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                <?php } ?>
-                            </div>
-                            <a class="mt-3 c-hover text-decoration-none text-black " href="<?php echo $url; ?>/movies/posters.php/?id=<?php echo $movieId; ?>">
-                                <p class="mt-3 fw-bolder">View All Posters</p>
-                            </a>
-                        </div>
-
-                    </div>
-                </div>
-                <hr>
 <!--                media end-->
 
 <!--                Recommendations start-->
@@ -392,26 +295,6 @@ $dataMostPopularPoster = reset($dataImagesPostersArr);
 <!--                Recommendations end-->
             </div>
             <div class="col-3 my-3">
-                <a href="<?php echo $rowDetails->homepage; ?>" data-bs-toggle="tooltip" data-bs-placement="top" title="Visit Home Page" class="text-decoration-none">
-                    <i class="fas fa-link fa-2x"></i>
-                </a>
-                <div class="">
-                    <div class="my-3">
-                        <p class="fw-bolder mb-0">Status</p>
-                        <p class="mb-0"><?php echo $rowDetails->status; ?></p>
-                    </div>
-                    <div class="mb-3">
-                        <p class="fw-bolder mb-0">Original Language</p>
-                        <p class="mb-0"><?php echo $rowDetails->status; ?></p>
-                    </div>
-                    <div class="mb-3">
-                        <p class="fw-bolder mb-0">Budget</p>
-                        <p class="mb-0">$ <?php echo number_format($rowDetails->budget,2); ?></p>
-                    </div>
-                    <div class="mb-3">
-                        <p class="fw-bolder mb-0">Revenue</p>
-                        <p class="mb-0">$ <?php echo number_format($rowDetails->revenue,2); ?></p>
-                    </div>
                     <div class="mb-3">
                         <p class="fw-bolder mb-0">Keywords</p>
                         <?php foreach ($rowKeywords as $keyword) { ?>
@@ -426,6 +309,7 @@ $dataMostPopularPoster = reset($dataImagesPostersArr);
     </div>
 
 <?php require_once "../template/footer.php"; ?>
+<script src="https://cdn.fluidplayer.com/v3/current/fluidplayer.min.js"></script>
 <script src="<?php echo $url; ?>/node_modules/venobox/venobox/venobox.min.js"></script>
 <script>
     $(document).ready(function(){
@@ -442,5 +326,38 @@ $dataMostPopularPoster = reset($dataImagesPostersArr);
     var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
         return new bootstrap.Tooltip(tooltipTriggerEl)
     })
+</script>
+
+
+<script>
+    var myFP = fluidPlayer(
+        'video-id',	{
+            "layoutControls": {
+                "controlBar": {
+                    "autoHideTimeout": 3,
+                    "animated": true,
+                    "autoHide": true
+                },
+                "htmlOnPauseBlock": {
+                    "html": null,
+                    "height": null,
+                    "width": null
+                },
+                "autoPlay": true,
+                "mute": false,
+                "allowTheatre": true,
+                "playPauseAnimation": true,
+                "playbackRateEnabled": false,
+                "allowDownload": false,
+                "playButtonShowing": true,
+                "fillToContainer": true,
+                "posterImage": ""
+            },
+            "vastOptions": {
+                "adList": [],
+                "adCTAText": false,
+                "adCTATextPosition": ""
+            }
+        })
 </script>
 
