@@ -19,3 +19,34 @@
 //     },
    
 // })
+
+function toDark() {
+    $("html").attr("theme","dark");
+    localStorage.setItem("theme","dark");
+}
+
+function toLight() {
+    $("html").attr("theme","light");
+    localStorage.setItem("theme","light");
+}
+
+
+$(".modeBtn").click(function () {
+
+    const color = localStorage.getItem("theme");
+
+    if (color === "dark") {
+        toLight();
+    } else {
+        toDark();
+    }
+
+});
+
+const color = localStorage.getItem("theme");
+
+if (color === "dark") {
+    toDark();
+} else {
+    toLight();
+}
