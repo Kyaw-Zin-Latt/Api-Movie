@@ -46,26 +46,25 @@ $dataMostPopularPoster = reset($dataImagesPostersArr);
 
 
     <div class="container-fluid">
-        <div class="row">
+        <div class="row mb-4">
             <!--        navbar start        -->
             <?php require_once "../components/navbar.php"; ?>
             <!--        navbar end          -->
         </div>
-    </div>
-    <div class="container-fluid row bg-dark mb-4" style="padding-top: 60px; z-index: 1002;">
-        <div class="row">
-            <div class="col-12">
-                <video id="video-id">
-                    <source src="https://cdn.fluidplayer.com/videos/valerian-480p.mkv" type="video/mp4"/>
-                </video>
-
+        <div class="row bg-dark mb-2 mt-5">
+            <div class="col-12 mt-4">
+                <div class="">
+                    <video id="video-id">
+                        <source src="https://cdn.fluidplayer.com/videos/valerian-480p.mkv" type="video/mp4"/>
+                    </video>
+                </div>
             </div>
         </div>
     </div>
-    <div class="h-100 cp-0" style="border-bottom: 1px solid #1b161a; background-position: right -200px top; background-size: cover; background-repeat: no-repeat; background-image: url('https://image.tmdb.org/t/p/w500<?php echo $row->backdrop_path; ?>'); width: 100%;position: relative;z-index: 1;height: 550px !important;">
-        <div class="cp-0" style="height: 550px  ;    background-image: linear-gradient(to right, rgba(10.59%, 8.63%, 10.20%, 1.00) 150px, rgb(34 29 33 / 58%) 100%);">
+    <div class="h-100 cp-0 m-detail-bg-img" style="background-image: url('https://image.tmdb.org/t/p/w500<?php echo $row->backdrop_path; ?>');">
+        <div class="cp-0 m-detail-bg">
             <div class="container">
-                <div class="row pt-5 g-2 d-flex align-items-center">
+                <div class="row pt-5 g-2 d-flex align-items-start align-items-md-center">
                     <div class="col-4">
                         <img class="img-fluid" src="https://image.tmdb.org/t/p/w300_and_h450_bestv2<?php echo $row->poster_path; ?>" alt="">
                     </div>
@@ -75,6 +74,9 @@ $dataMostPopularPoster = reset($dataImagesPostersArr);
                                 <a href="" class="text-white fw-bold text-decoration-none"><?php echo $row->original_title; ?></a>
                                 <span class="text-white">(<?php echo showDate($row->release_date,"Y"); ?>)</span>
                             </h2>
+                            <p class="d-blocl d-md-none">
+                                <i class="text-white-50"><?php echo $row->tagline; ?></i>
+                            </p>
                             <div class="mb-4">
                                  <span class="text-white">
                                      <i class="fas fa-calendar-alt text-primary"></i>
@@ -93,7 +95,7 @@ $dataMostPopularPoster = reset($dataImagesPostersArr);
                                 </span>
                                 <span></span>
                             </div>
-                            <div class="d-flex align-items-center">
+                            <div class="d-flex align-items-center d-none d-md-block">
                                 <div class="d-flex align-items-center">
                                     <div class="single-chart">
                                         <svg viewBox="0 0 36 36" class="circular-chart
@@ -143,7 +145,7 @@ $dataMostPopularPoster = reset($dataImagesPostersArr);
 <!--                                </div>-->
                             </div>
                             <div class="my-3">
-                                <h5>
+                                <h5 class="d-none d-md-block">
                                     <i class="text-white-50"><?php echo $row->tagline; ?></i>
                                 </h5>
                             </div>
@@ -154,8 +156,78 @@ $dataMostPopularPoster = reset($dataImagesPostersArr);
             </div>
         </div>
     </div>
+    <div class="container d-block d-md-none">
+        <ul class="nav nav-pills my-3" id="pills-tab" role="tablist">
+            <li class="nav-item col-6" role="presentation">
+                <button class="nav-link active w-100" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Info</button>
+            </li>
+            <li class="nav-item col-6" role="presentation">
+                <button class="nav-link w-100" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Cast</button>
+            </li>
+            <li class="nav-item col-6" role="presentation">
+                <button class="nav-link w-100" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Link</button>
+            </li>
+            <li class="nav-item col-6" role="presentation">
+                <button class="nav-link w-100" id="pills-keywords-tab" data-bs-toggle="pill" data-bs-target="#pills-keywords" type="button" role="tab" aria-controls="pills-keywords" aria-selected="false">Keywords</button>
+            </li>
+        </ul>
+    </div>
+    <div class="tab-content" id="pills-tabContent">
+        <div class="tab-pane fade px-2 show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+            <div class="row d-block d-md-none">
+                <div class="col-12">
+                    <h3 class="">Overview</h3>
+                    <p class="">
+                        အားလုံးစောင့်နေကြမယ့် ရှမ်းကြီးလာပါပြီ။ ဒီရုပ်ရှင်ဇာတ်လမ်းကတော့ End Game အပြီး လူတွေ ကမ္ဘာပေါ်ကိုပြန်ရောက်ရှိနေတဲ့ ကာလမှာ အခြေတည်ထားတာပဲဖြစ်ပါတယ်။ အဓိကဗီလိန်ကတော့ The Mandarine ပါ။
+                        အိုင်ရွန်မန်း-၃ မှာတုန်းက မန်ဒရင်းအတုနဲ့တွေ့ခဲ့ကြတာ မှတ်မိကြဦးမှာပါ။ ဒီတစ်ခါတော့ မန်ဒရင်းအစစ်လာပါပြီ။
+
+                        စူပါပါဝါတွေရယ် မသေမျိုးအဖြစ်ရယ်ကို ပေးနိုင်စွမ်းရှိတဲ့ ဒဏ္ဍာရီလာ ကွင်းဆယ်ကွင်းကို ပိုင်ဆိုင်ထားပြီး လျို့ဝှက်အဖွဲ့ကြီးတစ်ခုရဲ့ ခေါင်းဆောင်လည်းဖြစ်ပါတယ်။ ရှန်းချီကတော့ သူ့အဖေခိုင်းတာတွေကို မလုပ်ချင်တော့လို့ ငယ်ငယ်ကတည်းက အိမ်ကထွက်ပြေးပြီး ဇာတ်မြှပ်နေခဲ့တဲ့ သိုင်းသမားလေးပဲဖြစ်ပါတယ်။ ရှမ်းချီဇာတ်ကောင်ဟာ မာဗယ်ဟီးရိုးတွေထဲက သိုင်းအတော်ဆုံးဇာတ်ကောင်ဖြစ်ပြီး Iron Fist နဲ့ လက်ရည်တူလောက်ရှိပါတယ်။ ကပ္ပတိန်တို့စပိုက်ဒီတို့ကိုတောင် သိုင်းသင်ပေးဖူးပါသေးတယ်။ ဒီရုပ်ရှင်အဆုံးမှာတော့ ထုံးစံအတိုင်း post-credit scene နှစ်ခုပါတာမို့ ရှာကြည့်ဖို့ မမေ့ပါနဲ့ဦးနော်။(ဒီဇာတ်လမ်းရဲ့ အညွှန်းနဲ့ ဘာသာပြန်ရေးသားပေးသူကတော့ Mr.Anderson ပဲဖြစ်ပါတယ်။)
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade px-2" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+            <div class="col-12 d-block d-md-none">
+                <ol class="list-group">
+                    <?php foreach ($dataSlicedPeopleArr as $row) { ?>
+                        <li class="list-group-item d-flex align-items-center">
+                            <?php if (empty($row->profile_path)){ ?>
+                                <a href="<?php echo $url; ?>/person/person_detail.php?person_id=<?php echo $row->id; ?>">
+                                    <img class="rounded-3 profile-64-img border border-info p-2" src="<?php echo $url; ?>/assets/img/person.jpg" alt="">
+                                </a>
+
+                            <?php } else { ?>
+                                <a href="<?php echo $url; ?>/person/person_detail.php?person_id=<?php echo $row->id; ?>">
+                                    <img class="rounded-3" src="https://image.tmdb.org/t/p/w66_and_h66_face<?php echo $row->profile_path; ?>" alt="">
+                                </a>
+                            <?php } ?>
+
+                            <div class="ms-2">
+                                <a href="<?php echo $url; ?>/person/person_detail.php?person_id=<?php echo $row->id; ?>" class="text-decoration-none text-black">
+                                    <p class="mb-0 c-hover fw-bolder"><?php echo $row->name; ?></p>
+                                </a>
+                                <p class="text-black-50 mb-0"><?php echo $row->character; ?></p>
+                            </div>
+                        </li>
+                    <?php } ?>
+                </ol>
+            </div>
+        </div>
+        <div class="tab-pane fade px-2" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">...</div>
+        <div class="tab-pane fade px-2" id="pills-keywords" role="tabpanel" aria-labelledby="pills-keywords-tab">
+            <div class="mb-3">
+                <p class="fw-bolder mb-0">Keywords</p>
+                <?php foreach ($rowKeywords as $keyword) { ?>
+                    <a href="<?php echo $url; ?>/discovers/keyword.php?movie_id=<?php echo $movieId; ?>&keyword_id=<?php echo $keyword->id; ?>" class="text-decoration-none">
+                        <p class="mb-1 p-2 badge bg-primary rounded"><?php echo $keyword->name; ?></p>
+                    </a>
+                <?php } ?>
+            </div>
+        </div>
+
+    </div>
     <div class="container">
-        <div class="row">
+        <div class="row d-none d-md-block">
             <div class="col-12">
                 <h3 class="">Overview</h3>
                 <p class="">
@@ -167,7 +239,7 @@ $dataMostPopularPoster = reset($dataImagesPostersArr);
             </div>
         </div>
         <div class="row">
-            <div class="col-9">
+            <div class="col-12 col-md-9 d-none d-md-block">
 
 <!--                top billed cast start-->
                 <h4 class="my-3 fw-bolder">
@@ -175,7 +247,8 @@ $dataMostPopularPoster = reset($dataImagesPostersArr);
                 </h4>
                 <div class="row g-2 card-no-wrap mb-2">
                     <?php foreach ($dataSlicedPeopleArr as $rpc){ ?>
-                        <div class="col-2">
+
+                        <div class="col-12 col-md-2">
                             <div class="card mb-2 h-100">
                                 <a href="<?php echo $url; ?>/person/person_detail.php?person_id=<?php echo $rpc->id; ?>">
                                     <img src="https://image.tmdb.org/t/p/w235_and_h235_face<?php echo $rpc->profile_path; ?>" class="rounded-3 card-img-top" alt="">
@@ -201,64 +274,8 @@ $dataMostPopularPoster = reset($dataImagesPostersArr);
                 <a class="text-decoration-none text-black " href="<?php echo $url; ?>/movies/cast_and_crew.php/?id=<?php echo $movieId; ?>">
                     <p class="fw-bolder">Full Cast & Crew</p>
                 </a>
-                <hr>
 <!--                top billed cast end-->
-
-<!--                social start-->
-<!--                <div class="">-->
-<!--                    <nav class="d-flex align-items-center">-->
-<!--                        <h4 class="fw-bolder me-3">-->
-<!--                            Social-->
-<!--                        </h4>-->
-<!--                        <div class="nav nav-tabs" id="nav-tab" role="tablist">-->
-<!--                            <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Reviews <span class="text-black-50"></span></button>-->
-<!--                            <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</button>-->
-<!--                            <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</button>-->
-<!--                        </div>-->
-<!--                    </nav>-->
-<!--                    <div class="tab-content" id="nav-tabContent">-->
-<!--                        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">-->
-<!--                            --><?php //if (countTotal($dataReviewSlicedResult) > 0){ ?>
-<!---->
-<!--                                <div class="card shadow rounded-3">-->
-<!--                                    <div class="card-body">-->
-<!--                                        <div class="d-flex align-items-center">-->
-<!--                                            <img class="rounded-circle" src="--><?php //echo substr($dataReviewSlicedResult[0]->author_details->avatar_path,1); ?><!--" alt="">-->
-<!--                                            <div class="ms-3">-->
-<!--                                                <h4 class="mb-0">-->
-<!--                                                    <a href="" class="text-decoration-none text-black">A review by --><?php //echo $dataReviewSlicedResult[0]->author;  ?><!--</a>-->
-<!--                                                </h4>-->
-<!--                                                <small class="text-black-50">-->
-<!--                                                    Written by <b>--><?php //echo $dataReviewSlicedResult[0]->author;  ?><!--</b> on --><?php //echo showDate($dataReviewSlicedResult[0]->created_at);  ?>
-<!--                                                </small>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                        <div class="ps-5 py-3">-->
-<!--                                            <p class="ps-5">-->
-<!--                                                --><?php //echo short($dataReviewSlicedResult[0]->content,600); ?>
-<!--                                                <a href="" class="text-black fw-bolder">read more</a>.-->
-<!--                                            </p>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!---->
-<!--                            --><?php //} else { ?>
-<!--                                <p>No Review</p>-->
-<!--                            --><?php //} ?>
-<!--                        </div>-->
-<!--                        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab"></div>-->
-<!--                        <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <a class="mt-3 text-decoration-none text-black c-hover" href="--><?php //echo $url; ?><!--/movies/cast_and_crew.php/?id=--><?php //echo $movieId; ?><!--">-->
-<!--                    <p class="mt-3 fw-bolder">Read All Reviews</p>-->
-<!--                </a>-->
-<!--                <hr>-->
-<!--                social end-->
-
-<!--                media start-->
-
-<!--                media end-->
+                <hr>
 
 <!--                Recommendations start-->
                 <h4 class="fw-bolder">
@@ -294,7 +311,8 @@ $dataMostPopularPoster = reset($dataImagesPostersArr);
                 </div>
 <!--                Recommendations end-->
             </div>
-            <div class="col-3 my-3">
+
+            <div class="col-12 col-md-3 my-3 d-none d-md-block">
                     <div class="mb-3">
                         <p class="fw-bolder mb-0">Keywords</p>
                         <?php foreach ($rowKeywords as $keyword) { ?>
@@ -305,7 +323,46 @@ $dataMostPopularPoster = reset($dataImagesPostersArr);
                     </div>
                 </div>
             </div>
-        </div>
+<!--            Recommendations start in mobile-->
+            <div class="col-12 d-block d-md-none">
+                <hr>
+                <h4 class="fw-bolder">
+                    Recommendations
+                </h4>
+
+                <div class="">
+                    <div class="g-1 d-flex overflow-scroll text-nowrap">
+                        <?php foreach ($dataRecommendationVideosResultArr as $row){ ?>
+                            <div class="col-4">
+
+                                <div class="px-2">
+                                    <div class="position-relative">
+                                        <a href="<?php echo $url; ?>/movies/movie_detail.php?id=<?php echo $row->id; ?>" class="">
+                                            <figure class="imghvr-fade rounded">
+                                                <img src="https://image.tmdb.org/t/p/w300_and_h450_bestv2<?php echo $row->backdrop_path; ?>" class="rounded img-fluid" alt="">
+                                                <figcaption class="">
+                                                    <small class="position-absolute text-white c-rounded bg-secondary bottom-0 p-1" style="right: 0">
+                                                        <i class="fas fa-star text-white p-1"> <?php echo numberFormat($row->vote_average); ?> %</i>
+                                                    </small>
+                                                </figcaption>
+                                            </figure>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php } ?>
+                    </div>
+                </div>
+                <hr>
+                <div class="d-flex">
+                    <a href="" class="text-decoration-none me-2">Home</a>
+                    <a href="" class="text-decoration-none">Movies</a>
+
+                </div>
+            </div>
+
+<!--            Recommendations end in mobile-->
+    </div>
     </div>
 
 <?php require_once "../template/footer.php"; ?>
@@ -343,7 +400,7 @@ $dataMostPopularPoster = reset($dataImagesPostersArr);
                     "height": null,
                     "width": null
                 },
-                "autoPlay": true,
+                "autoPlay": false,
                 "mute": false,
                 "allowTheatre": true,
                 "playPauseAnimation": true,

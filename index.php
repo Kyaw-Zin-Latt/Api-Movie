@@ -5,15 +5,17 @@ require_once "function.php";
 $data = file_get_contents("https://api.themoviedb.org/3/movie/now_playing?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US&page=1");
 $nowPlayingMovies = json_decode($data);
 $nowPlayingMoviesResult = $nowPlayingMovies->results;
-$nowPlayingMoviesResultSlided = array_slice($nowPlayingMoviesResult, 0, 19);
+$nowPlayingMoviesResultSlided = array_slice($nowPlayingMoviesResult, 0, 12);
 
 $data = file_get_contents("https://api.themoviedb.org/3/tv/on_the_air?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US&page=1");
 $popularTVShows = json_decode($data);
 $popularTVShowsResult = $popularTVShows->results;
+$popularTVShowsResultSlided = array_slice($popularTVShowsResult,0,12);
 
 $data = file_get_contents("https://api.themoviedb.org/3/trending/all/day?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400");
 $trendByDay = json_decode($data);
 $trendByDayResults = $trendByDay->results;
+$trendByDayResultSlided = array_slice($trendByDayResults,0,12);
 
 $data = file_get_contents("https://api.themoviedb.org/3/trending/all/week?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400");
 $trendByWeek = json_decode($data);
@@ -70,22 +72,16 @@ $trendByWeekResults = $trendByWeek->results;
         <div class="row my-3">
             <!--        what's popular start-->
             <div class="col-12">
-                <div class=" d-md-flex">
-                    <h3 class="me-3">What's Popular</h3>
-                    <ul class="nav nav-pills mb-3 border border-dark rounded-pill" id="pills-tab" role="tablist">
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link active rounded-pill" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#popularMovie" type="button" role="tab" aria-controls="popularMovie" aria-selected="true">On TV</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link rounded-pill" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#popularTv" type="button" role="tab" aria-controls="popularTv" aria-selected="false">In Theaters</button>
-                        </li>
-                    </ul>
+                <div class="d-flex justify-content-between align-items-center">
+                    <h3 class="me-3">Movie</h3>
+                    <a href="" class="text-capitalize btn btn-secondary">See all</a>
                 </div>
                 <div class="tab-content" id="pills-tabContent">
                     <div class="tab-pane fade show active" id="popularMovie" role="tabpanel" aria-labelledby="pills-home-tab">
-                        <div class="row on-theater card-no-wrap overflow-scroll">
-                            <?php foreach ($popularTVShowsResult as $row) { ?>
-                                <div class="mb-3 col-sm-4" style="width: 15.5%">
+                        <div class="row on-theater">
+                            <?php foreach ($popularTVShowsResultSlided as $row) { ?>
+
+                                <div class="mb-3 col-6 col-md-2">
 
                                     <div class="card h-100 rounded-3 ">
                                         <?php if (empty($row->poster_path)) { ?>
@@ -121,7 +117,7 @@ $trendByWeekResults = $trendByWeek->results;
                                                 <path class="circle-bg" d="M18 2.0845
                                               a 15.9155 15.9155 0 0 1 0 31.831
                                               a 15.9155 15.9155 0 0 1 0 -31.831" />
-                                                <path class="circle" stroke-dasharray="30, 100" d="M18 2.0845
+                                                <path class="circle" stroke-dasharray="<?php echo $votePercentage; ?>, 100" d="M18 2.0845
                                               a 15.9155 15.9155 0 0 1 0 31.831
                                               a 15.9155 15.9155 0 0 1 0 -31.831" />
                                                 <text x="18" y="20.35" class="percentage"><?php echo numberFormat($row->vote_average) > 1 ? numberFormat($row->vote_average) . "%" : "NR"; ?></text>
@@ -177,7 +173,7 @@ $trendByWeekResults = $trendByWeek->results;
                                         <path class="circle-bg" d="M18 2.0845
                                               a 15.9155 15.9155 0 0 1 0 31.831
                                               a 15.9155 15.9155 0 0 1 0 -31.831" />
-                                        <path class="circle" stroke-dasharray="30, 100" d="M18 2.0845
+                                        <path class="circle" stroke-dasharray="<?php echo $votePercentage; ?>, 100" d="M18 2.0845
                                               a 15.9155 15.9155 0 0 1 0 31.831
                                               a 15.9155 15.9155 0 0 1 0 -31.831" />
                                         <text x="18" y="20.35" class="percentage"><?php echo numberFormat($row->vote_average) > 1 ? numberFormat($row->vote_average) . "%" : "NR"; ?></text>
@@ -202,21 +198,13 @@ $trendByWeekResults = $trendByWeek->results;
     <div class="col-12 trending" style="background-image: url('assets/img/download.svg')">
         <div class="d-flex">
             <h3 class="me-3">Trending</h3>
-            <ul class="nav nav-pills mb-3 border border-dark rounded-pill" id="pills-tab" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link active rounded-pill" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#trendingByDay" type="button" role="tab" aria-controls="trendingByDay" aria-selected="true">Today</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link rounded-pill" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#trendingByWeek" type="button" role="tab" aria-controls="trendingByWeek" aria-selected="false">This Week</button>
-                </li>
-            </ul>
         </div>
         <div class="tab-content" id="pills-tabContent">
             <div class="tab-pane fade show active" id="trendingByDay" role="tabpanel" aria-labelledby="pills-home-tab">
-                <div class="row on-theater card-no-wrap overflow-scroll">
-                    <?php foreach ($trendByDayResults as $row) { ?>
+                <div class="row on-theater">
+                    <?php foreach ($trendByDayResultSlided as $row) { ?>
                         <?php if ($row->media_type == "movie") { ?>
-                            <div class="mb-3" style="width: 15.5%">
+                            <div class="mb-3 col-6 col-md-2">
 
                                 <div class="card h-100 rounded-3 ">
                                     <?php if (empty($row->poster_path)) { ?>
@@ -252,7 +240,7 @@ $trendByWeekResults = $trendByWeek->results;
                                                 <path class="circle-bg" d="M18 2.0845
                                                       a 15.9155 15.9155 0 0 1 0 31.831
                                                       a 15.9155 15.9155 0 0 1 0 -31.831" />
-                                                <path class="circle" stroke-dasharray="30, 100" d="M18 2.0845
+                                                <path class="circle" stroke-dasharray="<?php echo $votePercentage; ?>, 100" d="M18 2.0845
                                                       a 15.9155 15.9155 0 0 1 0 31.831
                                                       a 15.9155 15.9155 0 0 1 0 -31.831" />
                                                 <text x="18" y="20.35" class="percentage"><?php echo numberFormat($row->vote_average) > 1 ? numberFormat($row->vote_average) . "%" : "NR"; ?></text>
@@ -267,7 +255,7 @@ $trendByWeekResults = $trendByWeek->results;
                                 </div>
                             </div>
                         <?php } else { ?>
-                            <div class="mb-3" style="width: 15.5%">
+                            <div class="mb-3 col-6 col-md-2">
 
                                 <div class="card h-100 rounded-3 ">
                                     <?php if (empty($row->poster_path)) { ?>
@@ -303,7 +291,7 @@ $trendByWeekResults = $trendByWeek->results;
                                                 <path class="circle-bg" d="M18 2.0845
                                                       a 15.9155 15.9155 0 0 1 0 31.831
                                                       a 15.9155 15.9155 0 0 1 0 -31.831" />
-                                                <path class="circle" stroke-dasharray="30, 100" d="M18 2.0845
+                                                <path class="circle" stroke-dasharray="<?php echo $votePercentage; ?>, 100" d="M18 2.0845
                                                       a 15.9155 15.9155 0 0 1 0 31.831
                                                       a 15.9155 15.9155 0 0 1 0 -31.831" />
                                                 <text x="18" y="20.35" class="percentage"><?php echo numberFormat($row->vote_average) > 1 ? numberFormat($row->vote_average) . "%" : "NR"; ?></text>
@@ -322,10 +310,10 @@ $trendByWeekResults = $trendByWeek->results;
                 </div>
             </div>
     <div class="tab-pane fade" id="trendingByWeek" role="tabpanel" aria-labelledby="pills-profile-tab">
-        <div class="row on-theater card-no-wrap overflow-scroll">
-            <?php foreach ($trendByWeekResults as $row) { ?>
+        <div class="row on-theater">
+            <?php foreach ($trendByDayResultSlided as $row) { ?>
                 <?php if ($row->media_type == "movie") { ?>
-                    <div class="mb-3" style="width: 15.5%">
+                    <div class="mb-3 col-sm-6 col-md-2">
 
                         <div class="card h-100 rounded-3 ">
                             <?php if (empty($row->poster_path)) { ?>
@@ -376,7 +364,7 @@ $trendByWeekResults = $trendByWeek->results;
                         </div>
                     </div>
                 <?php } else { ?>
-                    <div class="mb-3" style="width: 15.5%">
+                    <div class="mb-3 col-6 col-md-2">
 
                         <div class="card h-100 rounded-3 ">
                             <?php if (empty($row->poster_path)) { ?>
@@ -467,15 +455,6 @@ $trendByWeekResults = $trendByWeek->results;
     });
 
     // pagination end
-
-    window.onload = function() {
-            function limitScreen() {
-                if (screen.width < 1200){
-                    alert("This website don't support for Mobile and Tablet  right now yet!😢😢😢");
-                }
-            }
-            setInterval(limitScreen, 500);
-        }
 
 </script>
 </body>

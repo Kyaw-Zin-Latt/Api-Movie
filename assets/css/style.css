@@ -1,11 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
 :root {
     --tmdbDarkBlue: 3,37,65;
 }
 
-*{
-    font-family: 'Roboto', sans-serif;
-}
 section.home {
     background-image: linear-gradient(to right, rgba(var(--tmdbDarkBlue), 0.8) 0%, rgba(var(--tmdbDarkBlue), 0) 100%), url('https://image.tmdb.org/t/p/w1920_and_h600_multi_faces_filter(duotone,032541,01b4e4)/kSNojkWwSZWsYv0Xj1gcq88okzY.jpg');
     height: 420px;
@@ -164,3 +160,35 @@ section.home {
 }
 
 /*percentage circle end*/
+
+.m-detail-bg-img{
+    border-bottom: 1px solid #1b161a;
+    background-position: right -200px top; background-size: cover;
+    background-repeat: no-repeat;
+    width: 100%;position: relative;
+    z-index: 1;
+    height: 550px !important;
+}
+
+.m-detail-bg{
+    height: 550px  ;
+    background-image: linear-gradient(to right, rgba(10.59%, 8.63%, 10.20%, 1.00) 150px, rgb(34 29 33 / 58%) 100%);
+}
+
+@media only screen and (max-width: 479px) and (min-width: 360px) {
+
+    .m-detail-bg{
+        height: 330px  ;
+        background-image: linear-gradient(to right, rgba(10.59%, 8.63%, 10.20%, 1.00) 150px, rgb(34 29 33 / 58%) 100%);
+    }
+
+    .m-detail-bg-img{
+        border-bottom: 1px solid #1b161a;
+        background-position: right -200px top; background-size: cover;
+        background-repeat: no-repeat;
+        width: 100%;position: relative;
+        z-index: 1;
+        height: 330px !important;
+    }
+
+}
