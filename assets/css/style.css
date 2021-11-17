@@ -2,6 +2,19 @@
     --tmdbDarkBlue: 3,37,65;
 }
 
+html[theme='dark'] {
+    --bs-primary: var(--bs-danger);
+    --dark-text: var(--bs-light);
+    --dark-bg: var(--bs-dark);
+}
+
+h1,h2,h3,h4,h5,h6,p{
+    color: var(--dark-text);
+}
+body{
+    background: var(--dark-bg);
+}
+
 section.home {
     background-image: linear-gradient(to right, rgba(var(--tmdbDarkBlue), 0.8) 0%, rgba(var(--tmdbDarkBlue), 0) 100%), url('https://image.tmdb.org/t/p/w1920_and_h600_multi_faces_filter(duotone,032541,01b4e4)/kSNojkWwSZWsYv0Xj1gcq88okzY.jpg');
     height: 420px;
