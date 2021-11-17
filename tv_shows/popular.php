@@ -348,6 +348,7 @@ if ((isset($_POST['start']) && isset($_POST['end']) && isset($_POST['sort_by']) 
 </div>
 
 <script src="<?php echo $url; ?>/node_modules/jquery/dist/jquery.min.js"></script>
+<script src="<?php echo $url; ?>/assets/js/app.js"></script>
 <script src="<?php echo $url; ?>/node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
 
 <script>

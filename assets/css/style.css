@@ -5,14 +5,18 @@
 html[theme='dark'] {
     --bs-primary: var(--bs-danger);
     --dark-text: var(--bs-light);
-    --dark-bg: var(--bs-dark);
+    --dark-bg: #000;
+    --dark-card : #262626;
 }
 
-h1,h2,h3,h4,h5,h6,p{
-    color: var(--dark-text);
+h1,h2,h3,h4,h5,h6,p,.card-text{
+    color: var(--dark-text) !important;
 }
 body{
     background: var(--dark-bg);
+}
+.card{
+    background: var(--dark-card);
 }
 
 section.home {
