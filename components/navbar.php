@@ -6,35 +6,14 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Movies
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="<?php echo $url; ?>/movies/movie.php">Popular</a></li>
-                        <li><a class="dropdown-item" href="<?php echo $url; ?>/movies/now_playing.php">Now Playing</a></li>
-                        <li><a class="dropdown-item" href="<?php echo $url; ?>/movies/upcoming.php">Upcoming</a></li>
-                        <li><a class="dropdown-item" href="<?php echo $url; ?>/movies/top_rated.php">Top Rated</a></li>
-                    </ul>
+                <li class="nav-item">
+                    <a class="nav-link" href="<?php echo $url; ?>/movies/movie.php">Movies</a>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        TV Shows
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="<?php echo $url; ?>/tv_shows/popular.php">Popular</a></li>
-                        <li><a class="dropdown-item" href="<?php echo $url; ?>/tv_shows/airing_today.php">Airing Today</a></li>
-                        <li><a class="dropdown-item" href="<?php echo $url; ?>/tv_shows/on_tv.php">On TV</a></li>
-                        <li><a class="dropdown-item" href="<?php echo $url; ?>/tv_shows/top_rated.php">Top Rated</a></li>
-                    </ul>
+                <li class="nav-item">
+                    <a class="nav-link" href="<?php echo $url; ?>/tv_shows/popular.php">TV Shows</a>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        People
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="<?php echo $url; ?>/person/person.php">Popular People</a></li>
-                    </ul>
+                <li class="nav-item">
+                    <a class="nav-link" href="<?php echo $url; ?>/person/person.php">People</a>
                 </li>
             </ul>
             <form class="d-flex" method="post" action="<?php echo $url; ?>/search/search.php">

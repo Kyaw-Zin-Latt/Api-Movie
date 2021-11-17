@@ -272,95 +272,16 @@ if ((isset($_POST['start']) && isset($_POST['end']) && isset($_POST['sort_by']) 
     <div class="row">
         <div class="col-12">
             <div class="d-flex justify-content-between align-items-center">
-                <h3 class="fw-bolder my-4">Popular Movies</h3>
-                <?php if (isset($_POST['genres']) || isset($_POST['sort_by']) || isset($_POST['start']) || isset($_POST['end']) || isset($_GET['genres']) || isset($_GET['sort_by']) || isset($_GET['start']) || isset($_GET['end']) || isset($_GET['page'])) { ?>
-                    <a href="<?php echo $url; ?>/movies/movie.php" class="btn btn-outline-primary">
-                        Clear Filter and Sort
-                    </a>
-                <?php } ?>
+                <h3 class="fw-bolder mt-5 mb-3">Recently Added</h3>
             </div>
         </div>
-        <div class="col-12 col-md-3">
-            <form action="" id="filter" method="post">
-                <div class="accordion mb-3" id="accordionExample">
-                    <div class="accordion-item">
-                        <h2 class="accordion-header" id="headingOne">
-                            <button class=" accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                <h5 class="mb-0">Sort</h5>
-                            </button>
-                        </h2>
-                        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                            <div class="accordion-body">
-                                <h5 class="text-black-50">Sort Results By</h5>
-                                <!--                            <form action="" id="sort" method="post">-->
-                                <select class="form-select" name="sort_by" aria-label="Default select example">
-                                    <option value="popularity.desc" <?php echo $sort_key === "popularity.desc" ? "selected" : " " ?>>Popularity Descending</option>
-                                    <option value="popularity.asc" <?php echo $sort_key === "popularity.asc" ? "selected" : " " ?>>Popularity Ascending</option>
-                                    <option value="vote_average.desc" <?php echo $sort_key === "vote_average.desc" ? "selected" : " " ?>>Rating Descending</option>
-                                    <option value="vote_average.asc" <?php echo $sort_key === "vote_average.asc" ? "selected" : " " ?>>Rating Ascending</option>
-                                    <option value="primary_release_date.desc" <?php echo $sort_key === "primary_release_date.desc" ? "selected" : " " ?>> Release Date Descending</option>
-                                    <option value="primary_release_date.asc" <?php echo $sort_key === "primary_release_date.asc" ? "selected" : " " ?>>Release Date Ascending</option>
-                                    <option value="title.asc" <?php echo $sort_key === "title.asc" ? "selected" : " " ?>>Title (A-Z)</option>
-                                    <option value="title.desc" <?php echo $sort_key === "title.desc" ? "selected" : " " ?>>Title (Z-A)</option>
-                                </select>
-                                <!--                            </form>-->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="accordion my-3" id="accordionExample1">
-                    <div class="accordion-item">
-                        <h2 class="accordion-header" id="headingTwo">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                Filters
-                            </button>
-                        </h2>
-                        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample1">
-                            <div class="accordion-body">
-                                <h5 class="text-black-50 fw-bolder">Search By Date</h5>
-                                <div class="mb-2">
-                                    <label for="from" class="form-label">Start Date</label>
-                                    <input type="date" name="start" value="<?php echo isset($start) ? $start : ''; ?>" id="from" class="form-control">
-                                </div>
-                                <div class="">
-                                    <label for="from" class="form-label">End Date</label>
-                                    <input type="date" name="end" value="<?php echo isset($end) ? $end : ''; ?>" id="from" class="form-control">
-                                </div>
-                                <hr>
-                                <h5 class="text-black-50 fw-bolder">Searh By Year</h5>
-                                <div class="mb-2">
-                                    <label for="year" class="form-label">Year</label>
-                                    <input type="number" placeholder="2021" name="year" value="<?php echo isset($year) ? $year : ''; ?>" id="year" class="form-control">
-                                </div>
-                                <hr>
-                                <h5 class="text-black-50 fw-bolder">Genres</h5>
-                                <?php foreach ($genresArrResult as $row) { ?>
-                                    <?php if (isset($ans)) { ?>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" name="genres[]" type="checkbox" id="inlineCheckbox<?php echo $row->id; ?>" value="<?php echo $row->id; ?>" <?php foreach ($ans as $id) { ?> <?php echo $row->id == $id ? "checked" : "" ?> <?php } ?>>
-                                            <label class="form-check-label" for="inlineCheckbox<?php echo $row->id; ?>"><?php echo $row->name; ?></label>
-                                        </div>
-                                    <?php } else { ?>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" name="genres[]" type="checkbox" id="inlineCheckbox<?php echo $row->id; ?>" value="<?php echo $row->id; ?>">
-                                            <label class="form-check-label" for="inlineCheckbox<?php echo $row->id; ?>"><?php echo $row->name; ?></label>
-                                        </div>
-                                    <?php } ?>
-                                <?php } ?>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </form>
-            <button form="filter" class="w-100 border-secondary btn btn-light rounded-pill">Filter</button>
-        </div>
-        <div class="col-12 col-md-9">
+        <div class="col-12">
             <div class="row list-wrapper">
                 <?php if (countTotal($popularMovieArrResult) > 0) { ?>
                     <?php foreach ($popularMovieArrResult as $row) { ?>
-                        <div class="mb-4" style="width: 19.5%">
+                        <div class="mb-4 col-6 col-md-2">
 
-                            <div class="card h-100 rounded-3">
+                            <div class="card h-100 rounded-3 shadow-sm">
                                 <?php if (empty($row->poster_path)) { ?>
                                     <a href="<?php echo $url; ?>/movies/movie_detail.php?id=<?php echo $row->id; ?>" ">
                                     <div class=" d-flex justify-content-center rounded-top align-items-center bg-secondary" style="height: 239px;">

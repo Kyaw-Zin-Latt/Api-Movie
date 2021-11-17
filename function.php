@@ -29,7 +29,7 @@ function countTotal($arr) {
 }
 
 function numberFormat($num) {
-    return number_format((($num)*10) + 1);
+    return number_format((($num)*10));
 }
 
 function minToHour($minutes) {

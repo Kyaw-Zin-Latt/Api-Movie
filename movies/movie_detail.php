@@ -11,6 +11,7 @@ $rowGenres = $row->genres;
 $rowKeywords = $row->keywords->keywords;
 
 $dataVideoResult = $row->videos->results;
+$dataForTrailer = array_slice(array_reverse($dataVideoResult),0,1);
 
 $dataVideosResult = $row->videos->results;
 $dataSlicedVideosArr = array_slice(array_reverse($dataVideosResult),0,6);
@@ -67,6 +68,19 @@ $dataMostPopularPoster = reset($dataImagesPostersArr);
                 <div class="row pt-5 g-2 d-flex align-items-start align-items-md-center">
                     <div class="col-4">
                         <img class="img-fluid" src="https://image.tmdb.org/t/p/w300_and_h450_bestv2<?php echo $row->poster_path; ?>" alt="">
+                        <div class="d-block d-md-none">
+                            <?php foreach ($dataForTrailer as $rv){
+                                if ($rv->site === "YouTube" || $rv->type === "Trailer"){
+                                    ?>
+                                    <a class="venobox text-white text-decoration-none" data-autoplay="true" data-vbtype="video" href="http://youtu.be/<?php echo $rv->key; ?>">
+                                        <button class="btn btn-sm w-100 mt-1 btn-primary">Watch Trailer</button>
+                                    </a>
+                                    <?php
+                                }
+                            }
+                            ?>
+                        </div>
+
                     </div>
                     <div class="col-8">
                         <div class="">
@@ -74,7 +88,7 @@ $dataMostPopularPoster = reset($dataImagesPostersArr);
                                 <a href="" class="text-white fw-bold text-decoration-none"><?php echo $row->original_title; ?></a>
                                 <span class="text-white">(<?php echo showDate($row->release_date,"Y"); ?>)</span>
                             </h2>
-                            <p class="d-blocl d-md-none">
+                            <p class="d-block d-md-none">
                                 <i class="text-white-50"><?php echo $row->tagline; ?></i>
                             </p>
                             <div class="mb-4">
@@ -90,7 +104,7 @@ $dataMostPopularPoster = reset($dataImagesPostersArr);
                                     <?php } ?>
                                      &nbsp;
                                 </span>
-                                <span class="text-white">
+                                <span class="text-white text-nowrap">
                                     <i class="fas fa-clock text-primary"></i> <?php echo minToHour($row->runtime); ?>
                                 </span>
                                 <span></span>
@@ -119,7 +133,7 @@ $dataMostPopularPoster = reset($dataImagesPostersArr);
                                               a 15.9155 15.9155 0 0 1 0 -31.831"
                                             />
                                             <path class="circle"
-                                                  stroke-dasharray="30, 100"
+                                                  stroke-dasharray="<?php echo $votePercentage; ?>, 100"
                                                   d="M18 2.0845
                                               a 15.9155 15.9155 0 0 1 0 31.831
                                               a 15.9155 15.9155 0 0 1 0 -31.831"
@@ -131,23 +145,24 @@ $dataMostPopularPoster = reset($dataImagesPostersArr);
                                         <p class="text-white mb-0">User <br> Score</p>
                                     </div>
                                 </div>
-<!--                                <div class="">-->
-<!--                                    --><?php //foreach ($dataVideoResult as $rv){
-//                                        if ($rv->site === "YouTube" && $rv->type === "Trailer"){
-//                                            ?>
-<!--                                            <a class="venobox text-white text-decoration-none" data-autoplay="true" data-vbtype="video" href="http://youtu.be/--><?php //echo $rv->key; ?><!--">-->
-<!--                                                <i class="fas fa-play ms-5"></i> Play Trailer-->
-<!--                                            </a>-->
-<!--                                            --><?php
-//                                        }
-//                                    }
-//                                    ?>
-<!--                                </div>-->
+
                             </div>
                             <div class="my-3">
                                 <h5 class="d-none d-md-block">
                                     <i class="text-white-50"><?php echo $row->tagline; ?></i>
                                 </h5>
+                            </div>
+                            <div class="d-none d-md-block">
+                                <?php foreach ($dataForTrailer as $rv){
+                                    if ($rv->site === "YouTube" || $rv->type === "Trailer"){
+                                        ?>
+                                        <a class="venobox text-white text-decoration-none" data-autoplay="true" data-vbtype="video" href="http://youtu.be/<?php echo $rv->key; ?>">
+                                            <button class="btn btn-lg w-md-5 mt-1 btn-primary">Watch Trailer</button>
+                                        </a>
+                                        <?php
+                                    }
+                                }
+                                ?>
                             </div>
                         </div>
                     </div>
@@ -229,7 +244,7 @@ $dataMostPopularPoster = reset($dataImagesPostersArr);
     <div class="container">
         <div class="row d-none d-md-block">
             <div class="col-12">
-                <h3 class="">Overview</h3>
+                <h3 class="mt-3 fw-bolder">Overview</h3>
                 <p class="">
                     အားလုံးစောင့်နေကြမယ့် ရှမ်းကြီးလာပါပြီ။ ဒီရုပ်ရှင်ဇာတ်လမ်းကတော့ End Game အပြီး လူတွေ ကမ္ဘာပေါ်ကိုပြန်ရောက်ရှိနေတဲ့ ကာလမှာ အခြေတည်ထားတာပဲဖြစ်ပါတယ်။ အဓိကဗီလိန်ကတော့ The Mandarine ပါ။
                     အိုင်ရွန်မန်း-၃ မှာတုန်းက မန်ဒရင်းအတုနဲ့တွေ့ခဲ့ကြတာ မှတ်မိကြဦးမှာပါ။ ဒီတစ်ခါတော့ မန်ဒရင်းအစစ်လာပါပြီ။

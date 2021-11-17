@@ -11,10 +11,15 @@ $rowGenres = $row->genres;
 
 $currentSeason = end($rowDetails->seasons);
 
+$data = file_get_contents("https://api.themoviedb.org/3/tv/$tvId/season/1?api_key=30abe6e1b3cd32a7e8d4b5ee6b117400&language=en-US");
+$dataEpisodes = json_decode($data);
+$dataEpisodesArr = $dataEpisodes->episodes;
 
 $rowKeywords = $row->keywords->results;
 
 $dataVideoResult = $row->videos->results;
+$dataForTrailer= array_slice(array_reverse($dataVideoResult),0,1);
+
 
 $dataVideosResult = $row->videos->results;
 $dataSlicedVideosArr = array_slice(array_reverse($dataVideosResult),0,6);
@@ -55,14 +60,34 @@ $dataMostPopularPoster = reset($dataImagesPostersArr);
         <?php require_once "../components/navbar.php"; ?>
         <!--        navbar end          -->
     </div>
-    <?php require_once "../components/header_dropdown_tv.php"; ?>
+    <div class="row bg-dark mb-2 mt-5">
+        <div class="col-12 mt-4">
+            <div class="">
+                <video id="video-id">
+                    <source src="https://cdn.fluidplayer.com/videos/valerian-480p.mkv" type="video/mp4"/>
+                </video>
+            </div>
+        </div>
+    </div>
 </div>
-<div class="h-100 cp-0" style="border-bottom: 1px solid #1b161a; background-position: right -200px top; background-size: cover; background-repeat: no-repeat; background-image: url('https://image.tmdb.org/t/p/w500<?php echo $row->backdrop_path; ?>'); width: 100%;position: relative;z-index: 1;height: 550px !important;">
-    <div class="cp-0" style="height: 550px  ;background-image: linear-gradient(to right, rgba(10.59%, 8.63%, 10.20%, 1.00) 150px, rgba(10.59%, 8.63%, 10.20%, 0.84) 100%);">
+<div class="h-100 cp-0 m-detail-bg-img" style="background-image: url('https://image.tmdb.org/t/p/w500<?php echo $row->backdrop_path; ?>');">
+    <div class="cp-0 m-detail-bg">
         <div class="container">
-            <div class="row pt-5 g-2 d-flex align-items-center">
+            <div class="row pt-5 g-2 d-flex align-items-start align-items-md-center">
                 <div class="col-4">
                     <img class="img-fluid" src="https://image.tmdb.org/t/p/w300_and_h450_bestv2<?php echo $row->poster_path; ?>" alt="">
+                    <div class="d-block d-md-none">
+                        <?php foreach ($dataForTrailer as $rv){
+                            if ($rv->site === "YouTube" || $rv->type === "Trailer"){
+                                ?>
+                                <a class="venobox text-white text-decoration-none" data-autoplay="true" data-vbtype="video" href="http://youtu.be/<?php echo $rv->key; ?>">
+                                    <button class="btn btn-sm w-100 mt-1 btn-primary">Watch Trailer</button>
+                                </a>
+                                <?php
+                            }
+                        }
+                        ?>
+                    </div>
                 </div>
                 <div class="col-8">
                     <div class="">
@@ -70,25 +95,28 @@ $dataMostPopularPoster = reset($dataImagesPostersArr);
                             <a href="" class="text-white fw-bold text-decoration-none"><?php echo $row->original_name; ?></a>
                             <span class="text-white-50">(<?php echo showDate($row->first_air_date,"Y"); ?>)</span>
                         </h2>
+                        <p class="d-block d-md-none">
+                            <i class="text-white-50"><?php echo $row->tagline; ?></i>
+                        </p>
                         <div class="mb-4">
-                                 <span class="text-white">
-                                     <i class="fas fa-calendar-alt text-primary"></i>
-                                     <?php echo showDate($row->first_air_date,"m/d/Y"); ?>
-                                 </span>
+                             <span class="text-white">
+                                 <i class="fas fa-calendar-alt text-primary"></i>
+                                 <?php echo showDate($row->first_air_date,"m/d/Y"); ?>
+                             </span>
                             <span class="text-white">
                                      &nbsp;
-                                     <i class="fas fa-layer-group text-primary"></i>
-                                    <?php foreach ($rowGenres as $rg){ ?>
-                                        <a href="<?php echo $url; ?>/discovers/genre_tv.php?id=<?php echo $rg->id; ?>" class="text-white text-decoration-none"><?php echo $rg->name; ?> ,</a>
-                                    <?php } ?>
-                                     &nbsp;
-                                </span>
+                                 <i class="fas fa-layer-group text-primary"></i>
+                                <?php foreach ($rowGenres as $rg){ ?>
+                                    <a href="<?php echo $url; ?>/discovers/genre_tv.php?id=<?php echo $rg->id; ?>" class="text-white text-decoration-none"><?php echo $rg->name; ?> ,</a>
+                                <?php } ?>
+                                 &nbsp;
+                            </span>
                             <span class="text-white">
                                     <i class="fas fa-clock text-primary"></i> <?php echo minToHour(current($row->episode_run_time)); ?>
                                 </span>
                             <span></span>
                         </div>
-                        <div class="d-flex align-items-center">
+                        <div class="d-flex align-items-center d-none d-md-block">
                             <div class="d-flex align-items-center">
                                 <div class="single-chart">
                                     <svg viewBox="0 0 36 36" class="circular-chart
@@ -112,7 +140,7 @@ $dataMostPopularPoster = reset($dataImagesPostersArr);
                                               a 15.9155 15.9155 0 0 1 0 -31.831"
                                         />
                                         <path class="circle"
-                                              stroke-dasharray="30, 100"
+                                              stroke-dasharray="<?php echo $votePercentage; ?>, 100"
                                               d="M18 2.0845
                                               a 15.9155 15.9155 0 0 1 0 31.831
                                               a 15.9155 15.9155 0 0 1 0 -31.831"
@@ -124,29 +152,23 @@ $dataMostPopularPoster = reset($dataImagesPostersArr);
                                     <p class="text-white mb-0">User <br> Score</p>
                                 </div>
                             </div>
-                            <div class="">
-                                <?php foreach ($dataVideoResult as $rv){
-                                    if ($rv->site === "YouTube" && $rv->type === "Trailer"){
-                                        ?>
-                                        <a class="venobox text-white text-decoration-none" data-autoplay="true" data-vbtype="video" href="http://youtu.be/<?php echo $rv->key; ?>">
-                                            <i class="fas fa-play ms-5"></i> Play Trailer
-                                        </a>
-                                        <?php
-                                    }
-                                }
-                                ?>
-                            </div>
                         </div>
-                        <div class="my-3">
+                        <div class="my-3 d-none d-md-block">
                             <h5>
                                 <i class="text-white-50"><?php echo $row->tagline; ?></i>
                             </h5>
                         </div>
-                        <div class="">
-                            <h3 class="text-white">Overview</h3>
-                            <p class="text-white">
-                                <?php echo $row->overview; ?>
-                            </p>
+                        <div class="d-none d-md-block">
+                            <?php foreach ($dataForTrailer as $rv){
+                                if ($rv->site === "YouTube" || $rv->type === "Trailer"){
+                                    ?>
+                                    <a class="venobox text-white text-decoration-none" data-autoplay="true" data-vbtype="video" href="http://youtu.be/<?php echo $rv->key; ?>">
+                                        <button class="btn btn-lg w-md-5 mt-1 btn-primary">Watch Trailer</button>
+                                    </a>
+                                    <?php
+                                }
+                            }
+                            ?>
                         </div>
                     </div>
                 </div>
@@ -156,6 +178,167 @@ $dataMostPopularPoster = reset($dataImagesPostersArr);
     </div>
 </div>
 <div class="container">
+    <div class="row d-block d-md-none">
+        <h3 class="fw-bolder mt-3">Seasons</h3>
+        <div class="">
+            <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Season1</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Season2</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Season3</button>
+                </li>
+            </ul>
+            <div class="tab-content" id="pills-tabContent">
+                <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                    <?php foreach ($dataEpisodesArr as $row){ ?>
+                        <div class="col-12">
+                            <div class="card mb-1 shadow-sm">
+                                <div class="row g-0">
+                                    <div class="col-12">
+                                        <div class="rounded card-body py-2">
+                                            <a href="<?php echo $url; ?>/movies/movie_detail.php?id=<?php echo $row->id; ?>" class="text-black text-decoration-none">
+                                                <h6 class="title card-title fw-bolder mb-0">Episode : <?php echo $row->episode_number ?> <?php echo $row->name; ?></h6>
+                                            </a>
+                                            <p class="card-text text-black-50"><?php echo showDate($row->air_date); ?></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <?php } ?>
+                </div>
+                <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab"></div>
+                <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab"></div>
+            </div>
+        </div>
+        <hr>
+    </div>
+</div>
+<div class="container d-block d-md-none">
+    <ul class="nav nav-pills my-3" id="pills-tab" role="tablist">
+        <li class="nav-item col-6" role="presentation">
+            <button class="nav-link active w-100" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Info</button>
+        </li>
+        <li class="nav-item col-6" role="presentation">
+            <button class="nav-link w-100" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Cast</button>
+        </li>
+        <li class="nav-item col-6" role="presentation">
+            <button class="nav-link w-100" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Link</button>
+        </li>
+        <li class="nav-item col-6" role="presentation">
+            <button class="nav-link w-100" id="pills-keywords-tab" data-bs-toggle="pill" data-bs-target="#pills-keywords" type="button" role="tab" aria-controls="pills-keywords" aria-selected="false">Keywords</button>
+        </li>
+    </ul>
+</div>
+<div class="tab-content" id="pills-tabContent">
+    <div class="tab-pane fade px-2 show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+        <div class="row d-block d-md-none">
+            <div class="col-12">
+                <h3 class="">Overview</h3>
+                <p class="">
+                    အားလုံးစောင့်နေကြမယ့် ရှမ်းကြီးလာပါပြီ။ ဒီရုပ်ရှင်ဇာတ်လမ်းကတော့ End Game အပြီး လူတွေ ကမ္ဘာပေါ်ကိုပြန်ရောက်ရှိနေတဲ့ ကာလမှာ အခြေတည်ထားတာပဲဖြစ်ပါတယ်။ အဓိကဗီလိန်ကတော့ The Mandarine ပါ။
+                    အိုင်ရွန်မန်း-၃ မှာတုန်းက မန်ဒရင်းအတုနဲ့တွေ့ခဲ့ကြတာ မှတ်မိကြဦးမှာပါ။ ဒီတစ်ခါတော့ မန်ဒရင်းအစစ်လာပါပြီ။
+
+                    စူပါပါဝါတွေရယ် မသေမျိုးအဖြစ်ရယ်ကို ပေးနိုင်စွမ်းရှိတဲ့ ဒဏ္ဍာရီလာ ကွင်းဆယ်ကွင်းကို ပိုင်ဆိုင်ထားပြီး လျို့ဝှက်အဖွဲ့ကြီးတစ်ခုရဲ့ ခေါင်းဆောင်လည်းဖြစ်ပါတယ်။ ရှန်းချီကတော့ သူ့အဖေခိုင်းတာတွေကို မလုပ်ချင်တော့လို့ ငယ်ငယ်ကတည်းက အိမ်ကထွက်ပြေးပြီး ဇာတ်မြှပ်နေခဲ့တဲ့ သိုင်းသမားလေးပဲဖြစ်ပါတယ်။ ရှမ်းချီဇာတ်ကောင်ဟာ မာဗယ်ဟီးရိုးတွေထဲက သိုင်းအတော်ဆုံးဇာတ်ကောင်ဖြစ်ပြီး Iron Fist နဲ့ လက်ရည်တူလောက်ရှိပါတယ်။ ကပ္ပတိန်တို့စပိုက်ဒီတို့ကိုတောင် သိုင်းသင်ပေးဖူးပါသေးတယ်။ ဒီရုပ်ရှင်အဆုံးမှာတော့ ထုံးစံအတိုင်း post-credit scene နှစ်ခုပါတာမို့ ရှာကြည့်ဖို့ မမေ့ပါနဲ့ဦးနော်။(ဒီဇာတ်လမ်းရဲ့ အညွှန်းနဲ့ ဘာသာပြန်ရေးသားပေးသူကတော့ Mr.Anderson ပဲဖြစ်ပါတယ်။)
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane fade px-2" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+        <div class="col-12 d-block d-md-none">
+            <h3 class="fw-bolder">Cast</h3>
+            <ol class="list-group">
+                <?php foreach ($dataSlicedPeopleArr as $row) { ?>
+                    <li class="list-group-item d-flex align-items-center">
+                        <?php if (empty($row->profile_path)){ ?>
+                            <a href="<?php echo $url; ?>/person/person_detail.php?person_id=<?php echo $row->id; ?>">
+                                <img class="rounded-3 profile-64-img border border-info p-2" src="<?php echo $url; ?>/assets/img/person.jpg" alt="">
+                            </a>
+
+                        <?php } else { ?>
+                            <a href="<?php echo $url; ?>/person/person_detail.php?person_id=<?php echo $row->id; ?>">
+                                <img class="rounded-3" src="https://image.tmdb.org/t/p/w66_and_h66_face<?php echo $row->profile_path; ?>" alt="">
+                            </a>
+                        <?php } ?>
+
+                        <div class="ms-2">
+                            <a href="<?php echo $url; ?>/person/person_detail.php?person_id=<?php echo $row->id; ?>" class="text-decoration-none text-black">
+                                <p class="mb-0 c-hover fw-bolder"><?php echo $row->name; ?></p>
+                            </a>
+                            <?php
+                            $character = [];
+                            foreach ($row->roles as $role) {
+                            array_push($character, $role->character);
+                            }
+                            ?>
+                            <small class=""><?php echo implode(",",$character); ?></small>
+                        </div>
+                    </li>
+                <?php } ?>
+            </ol>
+        </div>
+    </div>
+    <div class="tab-pane fade px-2" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">...</div>
+    <div class="tab-pane fade px-2" id="pills-keywords" role="tabpanel" aria-labelledby="pills-keywords-tab">
+        <div class="mb-3">
+            <h3 class="fw-bolder">Keywords</h3>
+            <?php foreach ($rowKeywords as $keyword) { ?>
+                <a href="<?php echo $url; ?>/discovers/keyword.php?movie_id=<?php echo $movieId; ?>&keyword_id=<?php echo $keyword->id; ?>" class="text-decoration-none">
+                    <p class="mb-1 p-2 badge bg-primary rounded"><?php echo $keyword->name; ?></p>
+                </a>
+            <?php } ?>
+        </div>
+    </div>
+
+</div>
+<div class="container">
+    <div class="row">
+        <!--            Recommendations start in mobile-->
+        <div class="col-12 d-block d-md-none">
+            <hr>
+            <h4 class="fw-bolder">
+                Recommendations
+            </h4>
+
+            <div class="">
+                <div class="g-1 d-flex overflow-scroll text-nowrap">
+                    <?php foreach ($dataRecommendationVideosResultArr as $row){ ?>
+                        <div class="col-4">
+
+                            <div class="px-2">
+                                <div class="position-relative">
+                                    <a href="<?php echo $url; ?>/movies/movie_detail.php?id=<?php echo $row->id; ?>" class="">
+                                        <figure class="imghvr-fade rounded">
+                                            <img src="https://image.tmdb.org/t/p/w300_and_h450_bestv2<?php echo $row->backdrop_path; ?>" class="rounded img-fluid" alt="">
+                                            <figcaption class="">
+                                                <small class="position-absolute text-white c-rounded bg-secondary bottom-0 p-1" style="right: 0">
+                                                    <i class="fas fa-star text-white p-1"> <?php echo numberFormat($row->vote_average); ?> %</i>
+                                                </small>
+                                            </figcaption>
+                                        </figure>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    <?php } ?>
+                </div>
+            </div>
+            <hr>
+            <div class="d-flex">
+                <a href="" class="text-decoration-none me-2">Home</a>
+                <a href="" class="text-decoration-none">Movies</a>
+
+            </div>
+        </div>
+
+        <!--            Recommendations end in mobile-->
+    </div>
+</div>
+<div class="container d-none d-md-block">
     <div class="row my-3">
         <div class="col-9">
 
@@ -243,173 +426,6 @@ $dataMostPopularPoster = reset($dataImagesPostersArr);
             </div>
             <!--            current season end-->
 
-            <!--                social start-->
-<!--            <div class="">-->
-<!--                <nav class="d-flex align-items-center">-->
-<!--                    <h4 class="fw-bolder me-3">-->
-<!--                        Social-->
-<!--                    </h4>-->
-<!--                    <div class="nav nav-tabs" id="nav-tab" role="tablist">-->
-<!--                        <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Reviews <span class="text-black-50"></span></button>-->
-<!--                    </div>-->
-<!--                </nav>-->
-<!--                <div class="tab-content" id="nav-tabContent">-->
-<!--                    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">-->
-<!--                        --><?php //if (countTotal($dataReviewSlicedResult) > 0){ ?>
-<!---->
-<!--                            <div class="card shadow rounded-3">-->
-<!--                                <div class="card-body">-->
-<!--                                    <div class="d-flex align-items-center">-->
-<!--                                        --><?php //foreach ($dataReviewSlicedResult as $row) { ?>
-<!--                                            <img class="rounded-circle" src="https://image.tmdb.org/t/p/w64_and_h64_face--><?php //echo $row->author_details->avatar_path; ?><!--" alt="">-->
-<!--                                        --><?php //} ?>
-<!--                                        <div class="ms-3">-->
-<!--                                            <h4 class="mb-0">-->
-<!--                                                <a href="" class="text-decoration-none text-black">A review by --><?php //echo $dataReviewSlicedResult[0]->author;  ?><!--</a>-->
-<!--                                            </h4>-->
-<!--                                            <small class="text-black-50">-->
-<!--                                                Written by <b>--><?php //echo $dataReviewSlicedResult[0]->author;  ?><!--</b> on --><?php //echo showDate($dataReviewSlicedResult[0]->created_at);  ?>
-<!--                                            </small>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                    <div class="ps-5 py-3">-->
-<!--                                        <p class="ps-5">-->
-<!--                                            --><?php //echo short($dataReviewSlicedResult[0]->content,600); ?>
-<!--                                            <a href="" class="text-black fw-bolder">read more</a>.-->
-<!--                                        </p>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <a class="mt-3 text-decoration-none text-black c-hover" href="--><?php //echo $url; ?><!--/movies/cast_and_crew.php/?id=--><?php //echo $tvId; ?><!--">-->
-<!--                                <p class="mt-3 fw-bolder">Read All Reviews</p>-->
-<!--                            </a>-->
-<!---->
-<!--                        --><?php //} else { ?>
-<!--                            <p class="my-3">-->
-<!--                                We don't have any reviews for --><?php //echo $rowDetails->original_name; ?>
-<!--                            </p>-->
-<!--                        --><?php //} ?>
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!---->
-<!--            <hr>-->
-            <!--                social end-->
-
-            <!--                media start-->
-            <div class="">
-                <nav class="d-flex align-items-center">
-                    <h4 class="fw-bolder me-3">
-                        Media
-                    </h4>
-                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                        <button class="nav-link active" id="nav-mostPopular-tab" data-bs-toggle="tab" data-bs-target="#nav-mostPopular" type="button" role="tab" aria-controls="nav-mostPopular" aria-selected="true">Most Popular</button>
-                        <button class="nav-link" id="nav-videos-tab" data-bs-toggle="tab" data-bs-target="#nav-videos" type="button" role="tab" aria-controls="nav-videos" aria-selected="false">Videos <span class="text-black-50"><?php echo countTotal($dataVideosResult); ?></span></button>
-                        <button class="nav-link" id="nav-backdrops-tab" data-bs-toggle="tab" data-bs-target="#nav-backdrops" type="button" role="tab" aria-controls="nav-backdrops" aria-selected="false">Backdrops <span class="text-black-50"><?php echo countTotal($dataImagesBackdropsArr); ?></span></button>
-                        <button class="nav-link" id="nav-posters-tab" data-bs-toggle="tab" data-bs-target="#nav-posters" type="button" role="tab" aria-controls="nav-posters" aria-selected="false">Posters <span class="text-black-50"><?php echo countTotal($dataImagesPostersArr); ?></span></button>
-
-                    </div>
-                </nav>
-                <div class="tab-content" id="nav-tabContent">
-                    <div class="tab-pane fade show active" id="nav-mostPopular" role="tabpanel" aria-labelledby="nav-mostPopular-tab">
-                        <div class="overflow-scroll d-flex">
-                            <div class="h-100" style="width: 530px;">
-                                <div class="media-video-background" style="background-image: url('https://i.ytimg.com/vi/<?php echo $dataMostPopularVideo->key; ?>/hqdefault.jpg')">
-                                    <h1 class="h-100 d-flex justify-content-center align-items-center">
-                                        <a class="venobox text-white text-decoration-none" data-autoplay="true" data-vbtype="video" href="http://youtu.be/<?php echo $dataMostPopularVideo->key; ?>">
-                                            <i class="display-1 text-white c-hover fas fa-play-circle"></i>
-                                        </a>
-                                    </h1>
-                                </div>
-                            </div>
-                            <div class="h-100">
-                                <img src="https://image.tmdb.org/t/p/w533_and_h300_bestv2<?php echo $dataMostPopularBackdrop->file_path; ?>" alt="">
-                            </div>
-                            <div class="">
-                                <img style="height: 300px" src="https://image.tmdb.org/t/p/w220_and_h330_face<?php echo $dataMostPopularPoster->file_path; ?>" alt="">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="tab-pane fade" id="nav-videos" role="tabpanel" aria-labelledby="nav-videos-tab">
-                        <div class="d-flex overflow-scroll">
-                            <?php foreach ($dataSlicedVideosArr as $rv) { ?>
-                                <div class="" style="width: 530px;">
-                                    <div class="media-video-background" style="background-image: url('https://i.ytimg.com/vi/<?php echo $rv->key; ?>/hqdefault.jpg')">
-                                        <h1 class="h-100 d-flex justify-content-center align-items-center">
-                                            <a class="venobox text-white text-decoration-none" data-autoplay="true" data-vbtype="video" href="http://youtu.be/<?php echo $rv->key; ?>">
-                                                <i class="display-1 text-white c-hover fas fa-play-circle"></i>
-                                            </a>
-                                        </h1>
-                                    </div>
-                                </div>
-                            <?php } ?>
-                            <?php if (countTotal($dataVideosResult) > 7) { ?>
-                                <div class="col-3 mb-2">
-                                    <div class="card h-100">
-                                        <div class="card-body d-flex">
-                                            <p class="d-flex align-items-center">
-                                                <a href="<?php echo $url; ?>/tv_shows/videos.php/?id=<?php echo $tvId; ?>" class="text-dark text-decoration-none fw-bolder">View More <i class="text-dark fas fa-arrow-right"></i></a>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            <?php } ?>
-                        </div>
-                        <a class="mt-3 c-hover text-decoration-none text-black " href="<?php echo $url; ?>/tv_shows/videos.php/?id=<?php echo $tvId; ?>">
-                            <p class="mt-3 fw-bolder">View All Videos</p>
-                        </a>
-                    </div>
-                    <div class="tab-pane fade" id="nav-backdrops" role="tabpanel" aria-labelledby="nav-backdrops-tab">
-                        <div class="d-flex overflow-scroll">
-                            <?php foreach ($dataSlicedImageBackdropsArr as $row){ ?>
-                                <div class="">
-                                    <img src="https://image.tmdb.org/t/p/w533_and_h300_bestv2<?php echo $row->file_path; ?>" alt="">
-                                </div>
-                            <?php } ?>
-                            <?php if (countTotal($dataImagesBackdropsArr) > 7) { ?>
-                                <div class="col-3 mb-2">
-                                    <div class="card h-100">
-                                        <div class="card-body d-flex">
-                                            <p class="d-flex align-items-center">
-                                                <a href="<?php echo $url; ?>/tv_shows/backdrops.php/?id=<?php echo $tvId; ?>" class="text-dark text-decoration-none fw-bolder">View More <i class="text-dark fas fa-arrow-right"></i></a>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            <?php } ?>
-                        </div>
-                        <a class="mt-3 c-hover text-decoration-none text-black " href="<?php echo $url; ?>/tv_shows/backdrops.php/?id=<?php echo $tvId; ?>">
-                            <p class="mt-3 fw-bolder">View All Backdrops</p>
-                        </a>
-                    </div>
-                    <div class="tab-pane fade" id="nav-posters" role="tabpanel" aria-labelledby="nav-posters-tab">
-                        <div class="d-flex overflow-scroll">
-                            <?php foreach ($dataSlicedImagePostersArr as $row){ ?>
-                                <div class="">
-                                    <img src="https://image.tmdb.org/t/p/w220_and_h330_bestv2<?php echo $row->file_path; ?>" alt="">
-                                </div>
-                            <?php } ?>
-                            <?php if (countTotal($dataImagesPostersArr) > 7) { ?>
-                                <div class="col-3 mb-2">
-                                    <div class="card h-100">
-                                        <div class="card-body d-flex">
-                                            <p class="d-flex align-items-center">
-                                                <a href="<?php echo $url; ?>/tv_shows/posters.php/?id=<?php echo $tvId; ?>" class="text-dark text-decoration-none fw-bolder">View More <i class="text-dark fas fa-arrow-right"></i></a>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            <?php } ?>
-                        </div>
-                        <a class="mt-3 c-hover text-decoration-none text-black " href="<?php echo $url; ?>/tv_shows/posters.php/?id=<?php echo $tvId; ?>">
-                            <p class="mt-3 fw-bolder">View All Posters</p>
-                        </a>
-                    </div>
-
-                </div>
-            </div>
-            <hr>
-            <!--                media end-->
 
             <!--                Recommendations start-->
             <h4 class="fw-bolder">
@@ -446,40 +462,6 @@ $dataMostPopularPoster = reset($dataImagesPostersArr);
             <!--                Recommendations end-->
         </div>
         <div class="col-3 my-3">
-            <a href="<?php echo $rowDetails->homepage; ?>" data-bs-toggle="tooltip" data-bs-placement="top" title="Visit Home Page" class="text-decoration-none">
-                <i class="fas fa-link fa-2x"></i>
-            </a>
-            <div class="">
-                <div class="my-3">
-                    <p class="fw-bolder mb-0">Status</p>
-                    <p class="mb-0"><?php echo $rowDetails->status; ?></p>
-                </div>
-                <div class="mb-3">
-                    <p class="fw-bolder mb-0">Network</p>
-                    <?php foreach ($rowDetails->networks as $row) { ?>
-                        <a href="<?php echo $url; ?>/discovers/keyword.php?movie_id=<?php echo $tvId; ?>&keyword_id=" class="text-decoration-none">
-                            <img class="mb-2" src="https://image.tmdb.org/t/p/h30<?php echo $row->logo_path;?>" alt="">
-                        </a><br>
-                    <?php } ?>
-                </div>
-                <div class="mb-3">
-                    <p class="fw-bolder mb-0">Type</p>
-                    <p class="mb-0"><?php echo $rowDetails->type; ?></p>
-                </div>
-                <div class="mb-3">
-                    <p class="fw-bolder mb-0">Original Language</p>
-                    <?php foreach ($rowLanguage as $row) { ?>
-                        <p class="mb-0"><?php print_r( $row->iso_639_1==$rowDetails->languages[0] ? $row->english_name : ""); ?></p>
-                    <?php } ?>
-                </div>
-<!--                <div class="mb-3">-->
-<!--                    <p class="fw-bolder mb-0">Budget</p>-->
-<!--                    <p class="mb-0">$ --><?php //echo number_format($rowDetails->budget,2); ?><!--</p>-->
-<!--                </div>-->
-<!--                <div class="mb-3">-->
-<!--                    <p class="fw-bolder mb-0">Revenue</p>-->
-<!--                    <p class="mb-0">$ --><?php //echo number_format($rowDetails->revenue,2); ?><!--</p>-->
-<!--                </div>-->
                 <div class="mb-3">
                     <p class="fw-bolder mb-0">Keywords</p>
                     <?php foreach ($rowKeywords as $keyword) { ?>
@@ -494,6 +476,7 @@ $dataMostPopularPoster = reset($dataImagesPostersArr);
 </div>
 
 <?php require_once "../template/footer.php"; ?>
+<script src="https://cdn.fluidplayer.com/v3/current/fluidplayer.min.js"></script>
 <script src="<?php echo $url; ?>/node_modules/venobox/venobox/venobox.min.js"></script>
 <script src="<?php echo $url; ?>/node_modules/image-hover/"></script>
 
@@ -513,4 +496,37 @@ $dataMostPopularPoster = reset($dataImagesPostersArr);
         return new bootstrap.Tooltip(tooltipTriggerEl)
     })
 </script>
+
+<script>
+    var myFP = fluidPlayer(
+        'video-id',	{
+            "layoutControls": {
+                "controlBar": {
+                    "autoHideTimeout": 3,
+                    "animated": true,
+                    "autoHide": true
+                },
+                "htmlOnPauseBlock": {
+                    "html": null,
+                    "height": null,
+                    "width": null
+                },
+                "autoPlay": false,
+                "mute": false,
+                "allowTheatre": true,
+                "playPauseAnimation": true,
+                "playbackRateEnabled": false,
+                "allowDownload": false,
+                "playButtonShowing": true,
+                "fillToContainer": true,
+                "posterImage": ""
+            },
+            "vastOptions": {
+                "adList": [],
+                "adCTAText": false,
+                "adCTATextPosition": ""
+            }
+        })
+</script>
+
 
