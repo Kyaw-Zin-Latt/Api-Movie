@@ -426,8 +426,9 @@ $trendByWeekResults = $trendByWeek->results;
 
 
 
-<script src="<?php echo $url; ?>/assets/js/app.js"></script>
+
 <script src="<?php echo $url; ?>/node_modules/jquery/dist/jquery-1.11.0.min.js"></script>
+<script src="<?php echo $url; ?>/assets/js/app.js"></script>
 <script src="<?php echo $url; ?>/node_modules/jquery/dist/jquery-migrate-1.2.1.min.js"></script>
 <script src="<?php echo $url; ?>/node_modules/slick/slick.min.js"></script>
 
